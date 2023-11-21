@@ -2,7 +2,7 @@ import React from 'react'
 
 function Home() {
   return (
-    <div>GoogleTrends!!</div>
+    <div>Dev브랜치입니다!!</div>
   )
 }
 
