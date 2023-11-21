@@ -2,7 +2,7 @@ import React from 'react'
 
 function Home() {
   return (
-    <div>Dev입니다.</div>
+    <div>Dev입니다!!</div>
   )
 }
 
