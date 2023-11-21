@@ -2,12 +2,13 @@ import { BrowserRouter, Route, Routes } from "react-router-dom"
 import Keyword from "../pages/Keyword";
 import Home from "../pages/Home";
 import User from "../pages/User";
+import GlobalStyle from "../GlobalStyle"
 
 
 const Router = () => {
     return (
         <>
-            <GlobalStyle></GlobalStyle>
+            <GlobalStyle />
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<Home />}></Route>
