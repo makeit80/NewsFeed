@@ -8,6 +8,8 @@ export default function SignUpForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    signUp(form.email, form.password);
+    gotoHome();
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -16,11 +18,6 @@ export default function SignUpForm() {
   const navigate = useNavigate();
   const gotoHome = () => {
     navigate('/');
-  };
-
-  const hadleOnclickSignUp = () => {
-    signUp(form.email, form.password);
-    gotoHome();
   };
 
   return (
@@ -42,6 +39,7 @@ export default function SignUpForm() {
             name="email"
             value={form.email}
             onChange={handleChange}
+            required
           />
         </StyleEmailWrap>
         <StylePWWrap>
@@ -53,9 +51,10 @@ export default function SignUpForm() {
             name="password"
             value={form.password}
             onChange={handleChange}
+            required
           />
         </StylePWWrap>
-        <StyleBtn onClick={hadleOnclickSignUp}>회원가입</StyleBtn>
+        <StyleBtn type="submit">회원가입</StyleBtn>
       </StyleForm>
     </>
   );
@@ -87,7 +86,7 @@ const StyleInput = styled.input`
   width: 390px;
   height: 40px;
   border: none;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid #bbb;
 `;
 
 const StyleBtn = styled.button`
@@ -95,4 +94,8 @@ const StyleBtn = styled.button`
   height: 50px;
   margin: 0 auto;
   margin-top: 30px;
+  background-color: #34558b;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
 `;
