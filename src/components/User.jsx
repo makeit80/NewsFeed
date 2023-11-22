@@ -15,8 +15,9 @@ const UserInfo = styled.div`
    display: flex;
    align-items: center;
    img{
-    width:50px;
-    height: 50px;
+    width:2.5rem;
+    height: 2.5rem;
+    padding:0.3rem;
     border-radius: 50%;
    }
 `

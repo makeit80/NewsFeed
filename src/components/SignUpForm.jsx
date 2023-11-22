@@ -54,7 +54,7 @@ export default function SignUpForm() {
                         required
                     />
                 </StylePWWrap>
-                <StyleBtn type="submit">회원가입</StyleBtn>
+                <StyleBtn>회원가입</StyleBtn>
             </StyleForm>
         </>
     );

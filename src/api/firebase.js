@@ -5,7 +5,8 @@ import {
     GoogleAuthProvider,
     signInWithEmailAndPassword,
     onAuthStateChanged,
-    signOut
+    signOut,
+    signInWithPopup
 } from 'firebase/auth';
 import { useNavigate } from 'react-router';
 
@@ -27,12 +28,14 @@ provider.setCustomParameters({
     prompt: 'select_account'
 });
 
-export async function login(email, password) {
-    return await signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            const user = userCredential.user;
-        })
-        .catch((error) => console.error(error));
+export async function googleLogin(email, password) {
+    return await signInWithPopup(auth, provider)
+        .then((result) => {
+            console.log(result);
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential.accessToken;
+            const user = result.user;
+        }).catch((error) => console.error(error));
 }
 
 export async function signUp(email, password) {
