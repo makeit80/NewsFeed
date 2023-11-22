@@ -1,10 +1,15 @@
-import Router from './shared/Router';
 import './reset.css';
+import Navbar from 'components/Navbar';
+import { Outlet } from 'react-router';
+
 
 
 function App() {
   return (
-    <Router />
+    <>
+      <Navbar />
+      <Outlet />
+    </>
   )
 }
 
