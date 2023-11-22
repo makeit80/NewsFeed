@@ -1,5 +1,13 @@
-import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signOut } from "firebase/auth";
+import { initializeApp } from 'firebase/app';
+import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    GoogleAuthProvider,
+    signInWithEmailAndPassword,
+    onAuthStateChanged,
+    signOut
+} from 'firebase/auth';
+import { useNavigate } from 'react-router';
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -38,7 +46,7 @@ export async function signUp(email, password) {
 export async function logout() {
     return await signOut(auth)
         .then(() => console.log('로그아웃 완료'))
-        .catch((error) => console.error(error))
+        .catch((error) => console.error(error));
 }
 
 export function onAuthStateChange(callback) {
@@ -51,4 +59,3 @@ export function onAuthStateChange(callback) {
         }
     });
 }
-
