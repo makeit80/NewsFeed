@@ -7,6 +7,7 @@ import {
   onAuthStateChanged,
   signOut
 } from 'firebase/auth';
+import { useNavigate } from 'react-router';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,

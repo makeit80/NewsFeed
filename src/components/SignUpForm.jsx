@@ -17,6 +17,12 @@ export default function SignUpForm() {
   const gotoHome = () => {
     navigate('/');
   };
+
+  const hadleOnclickSignUp = () => {
+    signUp(form.email, form.password);
+    gotoHome();
+  };
+
   return (
     <>
       <div
@@ -49,7 +55,7 @@ export default function SignUpForm() {
             onChange={handleChange}
           />
         </StylePWWrap>
-        <StyleBtn onClick={() => signUp(form.email, form.password)}>회원가입</StyleBtn>
+        <StyleBtn onClick={hadleOnclickSignUp}>회원가입</StyleBtn>
       </StyleForm>
     </>
   );
