@@ -22,17 +22,13 @@ export async function signIn() {
             const credential = GoogleAuthProvider.credentialFromResult(result);
             const token = credential.accessToken;
             const user = result.user;
-            return user;
         }).catch((error) => console.error(error));
 }
 
 export async function signUp(email, password) {
     return await createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            // Signed up 
-            console.log(user);
             const user = userCredential.user;
-            //return user;
         })
         .catch((error) => console.error(error));
 }
@@ -50,7 +46,6 @@ export function onAuthStateChange(callback) {
             console.log(user);
             const uid = user.uid;
             callback(user);
-            // ...
         }
     });
 }

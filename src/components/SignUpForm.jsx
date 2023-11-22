@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { signUp } from 'api/firebase';
 import { styled } from 'styled-components';
 
-export default function SignUp() {
+export default function SignUpForm() {
     const [form, setForm] = useState({ email: '', password: '' });
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
