@@ -52,25 +52,27 @@ function Navbar() {
 }
 
 const Nav = styled.nav`
-  height: 2.5rem;
- display:flex;
- justify-content:space-between;
- background-color: var(--color-bright-blue);
- color:white;
+min-width: 1000px;
+height: 2.5rem;
+display:flex;
+justify-content:space-between;
+background-color: var(--color-bright-blue);
+color:white;
 
- h1{
-  font-size:2rem;
- }
- 
-  div{
-    display:flex;
-  }
- button{
-  font-size:1.2rem;
-  color:white;
-  padding:0.5rem;
-  background-color: transparent;
- }
+h1{
+font-size:2rem;
+}
+
+div{
+display:flex;
+}
+
+button{
+font-size:1.2rem;
+color:white;
+padding:0.5rem;
+background-color: transparent;
+}
 `;
 
 export default Navbar
