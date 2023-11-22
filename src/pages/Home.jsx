@@ -9,6 +9,8 @@ import { insertData } from 'redux/modules/keywordData';
 // https://cors.bridged.cc/
 
 
+
+
 function Home() {
   const keywordList = useSelector((state) => {
     return state.keywordData
