@@ -1,14 +1,12 @@
-import Navbar from 'components/Navbar'
 import React from 'react'
+import Navbar from 'components/Navbar'
+import { Outlet } from 'react-router'
+
 
 function Home() {
-
-  
-
   return (
     <>
-      <Navbar />
-      <div>Dev브랜치입니다!!</div>
+      <p>Home</p>
     </>
   )
 }
