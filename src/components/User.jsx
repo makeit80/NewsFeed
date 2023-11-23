@@ -2,6 +2,7 @@ import React from 'react';
 import { styled } from 'styled-components';
 
 export default function User({ user }) {
+    console.log(user);
     const { displayName, photoURL } = user;
     return (
         <UserInfo>
