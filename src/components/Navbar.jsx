@@ -36,7 +36,7 @@ function Navbar() {
     <>
       <Nav>
         {user && console.log(user)}
-        <h1>Trend News</h1>
+        <h1>Wor__d</h1>
         <div>
           {user && <User user={user} />}
           {user && (<button onClick={() => navigate(`/mypage/${user.uid}`)}>My Page</button>)}
@@ -52,15 +52,23 @@ function Navbar() {
 }
 
 const Nav = styled.nav`
-min-width: 1000px;
-height: 2.5rem;
-display:flex;
-justify-content:space-between;
-background-color: var(--color-bright-blue);
+position: relative;
+height: 80px;
+
+background-color: #373737;
 color:white;
 
+&:hover {
+box-shadow: 2px 2px 2px 2px white;
+}
+
 h1{
+position: absolute;
+left: 3%;
+top: 25%;
+
 font-size:2rem;
+font-weight: bold;
 }
 
 div{
@@ -68,6 +76,10 @@ display:flex;
 }
 
 button{
+position: absolute;
+right: ${(props) => props.right};
+top: 25%;
+
 font-size:1.2rem;
 color:white;
 padding:0.5rem;
