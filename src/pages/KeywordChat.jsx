@@ -39,7 +39,12 @@ function KeywordChat() {
       </StForm>
       <div>
         {comments.map((item) => (
-          <div>{item.comment}</div>
+          <StCommentBox>
+            <span>{item.comment}</span>
+            <br />
+            <button>수정</button>
+            <button>삭제</button>
+          </StCommentBox>
         ))}
       </div>
     </Stbackground>
@@ -81,6 +86,16 @@ const StCommentBtn = styled.button`
   height: 40px;
   background-color: #333;
   color: #fff;
+`;
+
+const StCommentBox = styled.div`
+  width: 600px;
+  height: auto;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 20px 20px 20px 0;
+  border: 1px solid #000;
+  word-break: break-all;
 `;
 
 export default KeywordChat;

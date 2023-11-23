@@ -4,9 +4,11 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { insertData } from 'redux/modules/keywordData';
 import { useNavigate } from 'react-router-dom';
+import app from '../api/firebase';
 
 // https://cors-anywhere.herokuapp.com/corsdemo
 // https://cors.bridged.cc/
+console.log('app', app);
 
 function Home() {
   const navigate = useNavigate();

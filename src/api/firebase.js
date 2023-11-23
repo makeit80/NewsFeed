@@ -64,3 +64,5 @@ export function onAuthStateChange(callback) {
     }
   });
 }
+
+export default app;
