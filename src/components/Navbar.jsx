@@ -70,38 +70,53 @@ function Navbar() {
 }
 
 const Nav = styled.nav`
-position: relative;
+position: fixed;
+top: 0;
+left: 0;
+right: 0;
 height: 80px;
 
-background-color: #373737;
+background-color: #232323;
 color:white;
 
 &:hover {
-box-shadow: 2px 2px 2px 2px white;
+transition: 0.5s;
+box-shadow: 1px 1px 1px 1px #A58D7F;
 }
 
 h1{
 position: absolute;
 left: 3%;
-top: 25%;
+top: 27%;
 
 font-size:2rem;
 font-weight: bold;
+color: #c78159;
+&:focus {      
+  outline: none;  
+}
 }
 
 div{
 display:flex;
+position: absolute;
+right: 3%;
+top: 35%;
 }
 
 button{
-position: absolute;
-right: ${(props) => props.right};
-top: 25%;
+font-size:18px;
+color: #A58D7F;
+font-weight: lighter;
 
-font-size:1.2rem;
-color:white;
-padding:0.5rem;
+padding-left:15px;
 background-color: transparent;
+cursor: pointer;
+
+&:hover {
+color: #84898C;
+transition: 0.5s;
+}
 }
 `;
 

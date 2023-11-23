@@ -12,40 +12,40 @@ import { insertData } from 'redux/modules/keywordData';
 
 
 function Home() {
-  // const keywordList = useSelector((state) => {
-  //   return state.keywordData
-  // })
-  // const dispatch = useDispatch();
+  const keywordList = useSelector((state) => {
+    return state.keywordData
+  })
+  const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   const cheerio = require('cheerio');
-  //   const getRss = async () => {
-  //     try {
-  //       return await axios.get(`https://cors-anywhere.herokuapp.com/https://trends.google.co.kr/trends/trendingsearches/daily/rss?geo=KR`)
-  //     } catch (error) {
-  //       console.log(error)
-  //     }
-  //   }
+  useEffect(() => {
+    const cheerio = require('cheerio');
+    const getRss = async () => {
+      try {
+        return await axios.get(`https://cors-anywhere.herokuapp.com/https://trends.google.co.kr/trends/trendingsearches/daily/rss?geo=KR`)
+      } catch (error) {
+        console.log(error)
+      }
+    }
 
-  //   getRss()
-  //     .then(html => {
-  //       const $ = cheerio.load(html.data)
-  //       let keywordItem = []
+    getRss()
+      .then(html => {
+        const $ = cheerio.load(html.data)
+        let keywordItem = []
 
-  //       $('item').each((i, el) => {
-  //         const Data = {
-  //           keyword: $(el).find('title').text(),
-  //           date: $(el).find('pubDate').text(),
-  //           traffic: $(el).children('ht\\:approx_traffic').text(),
-  //           title : $(el).find(':nth-child(8) > ht\\:news_item_title').text().replace(/(&#39;|&quot;)/g, ''),
-  //           source : $(el).find(':nth-child(8) > ht\\:news_item_source').text(),
-  //           // link : $(el).find(':nth-child(8) > ht:\\news_item_url').text()
-  //         }
-  //         keywordItem.push(Data)
-  //       })
-  //       dispatch(insertData(keywordItem))
-  //     })
-  // }, [])
+        $('item').each((i, el) => {
+          const Data = {
+            keyword: $(el).find('title').text(),
+            date: $(el).find('pubDate').text(),
+            traffic: $(el).children('ht\\:approx_traffic').text(),
+            title : $(el).find(':nth-child(8) > ht\\:news_item_title').text().replace(/(&#39;|&quot;)/g, ''),
+            source : $(el).find(':nth-child(8) > ht\\:news_item_source').text(),
+            // link : $(el).find(':nth-child(8) > ht:\\news_item_url').text()
+          }
+          keywordItem.push(Data)
+        })
+        dispatch(insertData(keywordItem))
+      })
+  }, [])
 
 
 
@@ -55,24 +55,24 @@ function Home() {
   return (
     <Stbody>
       <StMain>
-        <StUl height={'500px'}>
+        <StUl height={'500px'} marginTop={'50px'}>
           {
-            // keywordList.value
-            //   .map((item, i) => {
-            //     return (
-            //       <Stli>
-            //         <StSpan>{i + 1}위 </StSpan>
-            //         <StLabel>{item.keyword}</StLabel>
-            //         <StP width={'100px'} right={'11.5%'} top={'30%'} fontSize={'20px'} color={'black'}>{item.traffic}</StP>
-            //         <StP width={'50px'} right={'21.5%'} top={'38%'} fontSize={'10px'} color={'gray'}>검색횟수</StP>
-            //         <StP width={'50px'} right={'6.5%'} top={'38%'} fontSize={'10px'} color={'gray'}>댓글</StP>
-            //         {/* <StTime>{item.date}</StTime> */}
-            //       </Stli>
-            //     )
-            //   })
+            keywordList.value
+              .map((item, i) => {
+                return (
+                  <Stli>
+                    <StSpan>{i + 1}위 </StSpan>
+                    <StLabel>{item.keyword}</StLabel>
+                    <StP width={'100px'} right={'11.5%'} top={'30%'} fontSize={'20px'} color={'#cecece'}>{item.traffic}</StP>
+                    <StP width={'50px'} right={'21.5%'} top={'38%'} fontSize={'10px'} color={'gray'}>검색횟수</StP>
+                    <StP width={'50px'} right={'6.5%'} top={'38%'} fontSize={'10px'} color={'gray'}>댓글</StP>
+                    {/* <StTime>{item.date}</StTime> */}
+                  </Stli>
+                )
+              })
           }
         </StUl>
-        <StUl height={'400px'}>
+        <StUl height={'400px'} marginTop={'100px'}>
           
         </StUl>
       </StMain>
@@ -82,21 +82,17 @@ function Home() {
 }
 
 const Stbody = styled.body`
-width: 100vw;
-height: 100vh;
 min-width: 1000px;
-
-
-
 background-color: black;
 `
 const StMain = styled.main`
-min-height: 1000px;
+min-height: 1200px;
+height: 100vh;
+
 display: flex;
 align-items: center;
 justify-content: center;
 flex-direction: column;
-
 `
 const StUl = styled.ul`
 width: 1000px;
@@ -106,19 +102,27 @@ display: grid;
 grid-template-columns: 1fr;
 grid-auto-rows: 70px;
 
-background-color: #333333;
+background-color: #232323;
 border-radius: 5px;
 
 overflow: auto;
 overflow-x: hidden;
 
+margin-top: ${(props) => props.marginTop};
 
-margin-top: 70px;
+scroll-behavior: smooth;
+&::-webkit-scrollbar {
+background-color: #232323;
+};
+&::-webkit-scrollbar-thumb {
+background-color: #84898c3a;
+border-radius: 30px;
+};
 `
 
 const Stli = styled.li`
 position: relative;
-background-color: white;
+background-color: #0b0b0b;
 
 border-radius: 5px;
 
@@ -126,10 +130,9 @@ margin: 10px;
 
 cursor: pointer;
 
-&:hover {
-  background-color: #eaeaea;
-  box-shadow: 2px 2px 2px 2px #d1d1d1;
-  transition: 0.5s;
+&:hover { // #3f3f3f
+  background-color: #a58d7f8e;
+  transition: 0.5s;;
 }
 `
 const StLabel = styled.label`
@@ -139,7 +142,7 @@ position: absolute;
 left: 8%;
 top: 28%;
 
-color: #3f3f3f;
+color: #cecece;
 font-size: 20px;
 
 text-align: left;
@@ -155,9 +158,10 @@ position: absolute;
 left: 1.5%;
 top: 28%;
 
-color: #3f3f3f;
+color: #cecece;
 font-size: 20px;
 text-align: center;
+
 
 `
 const StP = styled.p`
