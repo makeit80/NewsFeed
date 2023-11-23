@@ -12,40 +12,40 @@ import { insertData } from 'redux/modules/keywordData';
 
 
 function Home() {
-  const keywordList = useSelector((state) => {
-    return state.keywordData
-  })
-  const dispatch = useDispatch();
+  // const keywordList = useSelector((state) => {
+  //   return state.keywordData
+  // })
+  // const dispatch = useDispatch();
 
-  useEffect(() => {
-    const cheerio = require('cheerio');
-    const getRss = async () => {
-      try {
-        return await axios.get(`https://cors-anywhere.herokuapp.com/https://trends.google.co.kr/trends/trendingsearches/daily/rss?geo=KR`)
-      } catch (error) {
-        console.log(error)
-      }
-    }
+  // useEffect(() => {
+  //   const cheerio = require('cheerio');
+  //   const getRss = async () => {
+  //     try {
+  //       return await axios.get(`https://cors-anywhere.herokuapp.com/https://trends.google.co.kr/trends/trendingsearches/daily/rss?geo=KR`)
+  //     } catch (error) {
+  //       console.log(error)
+  //     }
+  //   }
 
-    getRss()
-      .then(html => {
-        const $ = cheerio.load(html.data)
-        let keywordItem = []
+  //   getRss()
+  //     .then(html => {
+  //       const $ = cheerio.load(html.data)
+  //       let keywordItem = []
 
-        $('item').each((i, el) => {
-          const Data = {
-            keyword: $(el).find('title').text(),
-            date: $(el).find('pubDate').text(),
-            traffic: $(el).children('ht\\:approx_traffic').text(),
-            title : $(el).find(':nth-child(8) > ht\\:news_item_title').text().replace(/(&#39;|&quot;)/g, ''),
-            source : $(el).find(':nth-child(8) > ht\\:news_item_source').text(),
-            // link : $(el).find(':nth-child(8) > ht:\\news_item_url').text()
-          };
-          keywordItem.push(Data)
-        });
-        dispatch(insertData(keywordItem))
-      });
-  }, []);
+  //       $('item').each((i, el) => {
+  //         const Data = {
+  //           keyword: $(el).find('title').text(),
+  //           date: $(el).find('pubDate').text(),
+  //           traffic: $(el).children('ht\\:approx_traffic').text(),
+  //           title : $(el).find(':nth-child(8) > ht\\:news_item_title').text().replace(/(&#39;|&quot;)/g, ''),
+  //           source : $(el).find(':nth-child(8) > ht\\:news_item_source').text(),
+  //           // link : $(el).find(':nth-child(8) > ht:\\news_item_url').text()
+  //         };
+  //         keywordItem.push(Data)
+  //       });
+  //       dispatch(insertData(keywordItem))
+  //     });
+  // }, []);
 
 
 
@@ -57,19 +57,19 @@ function Home() {
       <StMain>
         <StUl height={'500px'} marginTop={'50px'}>
           {
-            keywordList.value
-              .map((item, i) => {
-                return (
-                  <Stli>
-                    <StSpan>{i + 1}위 </StSpan>
-                    <StLabel>{item.keyword}</StLabel>
-                    <StP width={'100px'} right={'11.5%'} top={'30%'} fontSize={'20px'} color={'#cecece'}>{item.traffic}</StP>
-                    <StP width={'50px'} right={'21.5%'} top={'38%'} fontSize={'10px'} color={'gray'}>검색횟수</StP>
-                    <StP width={'50px'} right={'6.5%'} top={'38%'} fontSize={'10px'} color={'gray'}>댓글</StP>
-                    {/* <StTime>{item.date}</StTime> */}
-                  </Stli>
-                )
-              })
+            // keywordList.value
+            //   .map((item, i) => {
+            //     return (
+            //       <Stli>
+            //         <StSpan>{i + 1}위 </StSpan>
+            //         <StLabel>{item.keyword}</StLabel>
+            //         <StP width={'100px'} right={'11.5%'} top={'30%'} fontSize={'20px'} color={'#cecece'}>{item.traffic}</StP>
+            //         <StP width={'50px'} right={'21.5%'} top={'38%'} fontSize={'10px'} color={'gray'}>검색횟수</StP>
+            //         <StP width={'50px'} right={'6.5%'} top={'38%'} fontSize={'10px'} color={'gray'}>댓글</StP>
+            //         {/* <StTime>{item.date}</StTime> */}
+            //       </Stli>
+            //     )
+            //   })
           }
         </StUl>
         <StUl height={'400px'} marginTop={'100px'}>

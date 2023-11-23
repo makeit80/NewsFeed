@@ -71,8 +71,9 @@ function Navbar() {
         {userData && console.log(userData)}
         <h1>Wor__d</h1>
         <div>
-          {userData.uid && <User user={userData} />}
-          {userData.uid && (<button onClick={() => navigate(`/mypage/${userData.uid}`)}>My Page</button>)}
+          {/* mypage state만들어서 mypage로 이동 시 Navbar의 User Component 안보이게 설정 */}
+          {userData.uid && <User user={userData}/>}
+          {/* {userData.uid && (<button onClick={() => navigate(`/mypage/${userData.uid}`)}>My Page</button>)} */}
           {userData.uid ? (<button onClick={handleLogout}>logout</button>) : (<button onClick={() => setOpenLoginModal(true)}>login</button>)}
           {!userData.uid && (<button onClick={() => gotoSignUpPage()}>회원가입</button>)}
         </div>
@@ -128,13 +129,15 @@ div{
 display:flex;
 position: absolute;
 right: 3%;
-top: 35%;
+top: 28%;
 }
 
 button{
 font-size:18px;
 color: #A58D7F;
 font-weight: lighter;
+
+height: 40px;
 
 padding-left:15px;
 background-color: transparent;

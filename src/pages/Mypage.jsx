@@ -1,11 +1,20 @@
-import React from 'react';
+import React from 'react'
+import styled from "styled-components"
+import { useDispatch, useSelector } from 'react-redux';
 
-export default function Mypage() {
-    return (
-        <div>
-            Mypage
-        </div>
-    );
+
+function Mypage() {
+
+    
+  return (
+    <Stbody>
+        
+    </Stbody>
+  )
 }
 
+const Stbody = styled.body`
+    background-color: black;
+`
 
+export default Mypage
