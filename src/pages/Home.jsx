@@ -3,11 +3,14 @@ import styled from 'styled-components';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { insertData } from 'redux/modules/keywordData';
+import { useNavigate } from 'react-router-dom';
 
 // https://cors-anywhere.herokuapp.com/corsdemo
 // https://cors.bridged.cc/
 
 function Home() {
+  const navigate = useNavigate();
+
   const keywordList = useSelector((state) => {
     return state.keywordData;
   });
@@ -46,13 +49,21 @@ function Home() {
     });
   }, []);
 
+  const handleClickKeyword = (item) => {
+    navigate(`keywordchat/${item.keyword}`);
+  };
+
   return (
     <Stbody>
       <StMain>
         <StUl height={'500px'}>
           {keywordList.value.map((item, i) => {
             return (
-              <Stli>
+              <Stli
+                onClick={() => {
+                  handleClickKeyword(item);
+                }}
+              >
                 <StSpan>{i + 1}위 </StSpan>
                 <StLabel>{item.keyword}</StLabel>
                 <StP right={'11.5%'} top={'30%'} fontSize={'20px'} color={'black'}>

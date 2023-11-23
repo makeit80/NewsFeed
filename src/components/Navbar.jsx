@@ -4,14 +4,23 @@ import User from './User';
 import SignUpForm from './SignUpForm';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router';
+import Modal from 'react-modal';
+import ReactModal from 'react-modal';
+import { FcGoogle } from 'react-icons/fc';
+import { MdEmail } from 'react-icons/md';
 
 function Navbar() {
   const [user, setUser] = useState();
-  const [openRegister, setOpenRegister] = useState(false);
   const [openLoginModal, setOpenLoginModal] = useState(false);
 
+  const navigate = useNavigate();
+
   const handleLogin = () => {
-    googleLogin().then((user) => setUser(user));
+    setOpenLoginModal(false);
+    googleLogin().then((user) => {
+      setUser(user);
+      navigate('/');
+    });
   };
 
   const handleLogout = () => {
@@ -25,9 +34,7 @@ function Navbar() {
     });
   }, []);
 
-  const navigate = useNavigate();
   const gotoSignUpPage = () => {
-    setOpenRegister(true);
     navigate('signup/');
   };
   return (
@@ -47,7 +54,26 @@ function Navbar() {
         </div>
       </Nav>
       {/* 유저가 없고 회원가입 버튼을 눌렀을 때 회원가입 페이지에 회원가입 폼 띄움 */}
-      {/* {!user && openRegister && <SignUpForm />} */}
+      {openLoginModal && (
+        <Modal
+          isOpen={openLoginModal}
+          onRequestClose={() => setOpenLoginModal(false)}
+          style={customModalStyles}
+          contentLabel="Select Login Type"
+        >
+          <ModalDiv>
+            <h3>Trend News 로그인</h3>
+            <ModalButton onClick={handleLogin}>
+              <FcGoogle />
+              구글 계정으로 로그인
+            </ModalButton>
+            <ModalButton>
+              <MdEmail />
+              이메일로 로그인
+            </ModalButton>
+          </ModalDiv>
+        </Modal>
+      )}
     </>
   );
 }
@@ -73,5 +99,47 @@ const Nav = styled.nav`
     background-color: transparent;
   }
 `;
+
+const ModalDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+  gap: 1rem;
+
+  h3 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+    padding: 1rem;
+  }
+`;
+const ModalButton = styled.button`
+  font-size: 1.1rem;
+  color: white;
+  margin: auto;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  background-color: var(--color-bright-blue);
+  cursor: pointer;
+`;
+
+const customModalStyles = (ReactModal.Styles = {
+  overlay: {
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    width: '100%',
+    height: '100%'
+  },
+  content: {
+    width: '350px',
+    zIndex: '100',
+    position: 'fixed',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%,-50%)',
+    borderRadius: '10px',
+    backgroundColor: 'var(--color-gray-blue)'
+  }
+});
 
 export default Navbar;
