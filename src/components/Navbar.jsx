@@ -79,6 +79,8 @@ height: 80px;
 background-color: #232323;
 color:white;
 
+z-index: 1;
+
 &:hover {
 transition: 0.5s;
 box-shadow: 1px 1px 1px 1px #A58D7F;
@@ -92,9 +94,7 @@ top: 27%;
 font-size:2rem;
 font-weight: bold;
 color: #c78159;
-&:focus {      
-  outline: none;  
-}
+
 }
 
 div{

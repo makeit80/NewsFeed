@@ -40,12 +40,12 @@ function Home() {
             title : $(el).find(':nth-child(8) > ht\\:news_item_title').text().replace(/(&#39;|&quot;)/g, ''),
             source : $(el).find(':nth-child(8) > ht\\:news_item_source').text(),
             // link : $(el).find(':nth-child(8) > ht:\\news_item_url').text()
-          }
+          };
           keywordItem.push(Data)
-        })
+        });
         dispatch(insertData(keywordItem))
-      })
-  }, [])
+      });
+  }, []);
 
 
 
@@ -77,9 +77,8 @@ function Home() {
         </StUl>
       </StMain>
     </Stbody>
-
-  )
-}
+  );
+};
 
 const Stbody = styled.body`
 min-width: 1000px;
@@ -130,7 +129,7 @@ margin: 10px;
 
 cursor: pointer;
 
-&:hover { // #3f3f3f
+&:hover {
   background-color: #a58d7f8e;
   transition: 0.5s;;
 }
