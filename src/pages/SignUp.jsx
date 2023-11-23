@@ -3,7 +3,6 @@ import SignUpForm from 'components/SignUpForm';
 import { useNavigate } from 'react-router';
 
 function Signup() {
-  const text = '회원가입';
   const navigate = useNavigate();
   const gotoHome = () => {
     navigate('/');
@@ -11,7 +10,7 @@ function Signup() {
   return (
     <div>
       <div onClick={() => gotoHome()}>뒤로가기</div>
-      <SignUpForm text={text} />
+      <SignUpForm text='회원가입' />
     </div>
   );
 }

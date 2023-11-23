@@ -1,42 +1,47 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Modal } from 'react-modal';
+import Modal from 'react-modal';
 import { FcGoogle } from 'react-icons/fc';
 import { MdEmail } from 'react-icons/md';
-import { googleLogin } from 'api/firebase';
+import { emailLogin, googleLogin } from 'api/firebase';
 import { useNavigate } from 'react-router';
 import SignUpForm from './SignUpForm';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { loginUser } from 'redux/modules/userData';
 
-export default function LoginModal({ onOpen, onClose, onUpdateUser }) {
+export default function LoginModal({ openLoginModal, onClose }) {
+    const userData = useSelector((state) => state.userData);
     const [openLoginForm, setOpenLoginForm] = useState(false);
     const navigate = useNavigate;
-    const handleOpen = () => {
-        onOpen();
-    }
+    const dispatch = useDispatch();
+
     const handleClose = () => {
         setOpenLoginForm(false);
         onClose();
     }
 
-    const handleLogin = () => {
-        //setOpenLoginModal(false);
-        //로그인 모달 닫기 요청
+    const handleGoogleLogin = () => {
         googleLogin()
             .then((user) => {
-                onUpdateUser(user);
-                navigate('/');
+                const { uid, displayName, photoURL } = user;
+                dispatch(loginUser({ uid, displayName, photoURL }));
+                //모달 창 닫기 요청
+                onClose();
             });
     }
 
+
+
     return (
         <Modal
-            isOpen={handleOpen}
+            isOpen={openLoginModal}
             onRequestClose={handleClose}
             style={customModalStyles}>
             {!openLoginForm &&
                 <ModalDiv>
                     <h3>Wor__d 로그인</h3>
-                    <ModalButton onClick={handleLogin}><FcGoogle />구글 계정으로 로그인</ModalButton>
+                    <ModalButton onClick={handleGoogleLogin}><FcGoogle />구글 계정으로 로그인</ModalButton>
                     <ModalButton onClick={() => setOpenLoginForm(true)}><MdEmail />이메일로 로그인</ModalButton>
                 </ModalDiv>
             }
@@ -62,7 +67,6 @@ const ModalDiv = styled.div`
 const ModalButton = styled.button`
   font-size:1.1rem;
   color:white;
-  margin:auto;
   padding:0.5rem;
   border-radius: 1rem;
   background-color: var(--color-bright-blue);

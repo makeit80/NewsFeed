@@ -2,12 +2,8 @@ import { onAuthStateChange, googleLogin, logout } from 'api/firebase';
 import React, { useState, useEffect } from 'react';
 import User from './User';
 import styled from 'styled-components';
-import { FcGoogle } from 'react-icons/fc';
-import { MdEmail } from 'react-icons/md';
 import { useNavigate } from 'react-router';
-import Modal from 'react-modal';
-import SignUpForm from './SignUpForm';
-//import LoginModal from './LoginModal';
+import LoginModal from './LoginModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser, logoutUSer } from '../redux/modules/userData';
 
@@ -18,7 +14,6 @@ function Navbar() {
   const userData = useSelector((state) => state.userData);
   const dispatch = useDispatch();
   const [openLoginModal, setOpenLoginModal] = useState(false);
-  const [openLoginForm, setOpenLoginForm] = useState(false);
 
 
   useEffect(() => {
@@ -29,27 +24,11 @@ function Navbar() {
     });
   }, []);
 
-  const handleClose = () => {
-    setOpenLoginModal(false);
-    setOpenLoginForm(false);
-  }
-
-  const handleLogin = () => {
-    //setOpenLoginModal(false);
-    //로그인 모달 닫기 요청
-    googleLogin()
-      .then((user) => {
-        const { uid, displayName, photoURL } = user;
-        dispatch(loginUser({ uid, displayName, photoURL }));
-        navigate('/');
-      });
-  }
-
   const openModal = () => {
     setOpenLoginModal(true);
   }
 
-  const closeLoginModal = () => {
+  const closeModal = () => {
     setOpenLoginModal(false);
   }
 
@@ -77,20 +56,7 @@ function Navbar() {
           {!userData.uid && (<button onClick={() => gotoSignUpPage()}>회원가입</button>)}
         </div>
       </Nav>
-      {openLoginModal &&
-        <Modal
-          isOpen={openLoginModal}
-          onRequestClose={() => setOpenLoginModal(false)}
-          style={customModalStyles}
-          contentLabel='Select Login Type'
-
-        >
-          <ModalDiv>
-            <h3>Trend News 로그인</h3>
-            <ModalButton onClick={handleLogin}><FcGoogle />구글 계정으로 로그인</ModalButton>
-            <ModalButton><MdEmail />이메일로 로그인</ModalButton>
-          </ModalDiv>
-        </Modal>}
+      {openLoginModal && <LoginModal openLoginModal={openLoginModal} onClose={closeModal} />}
 
     </>
   );

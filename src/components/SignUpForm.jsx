@@ -55,7 +55,7 @@ export default function SignUpForm({ text }) {
 const StyleForm = styled.form`
   display: flex;
   flex-direction: column;
-  /* margin-top: 200px; */
+  margin-top: 100px;
 `;
 const StyleEmailWrap = styled.div`
   width: 400px;
@@ -86,7 +86,7 @@ const StyleBtn = styled.button`
   height: 50px;
   margin: 0 auto;
   margin-top: 30px;
-  background-color: var(--color-dark-blue);
+  background-color: var(--colort-logo);
   color: #fff;
   border: none;
   border-radius: 5px;
