@@ -19,7 +19,7 @@ const firebaseConfig = {
     appId: process.env.REACT_APP_FIREBASE_APP_ID
 };
 
-console.log(firebaseConfig) 
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
@@ -29,13 +29,14 @@ provider.setCustomParameters({
     prompt: 'select_account'
 });
 
-export async function googleLogin(email, password) {
+export async function googleLogin() {
     return await signInWithPopup(auth, provider)
         .then((result) => {
             console.log(result);
             const credential = GoogleAuthProvider.credentialFromResult(result);
             const token = credential.accessToken;
             const user = result.user;
+            return user;
         }).catch((error) => console.error(error));
 }
 
