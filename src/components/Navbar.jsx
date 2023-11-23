@@ -41,7 +41,7 @@ function Navbar() {
     <>
       <Nav>
         {user && console.log(user)}
-        <h1>Trend News</h1>
+        <h1>Wor__d</h1>
         <div>
           {user && <User user={user} />}
           {user && <button onClick={() => navigate(`/mypage/${user.uid}`)}>My Page</button>}
@@ -79,24 +79,53 @@ function Navbar() {
 }
 
 const Nav = styled.nav`
-  height: 2.5rem;
-  display: flex;
-  justify-content: space-between;
-  background-color: var(--color-bright-blue);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+
+  background-color: #232323;
   color: white;
 
+  &:hover {
+    transition: 0.5s;
+    box-shadow: 1px 1px 1px 1px #a58d7f;
+  }
+
   h1 {
+    position: absolute;
+    left: 3%;
+    top: 27%;
+
     font-size: 2rem;
+    font-weight: bold;
+    color: #c78159;
+    &:focus {
+      outline: none;
+    }
   }
 
   div {
     display: flex;
+    position: absolute;
+    right: 3%;
+    top: 35%;
   }
+
   button {
-    font-size: 1.2rem;
-    color: white;
-    padding: 0.5rem;
+    font-size: 18px;
+    color: #a58d7f;
+    font-weight: lighter;
+
+    padding-left: 15px;
     background-color: transparent;
+    cursor: pointer;
+
+    &:hover {
+      color: #84898c;
+      transition: 0.5s;
+    }
   }
 `;
 
