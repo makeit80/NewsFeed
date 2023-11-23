@@ -40,6 +40,16 @@ export async function googleLogin() {
     .catch((error) => console.error(error));
 }
 
+export async function emailLogin(email, password) {
+    return await signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            const user = userCredential.user;
+            console.log(user);
+            // ...
+        })
+        .catch((error) => console.error(error));
+}
+
 export async function signUp(email, password) {
   return await createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {

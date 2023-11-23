@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { addComment } from 'redux/modules/comments';
-import keywordData from 'redux/modules/keywordData';
 import styled from 'styled-components';
 
 function KeywordChat() {
@@ -12,7 +11,7 @@ function KeywordChat() {
   const [comment, setComment] = useState();
 
   const comments = useSelector((state) => state.comments);
-  console.log(comments);
+  console.log('코멘트', comments);
 
   const newComment = {
     comment: comment
@@ -37,16 +36,7 @@ function KeywordChat() {
         <StCommentInput value={comment} onChange={(e) => setComment(e.target.value)} />
         <StCommentBtn type="submit">입력</StCommentBtn>
       </StForm>
-      <div>
-        {comments.map((item) => (
-          <StCommentBox>
-            <span>{item.comment}</span>
-            <br />
-            <button>수정</button>
-            <button>삭제</button>
-          </StCommentBox>
-        ))}
-      </div>
+      <div>{comments && comments.map((item) => <StCommentBox>{item.comment}</StCommentBox>)}</div>
     </Stbackground>
   );
 }

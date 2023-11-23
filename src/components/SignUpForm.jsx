@@ -1,34 +1,26 @@
 import React, { useState } from 'react';
-import { signUp } from 'api/firebase';
+import { emailLogin, signUp } from 'api/firebase';
 import { styled } from 'styled-components';
 import { useNavigate } from 'react-router';
 
-export default function SignUpForm() {
+export default function SignUpForm({ text }) {
+  console.log(text);
   const [form, setForm] = useState({ email: '', password: '' });
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    signUp(form.email, form.password);
-    gotoHome();
+    if (text === '회원가입') signUp(form.email, form.password);
+    else emailLogin(form.email, form.password);
+    navigate('/');
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   };
-  const navigate = useNavigate();
-  const gotoHome = () => {
-    navigate('/');
-  };
 
   return (
     <>
-      <div
-        onClick={() => {
-          gotoHome();
-        }}
-      >
-        뒤로가기
-      </div>
       <StyleForm onSubmit={handleSubmit}>
         <StyleEmailWrap>
           <StyleLabel htmlFor="email">Email : </StyleLabel>
@@ -54,7 +46,7 @@ export default function SignUpForm() {
             required
           />
         </StylePWWrap>
-        <StyleBtn>회원가입</StyleBtn>
+        <StyleBtn>{text}</StyleBtn>
       </StyleForm>
     </>
   );
@@ -63,7 +55,7 @@ export default function SignUpForm() {
 const StyleForm = styled.form`
   display: flex;
   flex-direction: column;
-  margin-top: 200px;
+  /* margin-top: 200px; */
 `;
 const StyleEmailWrap = styled.div`
   width: 400px;

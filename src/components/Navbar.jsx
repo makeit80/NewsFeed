@@ -1,38 +1,58 @@
 import { onAuthStateChange, googleLogin, logout } from 'api/firebase';
 import React, { useState, useEffect } from 'react';
 import User from './User';
-import SignUpForm from './SignUpForm';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router';
-import Modal from 'react-modal';
-import ReactModal from 'react-modal';
 import { FcGoogle } from 'react-icons/fc';
 import { MdEmail } from 'react-icons/md';
+import { useNavigate } from 'react-router';
+import Modal from 'react-modal';
+import SignUpForm from './SignUpForm';
+//import LoginModal from './LoginModal';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser, logoutUSer } from '../redux/modules/userData';
 
 function Navbar() {
-  const [user, setUser] = useState();
-  const [openLoginModal, setOpenLoginModal] = useState(false);
-
   const navigate = useNavigate();
+  const userData = useSelector((state) => state.userData);
+  const dispatch = useDispatch();
+  const [openLoginModal, setOpenLoginModal] = useState(false);
+  const [openLoginForm, setOpenLoginForm] = useState(false);
+
+  useEffect(() => {
+    onAuthStateChange((user) => {
+      const { uid, displayName, photoURL } = user;
+      user && dispatch(loginUser({ uid, displayName, photoURL }));
+    });
+  }, []);
+
+  const handleClose = () => {
+    setOpenLoginModal(false);
+    setOpenLoginForm(false);
+  };
 
   const handleLogin = () => {
-    setOpenLoginModal(false);
+    //setOpenLoginModal(false);
+    //로그인 모달 닫기 요청
     googleLogin().then((user) => {
-      setUser(user);
+      const { uid, displayName, photoURL } = user;
+      dispatch(loginUser({ uid, displayName, photoURL }));
       navigate('/');
     });
   };
 
-  const handleLogout = () => {
-    logout().then((user) => setUser(user));
+  const openModal = () => {
+    setOpenLoginModal(true);
   };
 
-  useEffect(() => {
-    onAuthStateChange((user) => {
-      console.log(user);
-      user && setUser(user);
+  const closeLoginModal = () => {
+    setOpenLoginModal(false);
+  };
+
+  const handleLogout = () => {
+    logout().then((user) => {
+      dispatch(logoutUSer(user));
     });
-  }, []);
+  };
 
   const gotoSignUpPage = () => {
     navigate('signup/');
@@ -40,20 +60,19 @@ function Navbar() {
   return (
     <>
       <Nav>
-        {user && console.log(user)}
+        {userData && console.log(userData)}
         <h1>Wor__d</h1>
         <div>
-          {user && <User user={user} />}
-          {user && <button onClick={() => navigate(`/mypage/${user.uid}`)}>My Page</button>}
-          {user ? (
+          {userData.uid && <User user={userData} />}
+          {userData.uid && <button onClick={() => navigate(`/mypage/${userData.uid}`)}>My Page</button>}
+          {userData.uid ? (
             <button onClick={handleLogout}>logout</button>
           ) : (
             <button onClick={() => setOpenLoginModal(true)}>login</button>
           )}
-          {!user && <button onClick={() => gotoSignUpPage()}>회원가입</button>}
+          {!userData.uid && <button onClick={() => gotoSignUpPage()}>회원가입</button>}
         </div>
       </Nav>
-      {/* 유저가 없고 회원가입 버튼을 눌렀을 때 회원가입 페이지에 회원가입 폼 띄움 */}
       {openLoginModal && (
         <Modal
           isOpen={openLoginModal}
@@ -153,14 +172,15 @@ const ModalButton = styled.button`
   cursor: pointer;
 `;
 
-const customModalStyles = (ReactModal.Styles = {
+const customModalStyles = {
   overlay: {
     backgroundColor: 'rgba(255, 255, 255, 0.5)',
     width: '100%',
     height: '100%'
   },
   content: {
-    width: '350px',
+    width: '500px',
+    height: '300px',
     zIndex: '100',
     position: 'fixed',
     top: '50%',
@@ -169,6 +189,6 @@ const customModalStyles = (ReactModal.Styles = {
     borderRadius: '10px',
     backgroundColor: 'var(--color-gray-blue)'
   }
-});
+};
 
 export default Navbar;
