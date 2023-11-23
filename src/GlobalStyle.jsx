@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
 
@@ -7,7 +7,7 @@ box-sizing: border-box;
 }
 
 :root{
---colort-logo:#c78159;
+--color-logo:#c78159;
 --color-choco:#A58D7F;
 --color-gray:#84898C;
 }
@@ -33,6 +33,5 @@ outline: none;
 }
 
 `;
-
 
 export default GlobalStyle;
