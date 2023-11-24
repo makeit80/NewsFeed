@@ -1,4 +1,5 @@
 import { db } from 'api/firebase';
+import KeywordNews from '../components/KeywordNews';
 import { addDoc, collection, getDocs, query } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -59,6 +60,7 @@ function KeywordChat() {
 
   return (
     <Stbackground>
+      <KeywordNews />
       <Stdiv>
         <span>키워드 : </span>
         <span>{param.id}</span>

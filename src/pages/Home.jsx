@@ -41,8 +41,8 @@ function Home() {
             .find(':nth-child(8) > ht\\:news_item_title')
             .text()
             .replace(/(&#39;|&quot;)/g, ''),
-          source: $(el).find(':nth-child(8) > ht\\:news_item_source').text()
-          // link : $(el).find(':nth-child(8) > ht:\\news_item_url').text()
+          source: $(el).find(':nth-child(8) > ht\\:news_item_source').text(),
+          link: $(el).find(':nth-child(8) > ht\\:news_item_url').text()
         };
         keywordItem.push(Data);
       });
@@ -51,7 +51,7 @@ function Home() {
   }, []);
 
   const handleClickKeyword = (item) => {
-    navigate(`keywordchat/${item}`);
+    navigate(`keywordchat/${item}`, { state: item });
   };
 
   return (
