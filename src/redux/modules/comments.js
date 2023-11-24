@@ -1,5 +1,6 @@
 const ADD_COMMENT = 'comments/ADD_COMMENT';
 const GET_COMMENT = 'comments/GET_COMMENT';
+const DELETE_COMMENT = 'comments/DELETE_COMMENT';
 
 // action creator
 export const addComment = (payload) => {
@@ -7,6 +8,9 @@ export const addComment = (payload) => {
 };
 export const getComment = (payload) => {
   return { type: GET_COMMENT, payload };
+};
+export const deleteComment = (id) => {
+  return { type: DELETE_COMMENT, id };
 };
 
 const initialState = [];
@@ -19,7 +23,8 @@ const comments = (state = initialState, action) => {
       return [...state, action.payload];
     case GET_COMMENT:
       console.log(action.payload);
-      return [...state, ...action.payload];
+      return [...action.payload];
+
     default:
       return state;
   }
