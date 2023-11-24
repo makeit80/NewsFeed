@@ -81,7 +81,7 @@ margin-bottom: 80px;
 
 &:hover {
 transition: 0.5s;
-border: 1px solid #A58D7F;
+border: 1px solid #808080;
 }
 `
 const StFigure = styled.figure`
@@ -104,7 +104,7 @@ position: absolute;
 top: 4.5%;
 right: ${(props) => props.right};
 
-border: 1px solid white;
+border: 1px solid #c2c2c2;
 border-radius: 19px;
 background-color: transparent;
 padding: 10px;
@@ -112,7 +112,7 @@ padding: 10px;
 font-size: 15px;
 font-weight: bold;
 letter-spacing: 2px;
-color: white;
+color: #c2c2c2;
 
 cursor: pointer;
 
