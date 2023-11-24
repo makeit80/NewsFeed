@@ -19,7 +19,7 @@ const comments = (state = initialState, action) => {
       return [...state, action.payload];
     case GET_COMMENT:
       console.log(action.payload);
-      return [...state, ...action.payload];
+      return [...action.payload];
     default:
       return state;
   }

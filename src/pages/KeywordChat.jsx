@@ -13,6 +13,7 @@ function KeywordChat() {
   const [text, setText] = useState('');
 
   const comments = useSelector((state) => state.comments);
+  const filterComments = comments.filter((comment) => comment.keyword === param.id);
   console.log(comments);
 
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ function KeywordChat() {
   useEffect(() => {
     const fetchData = async () => {
       const q = query(collection(db, 'comments'));
+      console.log(q);
       const querySnapshot = await getDocs(q);
 
       const initialComments = [];
@@ -62,8 +64,8 @@ function KeywordChat() {
         <StCommentBtn type="submit">입력</StCommentBtn>
       </StForm>
       <div>
-        {comments &&
-          comments.map((item) => (
+        {filterComments &&
+          filterComments.map((item) => (
             <StCommentBox key={item.id}>
               <div>
                 <p>{item.text}</p>
