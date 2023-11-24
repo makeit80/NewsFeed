@@ -31,9 +31,6 @@ provider.setCustomParameters({
 export async function googleLogin() {
   return await signInWithPopup(auth, provider)
     .then((result) => {
-      console.log(result);
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
       const user = result.user;
       return user;
     })

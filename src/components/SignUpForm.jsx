@@ -3,7 +3,6 @@ import { emailLogin, signUp } from '../api/firebase';
 import { styled } from 'styled-components';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
-import { loginUser } from '../redux/modules/userData';
 import { closeLoginModal } from '../redux/modules/showModal';
 
 export default function SignUpForm({ text }) {

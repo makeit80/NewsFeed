@@ -2,7 +2,7 @@ const LOGIN_USER = 'user/login';
 const LOGOUT_USER = 'user/logout';
 
 export const loginUser = (payload) => {
-    //유저의 닉네임,사진,uid가 담긴 정보
+    //유저의 사진,uid가 담긴 정보
     return {
         type: LOGIN_USER,
         payload,
@@ -18,7 +18,6 @@ export const logoutUSer = (payload) => {
 
 const initalState = {
     uid: '',
-    displayName: '',
     photoURL: ''
 };
 

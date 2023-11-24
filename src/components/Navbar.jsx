@@ -2,7 +2,7 @@ import { onAuthStateChange, logout } from 'api/firebase';
 import React, { useEffect } from 'react';
 import User from './User';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router';
+import { useNavigate, Link } from 'react-router-dom';
 import LoginModal from './LoginModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser, logoutUSer } from '../redux/modules/userData';
@@ -15,8 +15,8 @@ function Navbar() {
 
   useEffect(() => {
     onAuthStateChange((user) => {
-      const { uid, displayName, photoURL } = user;
-      user && dispatch(loginUser({ uid, displayName, photoURL }));
+      const { uid, photoURL } = user;
+      user && dispatch(loginUser({ uid, photoURL }));
     });
   }, []);
 
@@ -40,10 +40,11 @@ function Navbar() {
   return (
     <>
       <Nav>
-        <h1>Wor__d</h1>
+        <Link to='/'>
+          <h1>Wor__d</h1>
+        </Link>
         <div>
           {userData.uid && <User user={userData} />}
-          {userData.uid && <button onClick={() => navigate(`/mypage/${userData.uid}`)}>My Page</button>}
           {userData.uid ? (
             <button onClick={handleLogout}>logout</button>
           ) : (
@@ -68,10 +69,12 @@ const Nav = styled.nav`
   background-color: #232323;
   color: white;
 
-  &:hover {
-    transition: 0.5s;
-    box-shadow: 1px 1px 1px 1px #a58d7f;
-  }
+z-index: 1;
+
+&:hover {
+transition: 0.5s;
+box-shadow: 1px 1px 1px 1px #A58D7F;
+}
 
   h1 {
     position: absolute;
@@ -81,8 +84,15 @@ const Nav = styled.nav`
     font-size: 2rem;
     font-weight: bold;
     color: #c78159;
+
+    cursor: pointer;
+
     &:focus {
       outline: none;
+    }
+    &:hover {
+      color: #84898c;
+      transition: 0.5s;
     }
   }
 
@@ -90,7 +100,7 @@ const Nav = styled.nav`
     display: flex;
     position: absolute;
     right: 3%;
-    top: 35%;
+    top: 28%;
   }
 
   button {
@@ -98,9 +108,11 @@ const Nav = styled.nav`
     color: #a58d7f;
     font-weight: lighter;
 
-    padding-left: 15px;
-    background-color: transparent;
-    cursor: pointer;
+height: 40px;
+
+padding-left:15px;
+background-color: transparent;
+cursor: pointer;
 
     &:hover {
       color: #84898c;
