@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { insertData } from 'redux/modules/keywordData';
 import { useNavigate } from 'react-router-dom';
 
-
 // https://cors-anywhere.herokuapp.com/corsdemo
 // https://cors.bridged.cc/
 //console.log('app', app);
@@ -59,8 +58,7 @@ function Home() {
     <Stbody>
       <StMain>
         <StUl height={'500px'} marginTop={'50px'}>
-          {
-          keywordList.value.map((item, i) => {
+          {keywordList.value.map((item, i) => {
             return (
               <Stli
                 onClick={() => {
@@ -81,14 +79,13 @@ function Home() {
                 {/* <StTime>{item.date}</StTime> */}
               </Stli>
             );
-          })
-          }
+          })}
         </StUl>
         <StUl height={'400px'} marginTop={'100px'}></StUl>
       </StMain>
     </Stbody>
   );
-};
+}
 
 const Stbody = styled.body`
   min-width: 1000px;
@@ -139,11 +136,11 @@ const Stli = styled.li`
 
   cursor: pointer;
 
-&:hover {
-  background-color: #a58d7f8e;
-  transition: 0.5s;;
-}
-`
+  &:hover {
+    background-color: #a58d7f8e;
+    transition: 0.5s;
+  }
+`;
 const StLabel = styled.label`
   width: 200px;
 
