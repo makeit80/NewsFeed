@@ -51,6 +51,12 @@ function KeywordChat() {
 
     addDoc(collection(db, 'comments'), newComment);
   };
+
+  const keyword = useSelector((state) => state.keywordData.value);
+  console.log('keyword ===> ', keyword);
+  console.log('each ===> ', keyword.map((item) => item.keyword))
+  // 
+
   return (
     <Stbackground>
       <Stdiv>

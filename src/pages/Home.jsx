@@ -47,9 +47,12 @@ function Home() {
   //       };
   //       keywordItem.push(Data);
   //     });
+  //     console.log('Data ==========> ', keywordItem)
+
   //     dispatch(insertData(keywordItem));
   //   });
   // }, []);
+
 
   const handleClickKeyword = (item) => {
     navigate(`keywordchat/${item}`);
@@ -156,7 +159,8 @@ const StLabel = styled.label`
 
   text-align: left;
 `;
-const StTime = styled.time``;
+const StTime = styled.time`
+`;
 const StSpan = styled.span`
   width: 50px;
 

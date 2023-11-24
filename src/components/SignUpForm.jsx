@@ -1,14 +1,90 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { emailLogin, signUp } from '../api/firebase';
 import { styled } from 'styled-components';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { closeLoginModal } from '../redux/modules/showModal';
+import { async } from 'q';
 
 export default function SignUpForm({ text }) {
-  const [form, setForm] = useState({ email: '', password: '' });
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  // 1. Input info
+  const [form, setForm] = useState({name: '', email: '', password: '', passwordConfirm: ''});
+
+  // 2. Error message
+  const [nameMessage, setNameMessage] = useState('');
+  const [emailMessage, setEmailMessage] = useState('');
+  const [passwordMessage, setPasswordMessage] = useState('');
+  const [passwordConfirmMessage, setPasswordConfirmMessage] =useState('');
+
+  // 3. Vaildation check
+  const [isName, setIsName] = useState(false);
+  const [isEmail, setIsEmail] = useState(false);
+  const [isPassword, setIsPassword] = useState(false);
+  const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
+
+  // 5. Onchange
+  const onChangeHandler = useCallback((e) => {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value })
+    // (1) Name
+    if (name === 'name') {
+      return value.length <= 2 || value.length >= 10 
+      ? (
+        setNameMessage('2글자 이상 10글자 이하로 작성해주세요'),
+        setIsName(false)
+        )
+      : (
+        setNameMessage('완료'),
+        setIsName(true)
+      )
+    // (2) Email
+    } else if (name === 'email') {
+      const emailRegex = /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/
+      return !emailRegex.test(value) 
+      ? (
+        setEmailMessage('이메일 형식을 다시 확인해주세요.'),
+        setIsEmail(false)
+      )
+      : (
+        setEmailMessage('완료'),
+        setIsEmail(true)
+      )
+    // (3) Password
+    } else if (name === 'password') {
+      const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/
+      return !passwordRegex.test(value)
+      ? (
+        setPasswordMessage('숫자, 영문, 특수문자를 포함해 8자리 이상 작성해주세요.'),
+        setIsPassword(false)
+      )
+      : (
+        setPasswordMessage('완료'),
+        setIsPassword(true)
+      )
+    // (4) Password confirm
+    } else if (name === 'passwordConfirm') {
+      return form.password !== value
+      ? (
+        setPasswordConfirmMessage('비밀번호가 일치하지 않아요.'),
+        setIsPasswordConfirm(false)
+      )
+      : (
+        setPasswordConfirmMessage('완료'),
+        setIsPasswordConfirm(true)
+      )
+    }
+  }, [form]);
+
+
+  // 4. Submit
+  const onSubmit = useCallback((e) => {
+    e.preventDefault()
+    signUp(form.email, form.password)
+  }, [form]);
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -25,82 +101,107 @@ export default function SignUpForm({ text }) {
     setForm({ ...form, [name]: value });
   };
 
+  
+
   return (
-    <>
-      <Title>Wor__d {text}</Title>
+    <Stbody>
       <StyleForm onSubmit={handleSubmit}>
-        <StyleEmailWrap>
-          <StyleLabel htmlFor="email">Email : </StyleLabel>
-          <StyleInput
-            type="email"
-            id="email"
-            placeholder="email"
-            name="email"
-            value={form.email}
-            onChange={handleChange}
-            required
-          />
-        </StyleEmailWrap>
-        <StylePWWrap>
-          <StyleLabel htmlFor="password">Password : </StyleLabel>
-          <StyleInput
-            type="password"
-            id="password"
-            placeholder="6자 이상 입력하세요"
-            name="password"
-            value={form.password}
-            onChange={handleChange}
-            required
-          />
-        </StylePWWrap>
+        <StDiv>
+          <StInput type='text' name='name' placeholder='Name' onChange={onChangeHandler} />
+          {form.name.length > 0 && <StSpan className={`message ${isName ? 'success' : 'error'}`}>{nameMessage}</StSpan>}
+        </StDiv>
+        <StDiv>
+          <StInput type='email' name='email' placeholder='Email' onChange={onChangeHandler} />
+          {form.email.length > 0 && <StSpan className={`message ${isEmail ? 'success' : 'error'}`}>{emailMessage}</StSpan>}
+        </StDiv>
+        <StDiv>
+          <StInput type='password' name='password' placeholder='Password' onChange={onChangeHandler} />
+          {form.password.length > 0 && <StSpan className={`message ${isPassword ? 'success' : 'error'}`}>{passwordMessage}</StSpan>}
+        </StDiv>
+        <StDiv>
+          <StInput type='password' name='passwordConfirm' placeholder='Confirm' onChange={onChangeHandler} />
+          {form.password.length > 0 && <StSpan className={`message ${isPasswordConfirm ? 'success' : 'error'}`}>{passwordConfirmMessage}</StSpan>}
+        </StDiv>
         <StyleBtn>{text}</StyleBtn>
       </StyleForm>
-    </>
+    </Stbody>
   );
 }
-
-const Title = styled.h1`
-    font-size:1.2rem;
-    color:white;
-    text-align: center;
-`;
+const Stbody = styled.body`
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+`
 
 const StyleForm = styled.form`
   display: flex;
+  align-items: center;
+  justify-content: center;
   flex-direction: column;
-  margin-Top: 80px;
+  margin-Top: 150px;
+
 `;
-const StyleEmailWrap = styled.div`
-  width: 400px;
-  height: 50px;
-  line-height: 50px;
-  text-align: center;
-  margin: 10px auto;
-`;
-const StylePWWrap = styled.div`
-  width: 400px;
-  height: 50px;
-  line-height: 50px;
-  text-align: center;
-  margin: 0 auto;
-`;
-const StyleLabel = styled.label`
-  display: none;
-`;
-const StyleInput = styled.input`
+const StDiv = styled.div`
+  height: 120px;
+  width: 500px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  position: relative;
+  border: 1px solid red;
+
+`
+const StInput = styled.input`
   width: 390px;
   height: 40px;
+
+  position: absolute;
+  top: 0%;
+
   border: none;
   border-bottom: 1px solid #bbb;
+  background-color: black;
+  outline: none;
+
+  color: white;
 `;
+const StSpan = styled.span`
+    height: 40px;
+
+    position: absolute;
+  bottom: 10%;
+
+  &.success {
+    transition: 0.5s;
+    color: #8f8c8b;
+  }
+  &.error {
+    transition: 0.5s;
+    color: #ff2727;
+  }
+`
 
 const StyleBtn = styled.button`
   width: 400px;
   height: 50px;
   margin: 0 auto;
-  margin-top: 30px;
+  margin-top: 80px;
   background-color: var(--color-logo);
-  color: #fff;
   border: none;
   border-radius: 5px;
+
+  color: #fff;
+  font-size: 15px;
+  letter-spacing: 3px;
+  font-weight: lighter;
+  
+  cursor: pointer;
+
+  &:hover {
+    background-color: #aa6f4c;
+    transition: 0.5s;
+  }
 `;
