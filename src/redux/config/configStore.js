@@ -4,6 +4,7 @@ import keywordData from 'redux/modules/keywordData';
 import userData from 'redux/modules/userData';
 import comments from 'redux/modules/comments';
 import showModal from 'redux/modules/showModal';
+// import thunk from 'redux-thunk';
 
 const rootReducer = combineReducers({
   keywordData,
