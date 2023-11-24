@@ -9,6 +9,7 @@ import {
   signInWithPopup
 } from 'firebase/auth';
 import { useNavigate } from 'react-router';
+import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -21,6 +22,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+export const db = getFirestore(app);
 
 const provider = new GoogleAuthProvider();
 //자동 로그인 방지
@@ -41,13 +43,13 @@ export async function googleLogin() {
 }
 
 export async function emailLogin(email, password) {
-    return await signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            const user = userCredential.user;
-            console.log(user);
-            // ...
-        })
-        .catch((error) => console.error(error));
+  return await signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      console.log(user);
+      // ...
+    })
+    .catch((error) => console.error(error));
 }
 
 export async function signUp(email, password) {

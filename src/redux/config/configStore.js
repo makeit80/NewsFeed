@@ -1,8 +1,9 @@
-import { createStore } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
 import { combineReducers } from 'redux';
 import keywordData from 'redux/modules/keywordData';
 import userData from 'redux/modules/userData';
 import comments from 'redux/modules/comments';
+import thunk from 'redux-thunk';
 
 const rootReducer = combineReducers({
   keywordData,
@@ -10,6 +11,6 @@ const rootReducer = combineReducers({
   comments
 });
 //const logger = createLogger();
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, applyMiddleware(thunk));
 
 export default store;

@@ -19,6 +19,7 @@
     "react-scripts": "5.0.1",
     "react-use-analytics-api": "^1.4.18",
     "redux": "^4.2.1",
+    "redux-thunk": "^2.4.2",
     "request": "^2.88.2",
     "rss-parser": "^3.13.0",
     "styled-components": "^6.1.1",
