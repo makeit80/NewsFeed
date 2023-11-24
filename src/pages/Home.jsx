@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { insertData } from 'redux/modules/keywordData';
 import { useNavigate } from 'react-router-dom';
 
-
 // https://cors-anywhere.herokuapp.com/corsdemo
 // https://cors.bridged.cc/
 //console.log('app', app);
@@ -62,36 +61,34 @@ function Home() {
     <Stbody>
       <StMain>
         <StUl height={'500px'} marginTop={'50px'}>
-          {
-          // keywordList.value.map((item, i) => {
-          //   return (
-          //     <Stli
-          //       onClick={() => {
-          //         handleClickKeyword(item.keyword);
-          //       }}
-          //     >
-          //       <StSpan>{i + 1}위 </StSpan>
-          //       <StLabel>{item.keyword}</StLabel>
-          //       <StP width={'100px'} right={'11.5%'} top={'30%'} fontSize={'20px'} color={'#cecece'}>
-          //         {item.traffic}
-          //       </StP>
-          //       <StP width={'50px'} right={'21.5%'} top={'38%'} fontSize={'10px'} color={'gray'}>
-          //         검색횟수
-          //       </StP>
-          //       <StP width={'50px'} right={'6.5%'} top={'38%'} fontSize={'10px'} color={'gray'}>
-          //         댓글
-          //       </StP>
-          //       {/* <StTime>{item.date}</StTime> */}
-          //     </Stli>
-          //   );
-          // })
-          }
+          {keywordList.value.map((item, i) => {
+            return (
+              <Stli
+                onClick={() => {
+                  handleClickKeyword(item.keyword);
+                }}
+              >
+                <StSpan>{i + 1}위 </StSpan>
+                <StLabel>{item.keyword}</StLabel>
+                <StP width={'100px'} right={'11.5%'} top={'30%'} fontSize={'20px'} color={'#cecece'}>
+                  {item.traffic}
+                </StP>
+                <StP width={'50px'} right={'21.5%'} top={'38%'} fontSize={'10px'} color={'gray'}>
+                  검색횟수
+                </StP>
+                <StP width={'50px'} right={'6.5%'} top={'38%'} fontSize={'10px'} color={'gray'}>
+                  댓글
+                </StP>
+                {/* <StTime>{item.date}</StTime> */}
+              </Stli>
+            );
+          })}
         </StUl>
         <StUl height={'400px'} marginTop={'100px'}></StUl>
       </StMain>
     </Stbody>
   );
-};
+}
 
 const Stbody = styled.body`
   min-width: 1000px;
@@ -142,11 +139,11 @@ const Stli = styled.li`
 
   cursor: pointer;
 
-&:hover {
-  background-color: #a58d7f8e;
-  transition: 0.5s;;
-}
-`
+  &:hover {
+    background-color: #a58d7f8e;
+    transition: 0.5s;
+  }
+`;
 const StLabel = styled.label`
   width: 200px;
 

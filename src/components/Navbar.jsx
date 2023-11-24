@@ -15,16 +15,15 @@ export default function Navbar() {
 
   useEffect(() => {
     onAuthStateChange((user) => {
-      const { uid, photoURL } = user;
-      user && dispatch(loginUser({ uid, photoURL }));
+      const { uid, photoURL, displayName } = user;
+      user && dispatch(loginUser({ uid, photoURL, displayName }));
     });
   }, []);
 
   const handleOpenModal = () => {
     //로그인 모달창 열기
     dispatch(showLoginModal());
-  }
-
+  };
 
   const handleLogout = () => {
     console.log('로그아웃 클릭');
@@ -40,7 +39,7 @@ export default function Navbar() {
   return (
     <>
       <Nav>
-        <Link to='/'>
+        <Link to="/">
           <h1>Wor__d</h1>
         </Link>
         <div>
@@ -54,7 +53,6 @@ export default function Navbar() {
         </div>
       </Nav>
       <LoginModal />
-
     </>
   );
 }
@@ -67,12 +65,12 @@ const Nav = styled.nav`
   height: 80px;
   background-color: #232323;
   color: white;
-z-index: 1;
+  z-index: 1;
 
-&:hover {
-transition: 0.5s;
-box-shadow: 1px 1px 1px 1px #A58D7F;
-}
+  &:hover {
+    transition: 0.5s;
+    box-shadow: 1px 1px 1px 1px #a58d7f;
+  }
 
   h1 {
     position: absolute;
@@ -104,9 +102,9 @@ box-shadow: 1px 1px 1px 1px #A58D7F;
     color: #a58d7f;
     font-weight: lighter;
     height: 40px;
-    padding-left:15px;
-background-color: transparent;
-cursor: pointer;
+    padding-left: 15px;
+    background-color: transparent;
+    cursor: pointer;
 
     &:hover {
       color: #84898c;
@@ -114,8 +112,3 @@ cursor: pointer;
     }
   }
 `;
-
-
-
-
-
