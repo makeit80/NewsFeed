@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { addComment } from 'redux/modules/comments';
@@ -17,6 +17,9 @@ function KeywordChat() {
     comment: comment
   };
 
+  useEffect(() => {
+    const fetchData = async () => {};
+  });
   const dispatch = useDispatch();
 
   return (
