@@ -1,55 +1,35 @@
-import { onAuthStateChange, googleLogin, logout } from 'api/firebase';
-import React, { useState, useEffect } from 'react';
+import { onAuthStateChange, logout } from 'api/firebase';
+import React, { useEffect } from 'react';
 import User from './User';
 import styled from 'styled-components';
-import { FcGoogle } from 'react-icons/fc';
-import { MdEmail } from 'react-icons/md';
-import { useNavigate } from 'react-router';
-import Modal from 'react-modal';
-import SignUpForm from './SignUpForm';
-//import LoginModal from './LoginModal';
+import { useNavigate, Link } from 'react-router-dom';
+import LoginModal from './LoginModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser, logoutUSer } from '../redux/modules/userData';
+import { showLoginModal } from '../redux/modules/showModal';
 
-function Navbar() {
+export default function Navbar() {
   const navigate = useNavigate();
-  const userData = useSelector((state) => state.userData);
   const dispatch = useDispatch();
-  const [openLoginModal, setOpenLoginModal] = useState(false);
-  const [openLoginForm, setOpenLoginForm] = useState(false);
+  const userData = useSelector((state) => state.userData);
 
   useEffect(() => {
     onAuthStateChange((user) => {
-      const { uid, displayName, photoURL } = user;
-      user && dispatch(loginUser({ uid, displayName, photoURL }));
+      const { uid, photoURL } = user;
+      user && dispatch(loginUser({ uid, photoURL }));
     });
   }, []);
 
-  const handleClose = () => {
-    setOpenLoginModal(false);
-    setOpenLoginForm(false);
-  };
+  const handleOpenModal = () => {
+    //로그인 모달창 열기
+    dispatch(showLoginModal());
+  }
 
-  const handleLogin = () => {
-    //setOpenLoginModal(false);
-    //로그인 모달 닫기 요청
-    googleLogin().then((user) => {
-      const { uid, displayName, photoURL } = user;
-      dispatch(loginUser({ uid, displayName, photoURL }));
-      navigate('/');
-    });
-  };
-
-  const openModal = () => {
-    setOpenLoginModal(true);
-  };
-
-  const closeLoginModal = () => {
-    setOpenLoginModal(false);
-  };
 
   const handleLogout = () => {
+    console.log('로그아웃 클릭');
     logout().then((user) => {
+      console.log(user);
       dispatch(logoutUSer(user));
     });
   };
@@ -60,36 +40,21 @@ function Navbar() {
   return (
     <>
       <Nav>
-        {userData && console.log(userData)}
-        <h1 onClick={() => {navigate('/')}}>Wor__d</h1>
+        <Link to='/'>
+          <h1>Wor__d</h1>
+        </Link>
         <div>
-          {/* mypage state만들어서 mypage로 이동 시 Navbar의 User Component 안보이게 설정 */}
-          {userData.uid && <User user={userData}/>}
-          {/* {userData.uid && (<button onClick={() => navigate(`/mypage/${userData.uid}`)}>My Page</button>)} */}
-          {userData.uid ? (<button onClick={handleLogout}>logout</button>) : (<button onClick={() => setOpenLoginModal(true)}>login</button>)}
-          {!userData.uid && (<button onClick={() => gotoSignUpPage()}>회원가입</button>)}
+          {userData.uid && <User />}
+          {userData.uid ? (
+            <button onClick={handleLogout}>logout</button>
+          ) : (
+            <button onClick={handleOpenModal}>login</button>
+          )}
+          {!userData.uid && <button onClick={() => gotoSignUpPage()}>회원가입</button>}
         </div>
       </Nav>
-      {openLoginModal && (
-        <Modal
-          isOpen={openLoginModal}
-          onRequestClose={() => setOpenLoginModal(false)}
-          style={customModalStyles}
-          contentLabel="Select Login Type"
-        >
-          <ModalDiv>
-            <h3>Trend News 로그인</h3>
-            <ModalButton onClick={handleLogin}>
-              <FcGoogle />
-              구글 계정으로 로그인
-            </ModalButton>
-            <ModalButton>
-              <MdEmail />
-              이메일로 로그인
-            </ModalButton>
-          </ModalDiv>
-        </Modal>
-      )}
+      <LoginModal />
+
     </>
   );
 }
@@ -100,10 +65,8 @@ const Nav = styled.nav`
   left: 0;
   right: 0;
   height: 80px;
-
   background-color: #232323;
   color: white;
-
 z-index: 1;
 
 &:hover {
@@ -115,11 +78,9 @@ box-shadow: 1px 1px 1px 1px #A58D7F;
     position: absolute;
     left: 3%;
     top: 27%;
-
     font-size: 2rem;
     font-weight: bold;
     color: #c78159;
-
     cursor: pointer;
 
     &:focus {
@@ -142,10 +103,8 @@ box-shadow: 1px 1px 1px 1px #A58D7F;
     font-size: 18px;
     color: #a58d7f;
     font-weight: lighter;
-
-height: 40px;
-
-padding-left:15px;
+    height: 40px;
+    padding-left:15px;
 background-color: transparent;
 cursor: pointer;
 
@@ -156,47 +115,7 @@ cursor: pointer;
   }
 `;
 
-const ModalDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-items: center;
-  align-items: center;
-  gap: 1rem;
 
-  h3 {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: white;
-    padding: 1rem;
-  }
-`;
-const ModalButton = styled.button`
-  font-size: 1.1rem;
-  color: white;
-  margin: auto;
-  padding: 0.5rem;
-  border-radius: 1rem;
-  background-color: var(--color-bright-blue);
-  cursor: pointer;
-`;
 
-const customModalStyles = {
-  overlay: {
-    backgroundColor: 'rgba(255, 255, 255, 0.5)',
-    width: '100%',
-    height: '100%'
-  },
-  content: {
-    width: '500px',
-    height: '300px',
-    zIndex: '100',
-    position: 'fixed',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%,-50%)',
-    borderRadius: '10px',
-    backgroundColor: 'var(--color-gray-blue)'
-  }
-};
 
-export default Navbar;
+

@@ -1,19 +1,26 @@
 import React, { useState } from 'react';
-import { emailLogin, signUp } from 'api/firebase';
+import { emailLogin, signUp } from '../api/firebase';
 import { styled } from 'styled-components';
 import { useNavigate } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { loginUser } from '../redux/modules/userData';
+import { closeLoginModal } from '../redux/modules/showModal';
 
 export default function SignUpForm({ text }) {
-  console.log(text);
   const [form, setForm] = useState({ email: '', password: '' });
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (text === '회원가입') signUp(form.email, form.password);
-    else emailLogin(form.email, form.password);
+    else {
+      emailLogin(form.email, form.password);
+    }
+    dispatch(closeLoginModal());
     navigate('/');
-  };
+  }
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
@@ -21,6 +28,7 @@ export default function SignUpForm({ text }) {
 
   return (
     <>
+      <Title>Wor__d {text}</Title>
       <StyleForm onSubmit={handleSubmit}>
         <StyleEmailWrap>
           <StyleLabel htmlFor="email">Email : </StyleLabel>
@@ -52,10 +60,16 @@ export default function SignUpForm({ text }) {
   );
 }
 
+const Title = styled.h1`
+    font-size:1.2rem;
+    color:white;
+    text-align: center;
+`;
+
 const StyleForm = styled.form`
   display: flex;
   flex-direction: column;
-  /* margin-top: 200px; */
+  margin-Top: 80px;
 `;
 const StyleEmailWrap = styled.div`
   width: 400px;
