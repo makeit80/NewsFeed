@@ -16,6 +16,8 @@ function KeywordChat() {
   const filterComments = comments.filter((comment) => comment.keyword === param.id);
   console.log(comments);
 
+  const userData = useSelector((state) => state.userData);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -39,9 +41,11 @@ function KeywordChat() {
   }, []);
 
   const newComment = {
+    userImage: userData.photoURL,
     text,
     keyword: param.id,
-    id: Date.now()
+    id: Date.now(),
+    userName: userData.displayName
   };
 
   const addCommenthandler = (e) => {
@@ -66,13 +70,19 @@ function KeywordChat() {
       <div>
         {filterComments &&
           filterComments.map((item) => (
-            <StCommentBox key={item.id}>
+            <StUserCommentWrap>
               <div>
-                <p>{item.text}</p>
-                <button>수정</button>
-                <button>삭제</button>
+                <StProfile src={item.userImage} />
+                <p style={{ float: 'right', lineHeight: '50px' }}>{item.userName}</p>
               </div>
-            </StCommentBox>
+              <StCommentBox key={item.id}>
+                <div>
+                  <p>{item.text}</p>
+                  <button>수정</button>
+                  <button>삭제</button>
+                </div>
+              </StCommentBox>
+            </StUserCommentWrap>
           ))}
       </div>
     </Stbackground>
@@ -115,11 +125,18 @@ const StCommentBtn = styled.button`
   background-color: #333;
   color: #fff;
 `;
-
-const StCommentBox = styled.div`
+const StUserCommentWrap = styled.div`
   width: 600px;
   height: auto;
   margin: 20px auto;
+`;
+const StProfile = styled.img`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+`;
+const StCommentBox = styled.div`
   padding: 20px;
   border-radius: 20px 20px 20px 0;
   border: 1px solid #000;
