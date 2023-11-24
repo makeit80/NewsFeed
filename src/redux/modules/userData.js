@@ -1,39 +1,44 @@
-const LOGIN_USER = 'user/login';
-const LOGOUT_USER = 'user/logout';
+const USER_DATA = 'user/Data';
+const USER_EDIT = 'user/Edit';
 
-export const loginUser = (payload) => {
-  //유저의 사진,uid가 담긴 정보
-  return {
-    type: LOGIN_USER,
-    payload
-  };
+
+export const userList = (payload) => {
+    return {
+        type: USER_DATA,
+        payload
+    };
 };
 
-export const logoutUSer = (payload) => {
-  return {
-    type: LOGOUT_USER,
-    payload
-  };
+export const editUser = (payload) => {
+    return {
+        type: USER_EDIT,
+        payload
+    };
 };
+
 
 const initalState = {
-  uid: '',
-  photoURL: '',
-  displayName: ''
+    email: '',
+    uid: '',
+    displayName: '',
+    photoURL: '',
 };
 
+// TODO : 사진 편집 기능 추가
 const userData = (state = initalState, action) => {
-  switch (action.type) {
-    case LOGIN_USER:
-      let { uid, photoURL, displayName } = action.payload;
-      if (!photoURL) return { uid, photoURL: 'https://www.lab2050.org/common/img/default_profile.png', displayName };
-      return action.payload;
-    case LOGOUT_USER:
-      console.log({ ...initalState });
-      return { ...initalState };
-    default:
-      return state;
-  }
+    switch (action.type) {
+        case USER_DATA:
+            console.log('payload =====> ', action.payload)
+            let { email, uid, photoURL, displayName } = action.payload;
+            console.log('inputtest ===> ', email, displayName)
+            if (!photoURL) return { uid, photoURL: 'https://www.lab2050.org/common/img/default_profile.png', displayName };
+            return action.payload;
+        case USER_EDIT:
+            // TODO : uid값으로 비교 후 map 함수를 이용해 데이터 편집하기
+            return action.payload;
+        default:
+            return state;
+    }
 };
 
 export default userData;

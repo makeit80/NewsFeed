@@ -2,6 +2,7 @@ import React from 'react';
 import SignUpForm from 'components/SignUpForm';
 import { useNavigate } from 'react-router';
 
+// TODO : SignUpForm과 합치기
 function Signup() {
   const navigate = useNavigate();
   const gotoHome = () => {
@@ -10,7 +11,7 @@ function Signup() {
   return (
     <div>
       <div onClick={() => gotoHome()}>뒤로가기</div>
-      <SignUpForm text='회원가입' />
+      <SignUpForm/>
     </div>
   );
 }

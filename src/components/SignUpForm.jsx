@@ -5,10 +5,11 @@ import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { closeLoginModal } from '../redux/modules/showModal';
 import { async } from 'q';
+import { userList } from '../redux/modules/userData'
 
-export default function SignUpForm({ text }) {
-  const navigate = useNavigate();
+export default function SignUpForm() {
   const dispatch = useDispatch();
+
 
   // 1. Input info
   const [form, setForm] = useState({name: '', email: '', password: '', passwordConfirm: ''});
@@ -78,28 +79,19 @@ export default function SignUpForm({ text }) {
     }
   }, [form]);
 
+  // TODO : redux로 계정 상태관리
 
   // 4. Submit
-  const onSubmit = useCallback((e) => {
-    e.preventDefault()
-    signUp(form.email, form.password)
-  }, [form]);
-
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (text === '회원가입') signUp(form.email, form.password);
-    else {
-      emailLogin(form.email, form.password);
-    }
-    dispatch(closeLoginModal());
-    navigate('/');
-  }
+    console.log('dispatch')
+    dispatch(userList({email: form.email, displayName: form.name}))
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm({ ...form, [name]: value });
-  };
+    signUp(form.email, form.password);
+    // TODO : userList에 email, name 추가하기
+    // dispatch(userList())
+    
+  }
 
   
 
@@ -107,26 +99,66 @@ export default function SignUpForm({ text }) {
     <Stbody>
       <StyleForm onSubmit={handleSubmit}>
         <StDiv>
-          <StInput type='text' name='name' placeholder='Name' onChange={onChangeHandler} />
-          {form.name.length > 0 && <StSpan className={`message ${isName ? 'success' : 'error'}`}>{nameMessage}</StSpan>}
+          <StInput 
+          type='text' 
+          name='name' 
+          placeholder='Name' 
+          onChange={onChangeHandler} 
+          autocomplete='off' />
+
+          {form.name.length > 0 && 
+          <StSpan className={`message ${isName ? 'success' : 'error'}`}>
+            {nameMessage}
+          </StSpan>}
         </StDiv>
+
         <StDiv>
-          <StInput type='email' name='email' placeholder='Email' onChange={onChangeHandler} />
-          {form.email.length > 0 && <StSpan className={`message ${isEmail ? 'success' : 'error'}`}>{emailMessage}</StSpan>}
+          <StInput 
+          type='email' 
+          name='email' 
+          placeholder='Email' 
+          onChange={onChangeHandler} 
+          autocomplete='off' />
+
+          {form.email.length > 0 && 
+          <StSpan className={`message ${isEmail ? 'success' : 'error'}`}>
+            {emailMessage}
+          </StSpan>}
         </StDiv>
+
         <StDiv>
-          <StInput type='password' name='password' placeholder='Password' onChange={onChangeHandler} />
+          <StInput 
+          type='password' 
+          name='password' 
+          placeholder='Password' 
+          onChange={onChangeHandler} 
+          autocomplete='off' />
           {form.password.length > 0 && <StSpan className={`message ${isPassword ? 'success' : 'error'}`}>{passwordMessage}</StSpan>}
         </StDiv>
         <StDiv>
-          <StInput type='password' name='passwordConfirm' placeholder='Confirm' onChange={onChangeHandler} />
-          {form.password.length > 0 && <StSpan className={`message ${isPasswordConfirm ? 'success' : 'error'}`}>{passwordConfirmMessage}</StSpan>}
+          <StInput 
+          type='password' 
+          name='passwordConfirm' 
+          placeholder='Confirm' 
+          onChange={onChangeHandler} 
+          autocomplete='off' />
+
+          {form.password.length > 0 && 
+          <StSpan className={`message ${isPasswordConfirm ? 'success' : 'error'}`}>
+            {passwordConfirmMessage}
+          </StSpan>}
         </StDiv>
-        <StyleBtn>{text}</StyleBtn>
+        <StyleBtn
+        type='submit'
+        disabled={!(isName && isEmail && isPassword && isPasswordConfirm)}
+        >회원가입</StyleBtn>
       </StyleForm>
     </Stbody>
   );
 }
+
+
+
 const Stbody = styled.body`
   width: 100vw;
   height: 100vh;
@@ -138,7 +170,7 @@ const StyleForm = styled.form`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  margin-Top: 150px;
+  margin-Top: 200px;
 
 `;
 const StDiv = styled.div`
@@ -151,7 +183,6 @@ const StDiv = styled.div`
   flex-direction: column;
 
   position: relative;
-  border: 1px solid red;
 
 `
 const StInput = styled.input`
@@ -169,14 +200,14 @@ const StInput = styled.input`
   color: white;
 `;
 const StSpan = styled.span`
-    height: 40px;
+  height: 40px;
 
-    position: absolute;
+  position: absolute;
   bottom: 10%;
 
   &.success {
     transition: 0.5s;
-    color: #8f8c8b;
+    color: #2bcf54;
   }
   &.error {
     transition: 0.5s;
@@ -188,7 +219,7 @@ const StyleBtn = styled.button`
   width: 400px;
   height: 50px;
   margin: 0 auto;
-  margin-top: 80px;
+  margin-top: 25px;
   background-color: var(--color-logo);
   border: none;
   border-radius: 5px;

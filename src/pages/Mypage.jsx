@@ -1,11 +1,14 @@
 import React from 'react'
 import styled from "styled-components"
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
 
 
 function Mypage() {
+    const params = useParams();
     const userData = useSelector((state) => state.userData);
     console.log('userData', userData)
+    // TODO : 구글 로그인 시 button display none으로 변경
 
     return (
         <Stbody>
