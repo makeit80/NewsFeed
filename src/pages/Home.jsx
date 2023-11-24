@@ -59,7 +59,8 @@ function Home() {
     <Stbody>
       <StMain>
         <StUl height={'500px'} marginTop={'50px'}>
-          {keywordList.value.map((item, i) => {
+          {
+          keywordList.value.map((item, i) => {
             return (
               <Stli
                 onClick={() => {
@@ -80,7 +81,8 @@ function Home() {
                 {/* <StTime>{item.date}</StTime> */}
               </Stli>
             );
-          })}
+          })
+          }
         </StUl>
         <StUl height={'400px'} marginTop={'100px'}></StUl>
       </StMain>

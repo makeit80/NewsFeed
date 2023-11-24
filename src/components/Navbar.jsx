@@ -61,7 +61,7 @@ function Navbar() {
     <>
       <Nav>
         {userData && console.log(userData)}
-        <h1>Wor__d</h1>
+        <h1 onClick={() => {navigate('/')}}>Wor__d</h1>
         <div>
           {/* mypage state만들어서 mypage로 이동 시 Navbar의 User Component 안보이게 설정 */}
           {userData.uid && <User user={userData}/>}
@@ -119,8 +119,15 @@ box-shadow: 1px 1px 1px 1px #A58D7F;
     font-size: 2rem;
     font-weight: bold;
     color: #c78159;
+
+    cursor: pointer;
+
     &:focus {
       outline: none;
+    }
+    &:hover {
+      color: #84898c;
+      transition: 0.5s;
     }
   }
 
