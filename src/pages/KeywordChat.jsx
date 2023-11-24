@@ -1,42 +1,78 @@
-import React, { useState } from 'react';
+import { db } from 'api/firebase';
+import { addDoc, collection, getDocs, query } from 'firebase/firestore';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { addComment } from 'redux/modules/comments';
+import { addComment, getComment } from 'redux/modules/comments';
 import styled from 'styled-components';
 
 function KeywordChat() {
   const param = useParams();
   console.log(param.id);
 
-  const [comment, setComment] = useState();
+  const [text, setText] = useState('');
 
   const comments = useSelector((state) => state.comments);
-  console.log('코멘트', comments);
-
-  const newComment = {
-    comment: comment
-  };
+  console.log(comments);
 
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const q = query(collection(db, 'comments'));
+      const querySnapshot = await getDocs(q);
+
+      const initialComments = [];
+
+      querySnapshot.forEach((doc) => {
+        const data = {
+          id: doc.id,
+          ...doc.data()
+        };
+        console.log('data', data);
+        initialComments.push(data);
+      });
+      dispatch(getComment(initialComments));
+    };
+    fetchData();
+  }, []);
+
+  const newComment = {
+    text,
+    keyword: param.id,
+    id: Date.now()
+  };
+
+  const addCommenthandler = (e) => {
+    e.preventDefault();
+
+    dispatch(addComment(newComment));
+    setText('');
+
+    addDoc(collection(db, 'comments'), newComment);
+  };
   return (
     <Stbackground>
       <Stdiv>
         <span>키워드 : </span>
         <span>{param.id}</span>
       </Stdiv>
-      <StForm
-        onSubmit={(e) => {
-          e.preventDefault();
-
-          dispatch(addComment(newComment));
-          setComment('');
-        }}
-      >
-        <StCommentInput value={comment} onChange={(e) => setComment(e.target.value)} />
+      <StForm onSubmit={addCommenthandler}>
+        <StCommentInput value={text} onChange={(e) => setText(e.target.value)} />
         <StCommentBtn type="submit">입력</StCommentBtn>
       </StForm>
-      <div>{comments && comments.map((item) => <StCommentBox>{item.comment}</StCommentBox>)}</div>
+      <div>
+        {comments &&
+          comments.map((item) => (
+            <StCommentBox key={item.id}>
+              <div>
+                <p>{item.text}</p>
+                <button>수정</button>
+                <button>삭제</button>
+              </div>
+            </StCommentBox>
+          ))}
+      </div>
     </Stbackground>
   );
 }
