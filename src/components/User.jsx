@@ -5,7 +5,6 @@ import { styled } from 'styled-components';
 
 export default function User() {
     const userData = useSelector((state) => state.userData);
-    console.log(userData);
     const { photoURL, uid } = userData;
     const navigate = useNavigate()
 
