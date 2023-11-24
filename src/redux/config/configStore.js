@@ -3,12 +3,14 @@ import { combineReducers } from 'redux';
 import keywordData from 'redux/modules/keywordData';
 import userData from 'redux/modules/userData';
 import comments from 'redux/modules/comments';
+import showModal from 'redux/modules/showModal';
 import thunk from 'redux-thunk';
 
 const rootReducer = combineReducers({
   keywordData,
   userData,
-  comments
+  comments,
+  showModal
 });
 //const logger = createLogger();
 const store = createStore(rootReducer, applyMiddleware(thunk));

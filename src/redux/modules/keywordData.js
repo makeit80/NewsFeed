@@ -23,9 +23,9 @@ export const editData = (payload) => {
 const keywordData = (state = initialState, action) => {
     switch (action.type) {
         case INPUT_DATA:
-            return {value: action.payload}
+            return { value: action.payload }
         case EDIT_DATA:
-            return {value: [...state.value, action.payload]}
+            return { value: [...state.value, action.payload] }
         default:
             return state;
     }
