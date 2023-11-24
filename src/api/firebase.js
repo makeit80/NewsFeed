@@ -8,7 +8,8 @@ import {
   signOut,
   signInWithPopup
 } from 'firebase/auth';
-import { useNavigate } from 'react-router';
+import { useReducer } from 'react';
+
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -31,9 +32,6 @@ provider.setCustomParameters({
 export async function googleLogin() {
   return await signInWithPopup(auth, provider)
     .then((result) => {
-      console.log(result);
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
       const user = result.user;
       return user;
     })
@@ -41,38 +39,33 @@ export async function googleLogin() {
 }
 
 export async function emailLogin(email, password) {
-    return await signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            const user = userCredential.user;
-            console.log(user);
-            // ...
-        })
-        .catch((error) => console.error(error));
+  return await signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      return user;
+    })
+    .catch((error) => console.error(error));
 }
 
 export async function signUp(email, password) {
   return await createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
+      return user;
     })
     .catch((error) => console.error(error));
 }
 
 export async function logout() {
-  return await signOut(auth)
-    .then(() => console.log('로그아웃 완료'))
-    .catch((error) => console.error(error));
+  return await signOut(auth).catch((error) => console.error(error));
 }
 
 export function onAuthStateChange(callback) {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       //로그인 되어 있으면 로그아웃 버튼 존재
-      console.log(user);
       const uid = user.uid;
       callback(user);
     }
   });
 }
-
-export default app;
