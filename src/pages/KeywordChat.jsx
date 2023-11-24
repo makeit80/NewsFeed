@@ -13,6 +13,7 @@ function KeywordChat() {
   const [text, setText] = useState('');
 
   const comments = useSelector((state) => state.comments);
+  const filterComments = comments.filter((comment) => comment.keyword === param.id);
   console.log(comments);
 
   const dispatch = useDispatch();
@@ -53,30 +54,28 @@ function KeywordChat() {
   };
 
   return (
-    <>
-      <Stbackground>
-        <Stdiv>
-          <span>키워드 : </span>
-          <span>{param.id}</span>
-        </Stdiv>
-        <StForm onSubmit={addCommenthandler}>
-          <StCommentInput value={text} onChange={(e) => setText(e.target.value)} />
-          <StCommentBtn type="submit">입력</StCommentBtn>
-        </StForm>
-        <div>
-          {comments &&
-            comments.map((item) => (
-              <StCommentBox key={item.id}>
-                <div>
-                  <p>{item.text}</p>
-                  <button>수정</button>
-                  <button>삭제</button>
-                </div>
-              </StCommentBox>
-            ))}
-        </div>
-      </Stbackground>
-    </>
+    <Stbackground>
+      <Stdiv>
+        <span>키워드 : </span>
+        <span>{param.id}</span>
+      </Stdiv>
+      <StForm onSubmit={addCommenthandler}>
+        <StCommentInput value={text} onChange={(e) => setText(e.target.value)} />
+        <StCommentBtn type="submit">입력</StCommentBtn>
+      </StForm>
+      <div>
+        {filterComments &&
+          filterComments.map((item) => (
+            <StCommentBox key={item.id}>
+              <div>
+                <p>{item.text}</p>
+                <button>수정</button>
+                <button>삭제</button>
+              </div>
+            </StCommentBox>
+          ))}
+      </div>
+    </Stbackground>
   );
 }
 

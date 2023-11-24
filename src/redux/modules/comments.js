@@ -24,7 +24,6 @@ const comments = (state = initialState, action) => {
     case GET_COMMENT:
       console.log(action.payload);
       return [...action.payload];
-
     default:
       return state;
   }
