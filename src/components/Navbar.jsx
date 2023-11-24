@@ -61,16 +61,13 @@ function Navbar() {
     <>
       <Nav>
         {userData && console.log(userData)}
-        <h1>Wor__d</h1>
+        <h1 onClick={() => {navigate('/')}}>Wor__d</h1>
         <div>
-          {userData.uid && <User user={userData} />}
-          {userData.uid && <button onClick={() => navigate(`/mypage/${userData.uid}`)}>My Page</button>}
-          {userData.uid ? (
-            <button onClick={handleLogout}>logout</button>
-          ) : (
-            <button onClick={() => setOpenLoginModal(true)}>login</button>
-          )}
-          {!userData.uid && <button onClick={() => gotoSignUpPage()}>회원가입</button>}
+          {/* mypage state만들어서 mypage로 이동 시 Navbar의 User Component 안보이게 설정 */}
+          {userData.uid && <User user={userData}/>}
+          {/* {userData.uid && (<button onClick={() => navigate(`/mypage/${userData.uid}`)}>My Page</button>)} */}
+          {userData.uid ? (<button onClick={handleLogout}>logout</button>) : (<button onClick={() => setOpenLoginModal(true)}>login</button>)}
+          {!userData.uid && (<button onClick={() => gotoSignUpPage()}>회원가입</button>)}
         </div>
       </Nav>
       {openLoginModal && (
@@ -107,10 +104,12 @@ const Nav = styled.nav`
   background-color: #232323;
   color: white;
 
-  &:hover {
-    transition: 0.5s;
-    box-shadow: 1px 1px 1px 1px #a58d7f;
-  }
+z-index: 1;
+
+&:hover {
+transition: 0.5s;
+box-shadow: 1px 1px 1px 1px #A58D7F;
+}
 
   h1 {
     position: absolute;
@@ -120,8 +119,15 @@ const Nav = styled.nav`
     font-size: 2rem;
     font-weight: bold;
     color: #c78159;
+
+    cursor: pointer;
+
     &:focus {
       outline: none;
+    }
+    &:hover {
+      color: #84898c;
+      transition: 0.5s;
     }
   }
 
@@ -129,7 +135,7 @@ const Nav = styled.nav`
     display: flex;
     position: absolute;
     right: 3%;
-    top: 35%;
+    top: 28%;
   }
 
   button {
@@ -137,9 +143,11 @@ const Nav = styled.nav`
     color: #a58d7f;
     font-weight: lighter;
 
-    padding-left: 15px;
-    background-color: transparent;
-    cursor: pointer;
+height: 40px;
+
+padding-left:15px;
+background-color: transparent;
+cursor: pointer;
 
     &:hover {
       color: #84898c;
