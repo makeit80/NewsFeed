@@ -25,8 +25,8 @@ export default function LoginModal() {
     const handleGoogleLogin = () => {
         googleLogin()
             .then((user) => {
-                const { uid, displayName, photoURL } = user;
-                dispatch(loginUser({ uid, displayName, photoURL }));
+                const { uid, photoURL } = user;
+                dispatch(loginUser({ uid, photoURL }));
                 //모달 창 닫기 요청
                 dispatch(closeLoginModal());
             });

@@ -1,14 +1,17 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 
-export default function User({ user }) {
-    const { photoURL, uid } = user;
+export default function User() {
+    const userData = useSelector((state) => state.userData);
+    console.log(userData);
+    const { photoURL, uid } = userData;
     const navigate = useNavigate()
 
     return (
         <UserInfo onClick={() => navigate(`/mypage/${uid}`)}>
-            {photoURL ? (<img src={photoURL} alt='avatar' />) : (<img src='https://www.lab2050.org/common/img/default_profile.png' alt='avatar' />)}
+            <img src={photoURL} alt='avatar' />
         </UserInfo>
     );
 }

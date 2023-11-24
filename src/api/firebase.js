@@ -8,6 +8,7 @@ import {
   signOut,
   signInWithPopup
 } from 'firebase/auth';
+import { useReducer } from 'react';
 
 
 const firebaseConfig = {
@@ -41,6 +42,7 @@ export async function emailLogin(email, password) {
   return await signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
+      return user;
     })
     .catch((error) => console.error(error));
 }

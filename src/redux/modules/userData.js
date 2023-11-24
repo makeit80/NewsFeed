@@ -25,6 +25,8 @@ const initalState = {
 const userData = (state = initalState, action) => {
     switch (action.type) {
         case LOGIN_USER:
+            let { uid, photoURL } = action.payload;
+            if (!photoURL) return { uid, photoURL: 'https://www.lab2050.org/common/img/default_profile.png' };
             return action.payload;
         case LOGOUT_USER:
             console.log({ ...initalState });

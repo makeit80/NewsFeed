@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loginUser, logoutUSer } from '../redux/modules/userData';
 import { showLoginModal } from '../redux/modules/showModal';
 
-function Navbar() {
+export default function Navbar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.userData);
@@ -44,7 +44,7 @@ function Navbar() {
           <h1>Wor__d</h1>
         </Link>
         <div>
-          {userData.uid && <User user={userData} />}
+          {userData.uid && <User />}
           {userData.uid ? (
             <button onClick={handleLogout}>logout</button>
           ) : (
@@ -65,10 +65,8 @@ const Nav = styled.nav`
   left: 0;
   right: 0;
   height: 80px;
-
   background-color: #232323;
   color: white;
-
 z-index: 1;
 
 &:hover {
@@ -80,11 +78,9 @@ box-shadow: 1px 1px 1px 1px #A58D7F;
     position: absolute;
     left: 3%;
     top: 27%;
-
     font-size: 2rem;
     font-weight: bold;
     color: #c78159;
-
     cursor: pointer;
 
     &:focus {
@@ -107,10 +103,8 @@ box-shadow: 1px 1px 1px 1px #A58D7F;
     font-size: 18px;
     color: #a58d7f;
     font-weight: lighter;
-
-height: 40px;
-
-padding-left:15px;
+    height: 40px;
+    padding-left:15px;
 background-color: transparent;
 cursor: pointer;
 
@@ -124,4 +118,4 @@ cursor: pointer;
 
 
 
-export default Navbar;
+
