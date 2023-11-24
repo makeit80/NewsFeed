@@ -51,29 +51,32 @@ function KeywordChat() {
 
     addDoc(collection(db, 'comments'), newComment);
   };
+
   return (
-    <Stbackground>
-      <Stdiv>
-        <span>키워드 : </span>
-        <span>{param.id}</span>
-      </Stdiv>
-      <StForm onSubmit={addCommenthandler}>
-        <StCommentInput value={text} onChange={(e) => setText(e.target.value)} />
-        <StCommentBtn type="submit">입력</StCommentBtn>
-      </StForm>
-      <div>
-        {comments &&
-          comments.map((item) => (
-            <StCommentBox key={item.id}>
-              <div>
-                <p>{item.text}</p>
-                <button>수정</button>
-                <button>삭제</button>
-              </div>
-            </StCommentBox>
-          ))}
-      </div>
-    </Stbackground>
+    <>
+      <Stbackground>
+        <Stdiv>
+          <span>키워드 : </span>
+          <span>{param.id}</span>
+        </Stdiv>
+        <StForm onSubmit={addCommenthandler}>
+          <StCommentInput value={text} onChange={(e) => setText(e.target.value)} />
+          <StCommentBtn type="submit">입력</StCommentBtn>
+        </StForm>
+        <div>
+          {comments &&
+            comments.map((item) => (
+              <StCommentBox key={item.id}>
+                <div>
+                  <p>{item.text}</p>
+                  <button>수정</button>
+                  <button>삭제</button>
+                </div>
+              </StCommentBox>
+            ))}
+        </div>
+      </Stbackground>
+    </>
   );
 }
 
