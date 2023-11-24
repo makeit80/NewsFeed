@@ -1,17 +1,18 @@
-import { createStore } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
 import { combineReducers } from 'redux';
 import keywordData from 'redux/modules/keywordData';
 import userData from 'redux/modules/userData';
 import comments from 'redux/modules/comments';
 import showModal from 'redux/modules/showModal';
+import thunk from 'redux-thunk';
 
 const rootReducer = combineReducers({
-    keywordData,
-    userData,
-    comments,
-    showModal
+  keywordData,
+  userData,
+  comments,
+  showModal
 });
-
-const store = createStore(rootReducer);
+//const logger = createLogger();
+const store = createStore(rootReducer, applyMiddleware(thunk));
 
 export default store;

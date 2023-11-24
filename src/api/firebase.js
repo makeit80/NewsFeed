@@ -8,8 +8,8 @@ import {
   signOut,
   signInWithPopup
 } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
 import { useReducer } from 'react';
-
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -22,6 +22,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+export const db = getFirestore(app);
 
 const provider = new GoogleAuthProvider();
 //자동 로그인 방지
