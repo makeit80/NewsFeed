@@ -10,91 +10,85 @@ import { useNavigate } from 'react-router-dom';
 
 function Home() {
   const navigate = useNavigate();
-  // *** Request failed with status code 429 시 주석처리 ***
-  // const keywordList = useSelector((state) => {
-  //   return state.keywordData;
-  // });
-  // const dispatch = useDispatch();
+  let keywordItem = [];
 
-  // useEffect(() => {
-  //   const cheerio = require('cheerio');
-  //   const getRss = async () => {
-  //     try {
-  //       return await axios.get(
-  //         `https://cors-anywhere.herokuapp.com/https://trends.google.co.kr/trends/trendingsearches/daily/rss?geo=KR`
-  //       );
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
+  const keywordList = useSelector((state) => {
+    return state.keywordData;
+  });
+  const dispatch = useDispatch();
 
-  //   getRss().then((html) => {
-  //     const $ = cheerio.load(html.data);
-  //     let keywordItem = [];
+  useEffect(() => {
+    const cheerio = require('cheerio');
+    const getRss = async () => {
+      try {
+        return await axios.get(
+          `https://cors-anywhere.herokuapp.com/https://trends.google.co.kr/trends/trendingsearches/daily/rss?geo=KR`
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-  //     $('item').each((i, el) => {
-  //       const Data = {
-  //         keyword: $(el).find('title').text(),
-  //         date: $(el).find('pubDate').text(),
-  //         traffic: $(el).children('ht\\:approx_traffic').text(),
-  //         title: $(el)
-  //           .find(':nth-child(8) > ht\\:news_item_title')
-  //           .text()
-  //           .replace(/(&#39;|&quot;)/g, ''),
-  //         source: $(el).find(':nth-child(8) > ht\\:news_item_source').text()
-  //         // link : $(el).find(':nth-child(8) > ht:\\news_item_url').text()
-  //       };
-  //       keywordItem.push(Data);
-  //     });
-  //     console.log('Data ==========> ', keywordItem)
+    getRss().then((html) => {
+      const $ = cheerio.load(html.data);
 
-  //     dispatch(insertData(keywordItem));
-  //   });
-  // }, []);
-  // ***
-
+      $('item').each((i, el) => {
+        const Data = {
+          keyword: $(el).find('title').text(),
+          // date: $(el).find('pubDate').text(), -> 작성한 기사 날짜와 달라서 주석처리함. 검색어가 나온 날짜같기도..?
+          traffic: $(el).children('ht\\:approx_traffic').text(),
+          title: $(el)
+            .find(':nth-child(8) > ht\\:news_item_title')
+            .text()
+            .replace(/(&#39;|&quot;)/g, ''),
+          content: $(el).find(':nth-child(8) > ht\\:news_item_snippet').text(),
+          source: $(el).find(':nth-child(8) > ht\\:news_item_source').text(),
+          link: $(el).find(':nth-child(8) > ht\\:news_item_url').text()
+        };
+        keywordItem.push(Data);
+      });
+      dispatch(insertData(keywordItem));
+    });
+  }, []);
 
   const handleClickKeyword = (item) => {
-    navigate(`keywordchat/${item}`);
+    navigate(`keywordchat/${item}`, { state: { item, keywordList } });
   };
 
   return (
     <Stbody>
       <StMain>
-        <StUl height={'500px'} marginTop={'50px'}>
-          { // *** Request failed with status code 429 시 주석처리 ***
-          // keywordList.value.map((item, i) => {
-          //   return (
-          //     <Stli
-          //       onClick={() => {
-          //         handleClickKeyword(item.keyword);
-          //       }}
-          //     >
-          //       <StSpan>{i + 1}위 </StSpan>
-          //       <StLabel>{item.keyword}</StLabel>
-          //       <StP width={'100px'} right={'11.5%'} top={'30%'} fontSize={'20px'} color={'#cecece'}>
-          //         {item.traffic}
-          //       </StP>
-          //       <StP width={'50px'} right={'21.5%'} top={'38%'} fontSize={'10px'} color={'gray'}>
-          //         검색횟수
-          //       </StP>
-          //       <StP width={'50px'} right={'6.5%'} top={'38%'} fontSize={'10px'} color={'gray'}>
-          //         댓글
-          //       </StP>
-          //       {/* <StTime>{item.date}</StTime> */}
-          //     </Stli>
-          //   );
-          // })
-          // ***
-          } 
+        <StUl $height={'500px'} $marginTop={'50px'}>
+          {keywordList.value.map((item, i) => {
+            return (
+              <Stli key={item.keyword}
+                onClick={() => {
+                  handleClickKeyword(item.keyword);
+                }}
+              >
+                <StSpan>{i + 1}위 </StSpan>
+                <StLabel>{item.keyword}</StLabel>
+                <StP width={'100px'} $right={'11.5%'} $top={'30%'} fontSize={'20px'} color={'#cecece'}>
+                  {item.traffic}
+                </StP>
+                <StP width={'50px'} $right={'21.5%'} $top={'38%'} fontSize={'10px'} color={'gray'}>
+                  검색횟수
+                </StP>
+                <StP width={'50px'} $right={'6.5%'} $top={'38%'} fontSize={'10px'} color={'gray'}>
+                  댓글
+                </StP>
+                {/* <StTime>{item.date}</StTime> */}
+              </Stli>
+            );
+          })}
         </StUl>
-        <StUl height={'400px'} marginTop={'100px'}></StUl>
+        <StUl $height={'400px'} $marginTop={'100px'}></StUl>
       </StMain>
     </Stbody>
   );
 }
 
-const Stbody = styled.body`
+const Stbody = styled.div`
   min-width: 1000px;
   background-color: black;
 `;
@@ -109,7 +103,7 @@ const StMain = styled.main`
 `;
 const StUl = styled.ul`
   width: 1000px;
-  height: ${(props) => props.height};
+  height: ${(props) => props.$height};
 
   display: grid;
   grid-template-columns: 1fr;
@@ -121,7 +115,7 @@ const StUl = styled.ul`
   overflow: auto;
   overflow-x: hidden;
 
-  margin-top: ${(props) => props.marginTop};
+  margin-top: ${(props) => props.$marginTop};
 
   scroll-behavior: smooth;
   &::-webkit-scrollbar {
@@ -177,8 +171,8 @@ const StP = styled.p`
   width: ${(props) => props.width};
 
   position: absolute;
-  right: ${(props) => props.right};
-  top: ${(props) => props.top};
+  right: ${(props) => props.$right};
+  top: ${(props) => props.$top};
 
   font-size: ${(props) => props.fontSize};
   color: ${(props) => props.color};

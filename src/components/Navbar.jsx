@@ -16,6 +16,7 @@ export default function Navbar() {
   useEffect(() => {
     onAuthStateChange((user) => {
       const { uid, photoURL, displayName } = user;
+      console.log(user);
       user && dispatch(loginUser({ uid, photoURL, displayName }));
     });
   }, []);
