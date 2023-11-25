@@ -1,10 +1,11 @@
 import { db } from 'api/firebase';
-import KeywordNews from '../components/KeywordNews';
-import { addDoc, collection, getDocs, query } from 'firebase/firestore';
+import KeywordNews from 'components/KeywordNews';
+import UserComment from 'components/UserComment';
+import { addDoc, collection, doc, getDocs, query, updateDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { addComment, getComment } from 'redux/modules/comments';
+import { addComment, getComment, switchComment, updateComment } from 'redux/modules/comments';
 import styled from 'styled-components';
 
 function KeywordChat() {
@@ -13,9 +14,12 @@ function KeywordChat() {
   const [text, setText] = useState('');
 
   const comments = useSelector((state) => state.comments);
-  const filterComments = comments.filter((comment) => comment.keyword === param.id);
-  console.log(comments);
+
   const userData = useSelector((state) => state.userData);
+
+  const filterComments = comments.filter((comment) => comment.keyword === param.id);
+
+  const [updateComments, setUpdateComments] = useState([...comments]);
 
   const dispatch = useDispatch();
 
@@ -44,7 +48,8 @@ function KeywordChat() {
     text,
     keyword: param.id,
     id: Date.now(),
-    userName: userData.displayName
+    userName: userData.displayName,
+    isUpdate: false
   };
 
   const addCommenthandler = (e) => {
@@ -58,35 +63,35 @@ function KeywordChat() {
     dispatch(addComment(newComment));
     addDoc(collection(db, 'comments'), newComment);
   };
+  const [isCommentUpdate, setIsCommentUpdate] = useState(false);
+
+  const deleteBtn = (id) => {
+    console.log(id);
+  };
 
   return (
-    <>
-      <Stbackground>
-        <KeywordNews />
-        <StForm onSubmit={addCommenthandler}>
-          <StCommentInput value={text} onChange={(e) => setText(e.target.value)} />
-          <StCommentBtn type="submit">입력</StCommentBtn>
-        </StForm>
-        <div>
-          {filterComments &&
-            filterComments.map((item) => (
-              <StUserCommentWrap>
-                <div>
-                  <StProfile src={item.userImage} />
-                  <p style={{ float: 'right', lineHeight: '50px' }}>{item.userName}</p>
-                </div>
-                <StCommentBox>
-                  <div key={item.id}>
-                    <p>{item.text}</p>
-                    <button>수정</button>
-                    <button>삭제</button>
-                  </div>
-                </StCommentBox>
-              </StUserCommentWrap>
-            ))}
-        </div>
-      </Stbackground>
-    </>
+    <Stbackground>
+      <KeywordNews />
+      <StForm onSubmit={addCommenthandler}>
+        <StCommentInput required value={text} onChange={(e) => setText(e.target.value)} />
+        <StCommentBtn type="submit">입력</StCommentBtn>
+      </StForm>
+      <div>
+        {filterComments &&
+          filterComments.map((item) => (
+            <StUserCommentWrap>
+              <UserComment
+                comments={comments}
+                handler={{
+                  deleteBtn
+                }}
+              >
+                {item}
+              </UserComment>
+            </StUserCommentWrap>
+          ))}
+      </div>
+    </Stbackground>
   );
 }
 
@@ -96,19 +101,19 @@ const Stbackground = styled.div`
   padding: 80px;
 `;
 
-// const Stdiv = styled.div`
-//   text-align: center;
-//   margin: 20px auto;
-//   background-color: #eee;
-//   width: 400px;
-//   height: 50px;
-//   line-height: 50px;
-// `;
+const Stdiv = styled.div`
+  text-align: center;
+  margin: 20px auto;
+  background-color: #eee;
+  width: 400px;
+  height: 50px;
+  line-height: 50px;
+`;
 
 const StForm = styled.form`
   width: 600px;
   height: 100px;
-  margin: 2rem auto;
+  margin: 0 auto;
   background-color: #eee;
 `;
 
@@ -130,18 +135,6 @@ const StUserCommentWrap = styled.div`
   width: 600px;
   height: auto;
   margin: 20px auto;
-`;
-const StProfile = styled.img`
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  margin-bottom: 10px;
-`;
-const StCommentBox = styled.div`
-  padding: 20px;
-  border-radius: 20px 20px 20px 0;
-  border: 1px solid #000;
-  word-break: break-all;
 `;
 
 export default KeywordChat;
