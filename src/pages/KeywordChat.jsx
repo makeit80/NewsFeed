@@ -1,4 +1,5 @@
 import { db } from 'api/firebase';
+import KeywordNews from 'components/KeywordNews';
 import UserComment from 'components/UserComment';
 import { addDoc, collection, doc, getDocs, query, updateDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
@@ -60,12 +61,13 @@ function KeywordChat() {
   };
   const [isCommentUpdate, setIsCommentUpdate] = useState(false);
 
+  const deleteBtn = (id) => {
+    console.log(id);
+  };
+
   return (
     <Stbackground>
-      <Stdiv>
-        <span>키워드 : </span>
-        <span>{param.id}</span>
-      </Stdiv>
+      <KeywordNews />
       <StForm onSubmit={addCommenthandler}>
         <StCommentInput required value={text} onChange={(e) => setText(e.target.value)} />
         <StCommentBtn type="submit">입력</StCommentBtn>
@@ -74,7 +76,14 @@ function KeywordChat() {
         {filterComments &&
           filterComments.map((item) => (
             <StUserCommentWrap>
-              <UserComment comments={comments}>{item}</UserComment>
+              <UserComment
+                comments={comments}
+                handler={{
+                  deleteBtn
+                }}
+              >
+                {item}
+              </UserComment>
             </StUserCommentWrap>
           ))}
       </div>
