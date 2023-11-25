@@ -25,9 +25,9 @@ const initalState = {
 const userData = (state = initalState, action) => {
     switch (action.type) {
         case USER_DATA:
-            return {value : action.payload};
+            return { value: action.payload };
         case USER_EDIT:
-            return {value: [...state, action.payload]};
+            return { value: [...state, action.payload] };
         default:
             return state;
     }

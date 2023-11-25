@@ -1,21 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import styled from "styled-components"
-<<<<<<< HEAD
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-import { collection, doc, getDocs, query, addDoc, updateDoc } from "firebase/firestore"; 
+import { collection, doc, getDocs, query, addDoc, updateDoc } from "firebase/firestore";
 import { db } from 'api/firebase';
 import { userList } from 'redux/modules/userList';
-=======
-import { useSelector } from 'react-redux';
->>>>>>> 2f47504d277d46c2e4ca9c3c7206988dcbaa16ca
 
 
 function Mypage() {
     // TODO : 조건문으로 uid가 store에 있으면 기존 데이터 반환, 없으면 userData의 값을 반환
 
     const userData = useSelector((state) => state.userData);
-<<<<<<< HEAD
     const userList = useSelector((state) => state.userList);
 
     const target = userList.value.find((item) => item.id === userData.uid)
@@ -29,7 +24,7 @@ function Mypage() {
     //     const fetchData = async () => {
     //         const q = query(collection(db, "users", target.id));
     //         const querySnapshot = await getDocs(q);
-            
+
     //         const initialData = [];
     //         querySnapshot.forEach((doc) => {
     //             const data = {
@@ -70,8 +65,6 @@ function Mypage() {
     // store에 저장된 displayName, photoURL 가져오기
 
 
-=======
->>>>>>> 2f47504d277d46c2e4ca9c3c7206988dcbaa16ca
 
     return (
         <Stbody>
