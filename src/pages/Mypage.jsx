@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styled from "styled-components"
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-import { collection, doc, getDocs, query, addDoc, updateDoc } from "firebase/firestore"; 
+import { collection, doc, getDocs, query, addDoc, updateDoc } from "firebase/firestore";
 import { db } from 'api/firebase';
 import { userList } from 'redux/modules/userList';
 
@@ -24,7 +24,7 @@ function Mypage() {
     //     const fetchData = async () => {
     //         const q = query(collection(db, "users", target.id));
     //         const querySnapshot = await getDocs(q);
-            
+
     //         const initialData = [];
     //         querySnapshot.forEach((doc) => {
     //             const data = {
