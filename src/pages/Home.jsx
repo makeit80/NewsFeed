@@ -59,23 +59,23 @@ function Home() {
   return (
     <Stbody>
       <StMain>
-        <StUl height={'500px'} marginTop={'50px'}>
+        <StUl height={'500px'} $marginTop={'50px'}>
           {keywordList.value.map((item, i) => {
             return (
-              <Stli
+              <Stli key={item.keyword}
                 onClick={() => {
                   handleClickKeyword(item.keyword);
                 }}
               >
                 <StSpan>{i + 1}위 </StSpan>
                 <StLabel>{item.keyword}</StLabel>
-                <StP width={'100px'} right={'11.5%'} top={'30%'} fontSize={'20px'} color={'#cecece'}>
+                <StP width={'100px'} $right={'11.5%'} $top={'30%'} fontSize={'20px'} color={'#cecece'}>
                   {item.traffic}
                 </StP>
-                <StP width={'50px'} right={'21.5%'} top={'38%'} fontSize={'10px'} color={'gray'}>
+                <StP width={'50px'} $right={'21.5%'} $top={'38%'} fontSize={'10px'} color={'gray'}>
                   검색횟수
                 </StP>
-                <StP width={'50px'} right={'6.5%'} top={'38%'} fontSize={'10px'} color={'gray'}>
+                <StP width={'50px'} $right={'6.5%'} $top={'38%'} fontSize={'10px'} color={'gray'}>
                   댓글
                 </StP>
                 {/* <StTime>{item.date}</StTime> */}
@@ -83,7 +83,7 @@ function Home() {
             );
           })}
         </StUl>
-        <StUl height={'400px'} marginTop={'100px'}></StUl>
+        <StUl $height={'400px'} $marginTop={'100px'}></StUl>
       </StMain>
     </Stbody>
   );
@@ -104,7 +104,7 @@ const StMain = styled.main`
 `;
 const StUl = styled.ul`
   width: 1000px;
-  height: ${(props) => props.height};
+  height: ${(props) => props.$height};
 
   display: grid;
   grid-template-columns: 1fr;
@@ -116,7 +116,7 @@ const StUl = styled.ul`
   overflow: auto;
   overflow-x: hidden;
 
-  margin-top: ${(props) => props.marginTop};
+  margin-top: ${(props) => props.$marginTop};
 
   scroll-behavior: smooth;
   &::-webkit-scrollbar {
@@ -171,8 +171,8 @@ const StP = styled.p`
   width: ${(props) => props.width};
 
   position: absolute;
-  right: ${(props) => props.right};
-  top: ${(props) => props.top};
+  right: ${(props) => props.$right};
+  top: ${(props) => props.$top};
 
   font-size: ${(props) => props.fontSize};
   color: ${(props) => props.color};

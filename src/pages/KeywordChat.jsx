@@ -74,8 +74,8 @@ function KeywordChat() {
                   <StProfile src={item.userImage} />
                   <p style={{ float: 'right', lineHeight: '50px' }}>{item.userName}</p>
                 </div>
-                <StCommentBox key={item.id}>
-                  <div>
+                <StCommentBox>
+                  <div key={item.id}>
                     <p>{item.text}</p>
                     <button>수정</button>
                     <button>삭제</button>
