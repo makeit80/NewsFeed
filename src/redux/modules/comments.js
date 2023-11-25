@@ -31,7 +31,7 @@ const comments = (state = initialState, action) => {
     case SWITCH_COMMENT:
       return [...action.payload];
     case DELETE_COMMENT:
-      return [];
+      return [...action.payload];
     default:
       return state;
   }

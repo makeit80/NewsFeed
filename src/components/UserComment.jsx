@@ -1,5 +1,5 @@
 import { db } from 'api/firebase';
-import { collection, doc, getDocs, query, updateDoc, where } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDocs, query, updateDoc, where } from 'firebase/firestore';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { deleteComment, switchComment } from 'redux/modules/comments';
@@ -43,8 +43,24 @@ function UserComment({ comments, children: { userImage, text, keyword, id, userN
     });
     dispatch(switchComment(newUpdateComment));
   };
-  const deleteBtn = (id) => {
-    dispatch(deleteComment());
+
+  const deleteBtn = async (id) => {
+    if (window.confirm('삭제하시겠습니까?')) {
+      const filteredComment = comments.filter((comment) => {
+        return id !== comment.id;
+      });
+      dispatch(deleteComment(filteredComment));
+    } else {
+      return alert('취소되었습니다');
+    }
+
+    const q = query(collection(db, 'comments'), where('id', '==', id));
+    const querySnapshot = await getDocs(q);
+    let ref = '';
+    querySnapshot.forEach((doc) => {
+      ref = doc.ref;
+    });
+    await deleteDoc(ref);
   };
 
   return (
