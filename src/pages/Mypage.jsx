@@ -1,14 +1,70 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from "styled-components"
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
+import { collection, doc, getDocs, query, addDoc, updateDoc } from "firebase/firestore"; 
+import { db } from 'api/firebase';
+import { userList } from 'redux/modules/userList';
 
 
 function Mypage() {
-    const params = useParams();
+    // TODO : 조건문으로 uid가 store에 있으면 기존 데이터 반환, 없으면 userData의 값을 반환
+
     const userData = useSelector((state) => state.userData);
-    console.log('userData', userData)
-    // TODO : 구글 로그인 시 button display none으로 변경
+    const userList = useSelector((state) => state.userList);
+
+    const target = userList.value.find((item) => item.id === userData.uid)
+    console.log('userList.value ===> ', userList.value)
+    console.log('userData.uid ===> ', userData.uid)
+
+    console.log('target ===> ', target)
+
+    // firebase Data check
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         const q = query(collection(db, "users", target.id));
+    //         const querySnapshot = await getDocs(q);
+            
+    //         const initialData = [];
+    //         querySnapshot.forEach((doc) => {
+    //             const data = {
+    //                 id : doc.id,
+    //                 ...doc.data(),
+    //             }
+    //             console.log('data', data)
+    //             initialData.push(data)
+    //         })
+    //     }
+    //     fetchData()
+    // }, [])
+
+
+
+    // const addData = async (e) => {
+    //     e.preventDefault();
+    //     const newData = { displayName: 'test', photoURL: 'test2' , id: Date.now()}
+    //     setBaseData((prev) => {
+    //         return[...baseData, newData];
+    //     })
+    //     console.log('add ====>', baseData)
+
+    //     const collectionRef = collection(db, "test")
+    //     await addDoc(collectionRef, newData)
+
+    // }
+
+    // const targetData = baseData.find((item) => item.id === baseData[0].id)
+    // console.log('targetData',targetData)
+    // const updateData = async () => {
+    //     const dataRef = doc(db, "test", baseData[0].id)
+    //     await updateDoc(dataRef, {...baseData[0], text: 'change'})
+    // }
+
+    // TODO : 계정 uid, displayName(기본값), photoURL(기본값) 를 id값을 uid 기준으로 Store에 저장
+    // uid params 로 find id
+    // store에 저장된 displayName, photoURL 가져오기
+
+
 
     return (
         <Stbody>
@@ -16,12 +72,15 @@ function Mypage() {
                 <StSection height={'500px'}>
                     <StLabel top={'3%'} left={'2.5%'} fontSize={'35px'} color={'#c78159;'}>Profile</StLabel>
                     <StFigure>
-                        <img src={userData.photoURL}></img>
+                        <img src={target.photoURL}></img>
                     </StFigure>
-                    <StLabel top={'45%'} left={'41%'} fontSize={'50px'} color={'white'}>{userData.displayName}</StLabel>
+                    <StLabel top={'45%'} left={'41%'} fontSize={'50px'} color={'white'}>{target.displayName}</StLabel>
                     <StButton right={'2.5%'}>이미지 업로드</StButton>
                     <StButton right={'17%'}>이미지 삭제</StButton>
                     <StButton right={'30%'}>닉네임 변경</StButton>
+                    {/* <StButton right={'50%'} onClick={addData}>테스트</StButton>
+                    <StButton right={'60%'} onClick={updateData}>업데이트</StButton> */}
+
                 </StSection>
                 <StSection height={'800px'}>
                     <div style={{ height: '80px' }}></div>

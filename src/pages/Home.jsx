@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { insertData } from 'redux/modules/keywordData';
 import { useNavigate } from 'react-router-dom';
 
+// 코드 받
 // https://cors-anywhere.herokuapp.com/corsdemo
 
 function Home() {

@@ -8,7 +8,6 @@ import styled from 'styled-components';
 
 function KeywordChat() {
   const param = useParams();
-  console.log(param.id);
 
   const [text, setText] = useState('');
 

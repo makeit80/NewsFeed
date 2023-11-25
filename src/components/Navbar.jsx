@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { useNavigate, Link } from 'react-router-dom';
 import LoginModal from './LoginModal';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginUser, logoutUSer } from '../redux/modules/loginData';
+import { loginUser, logoutUSer } from '../redux/modules/userData';
 import { showLoginModal } from '../redux/modules/showModal';
 
 export default function Navbar() {

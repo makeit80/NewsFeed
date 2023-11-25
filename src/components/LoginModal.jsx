@@ -1,46 +1,85 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import Modal from 'react-modal';
+import { useNavigate } from 'react-router';
+
+import { googleLogin, emailLogin } from 'api/firebase';
+import { collection, doc, getDocs, query, setDoc } from "firebase/firestore"; 
+import { db } from 'api/firebase';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { userList } from 'redux/modules/userList';
+import { loginUser } from 'redux/modules/userData';
+import { showLoginForm, closeLoginForm, closeLoginModal } from '../redux/modules/showModal';
+
 import { FcGoogle } from 'react-icons/fc';
 import { MdEmail } from 'react-icons/md';
-import { googleLogin, emailLogin } from 'api/firebase';
-import SignUpForm from './SignUpForm';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
-import { loginUser } from 'redux/modules/loginData';
-import { showLoginForm, closeLoginForm, closeLoginModal } from '../redux/modules/showModal';
-import { useNavigate } from 'react-router';
 
 export default function LoginModal() {
     const navigate = useNavigate();
     const isLoginModal = useSelector((state) => state.showModal.isLoginModal);
     const isLoginForm = useSelector((state) => state.showModal.isLoginForm)
+    const userAccountList = useSelector((state) => state.userList)
     const dispatch = useDispatch();
 
     const [form, setform] = useState({email: '', password: ''});
 
+    // TODO : useEffect로 기존 계정값 Store에서 불러오기 V
+    // TODO : redux userList로 데이터 전송 V
+
+    // firebase data check
+    useEffect(() => {
+        const fetchData = async () => {
+            const q = query(collection(db, "users"));
+            const querySnapshot = await getDocs(q);
+
+            const initialData = [];
+            querySnapshot.forEach((doc) => {
+                const data = {
+                    id : doc.id,
+                    ...doc.data(),
+                } 
+                console.log(data)
+                initialData.push(data)
+            })
+            return initialData;
+        }
+        fetchData().then((user) => {
+            dispatch(userList(user))
+        })
+    }, [])
+
+    // firebase add data
+    const addData = async (uid, photoURL, displayName) => {
+        const newData = { displayName: displayName, photoURL: photoURL, uid : uid}  
+        await setDoc(doc(db, "users", String(uid)), newData)
+      };
+      
     const handleClose = () => {
-        //로그인폼 안보이도록 설정
         dispatch(closeLoginForm());
-        //로그인 모달창 닫히도록 설정
         dispatch(closeLoginModal());
     }
 
     const handleGoogleLogin = () => {
         googleLogin()
             .then((user) => {
-                const { uid, photoURL, displayName } = user;
+                const { uid, photoURL, displayName } = user;                
+                const target = userAccountList.value.find((item) => item.id === uid)
+                if (!target) {
+                    // TODO : uid, photoURL, displayName 을 Store로 전송 V
+                    addData(uid, photoURL, displayName)
+                }
                 dispatch(loginUser({ uid, photoURL, displayName }));
                 dispatch(closeLoginModal());
+
             });
     }
 
     const handleEmailLogin = (e) => {
         e.preventDefault();
 
-        emailLogin(form.email, form.password);
+        emailLogin(form.email, form.password)
         dispatch(closeLoginModal())
-        // dispatch(userList())
         navigate('/')
 
         setform({email: '', password: ''})
