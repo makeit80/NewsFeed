@@ -5,9 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { insertData } from 'redux/modules/keywordData';
 import { useNavigate } from 'react-router-dom';
 
+// 코드 받
 // https://cors-anywhere.herokuapp.com/corsdemo
-// https://cors.bridged.cc/
-//console.log('app', app);
 
 function Home() {
   const navigate = useNavigate();
@@ -155,7 +154,8 @@ const StLabel = styled.label`
 
   text-align: left;
 `;
-const StTime = styled.time``;
+const StTime = styled.time`
+`;
 const StSpan = styled.span`
   width: 50px;
 

@@ -28,7 +28,7 @@ function KeywordChat() {
       const querySnapshot = await getDocs(q);
 
       const initialComments = [];
-
+      
       querySnapshot.forEach((doc) => {
         const data = {
           id: doc.id,
