@@ -9,7 +9,6 @@ import styled from 'styled-components';
 
 function KeywordChat() {
   const param = useParams();
-  console.log(param.id);
 
   const [text, setText] = useState('');
 
@@ -27,7 +26,7 @@ function KeywordChat() {
       const querySnapshot = await getDocs(q);
 
       const initialComments = [];
-
+      
       querySnapshot.forEach((doc) => {
         const data = {
           id: doc.id,
