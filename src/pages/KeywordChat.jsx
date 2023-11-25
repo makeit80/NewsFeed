@@ -14,6 +14,7 @@ function KeywordChat() {
   const [text, setText] = useState('');
 
   const comments = useSelector((state) => state.comments);
+
   const userData = useSelector((state) => state.userData);
 
   const filterComments = comments.filter((comment) => comment.keyword === param.id);
@@ -28,7 +29,7 @@ function KeywordChat() {
       const querySnapshot = await getDocs(q);
 
       const initialComments = [];
-      
+
       querySnapshot.forEach((doc) => {
         const data = {
           id: doc.id,
@@ -53,10 +54,13 @@ function KeywordChat() {
 
   const addCommenthandler = (e) => {
     e.preventDefault();
-
-    dispatch(addComment(newComment));
     setText('');
-
+    if (!userData.uid) {
+      alert('로그인 후 댓글을 달아주세요.');
+      return;
+    }
+    if (text.trim() === '') return;
+    dispatch(addComment(newComment));
     addDoc(collection(db, 'comments'), newComment);
   };
   const [isCommentUpdate, setIsCommentUpdate] = useState(false);
