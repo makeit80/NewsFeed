@@ -11,6 +11,8 @@ import { useNavigate } from 'react-router-dom';
 
 function Home() {
   const navigate = useNavigate();
+  let keywordItem = [];
+
   const keywordList = useSelector((state) => {
     return state.keywordData;
   });
@@ -30,17 +32,17 @@ function Home() {
 
     getRss().then((html) => {
       const $ = cheerio.load(html.data);
-      let keywordItem = [];
 
       $('item').each((i, el) => {
         const Data = {
           keyword: $(el).find('title').text(),
-          date: $(el).find('pubDate').text(),
+          // date: $(el).find('pubDate').text(), -> 작성한 기사 날짜와 달라서 주석처리함. 검색어가 나온 날짜같기도..?
           traffic: $(el).children('ht\\:approx_traffic').text(),
           title: $(el)
             .find(':nth-child(8) > ht\\:news_item_title')
             .text()
             .replace(/(&#39;|&quot;)/g, ''),
+          content: $(el).find(':nth-child(8) > ht\\:news_item_snippet').text(),
           source: $(el).find(':nth-child(8) > ht\\:news_item_source').text(),
           link: $(el).find(':nth-child(8) > ht\\:news_item_url').text()
         };
@@ -51,7 +53,7 @@ function Home() {
   }, []);
 
   const handleClickKeyword = (item) => {
-    navigate(`keywordchat/${item}`, { state: item });
+    navigate(`keywordchat/${item}`, { state: { item, keywordList } });
   };
 
   return (

@@ -59,35 +59,33 @@ function KeywordChat() {
   };
 
   return (
-    <Stbackground>
-      <KeywordNews />
-      <Stdiv>
-        <span>키워드 : </span>
-        <span>{param.id}</span>
-      </Stdiv>
-      <StForm onSubmit={addCommenthandler}>
-        <StCommentInput value={text} onChange={(e) => setText(e.target.value)} />
-        <StCommentBtn type="submit">입력</StCommentBtn>
-      </StForm>
-      <div>
-        {filterComments &&
-          filterComments.map((item) => (
-            <StUserCommentWrap>
-              <div>
-                <StProfile src={item.userImage} />
-                <p style={{ float: 'right', lineHeight: '50px' }}>{item.userName}</p>
-              </div>
-              <StCommentBox key={item.id}>
+    <>
+      <Stbackground>
+        <KeywordNews />
+        <StForm onSubmit={addCommenthandler}>
+          <StCommentInput value={text} onChange={(e) => setText(e.target.value)} />
+          <StCommentBtn type="submit">입력</StCommentBtn>
+        </StForm>
+        <div>
+          {filterComments &&
+            filterComments.map((item) => (
+              <StUserCommentWrap>
                 <div>
-                  <p>{item.text}</p>
-                  <button>수정</button>
-                  <button>삭제</button>
+                  <StProfile src={item.userImage} />
+                  <p style={{ float: 'right', lineHeight: '50px' }}>{item.userName}</p>
                 </div>
-              </StCommentBox>
-            </StUserCommentWrap>
-          ))}
-      </div>
-    </Stbackground>
+                <StCommentBox key={item.id}>
+                  <div>
+                    <p>{item.text}</p>
+                    <button>수정</button>
+                    <button>삭제</button>
+                  </div>
+                </StCommentBox>
+              </StUserCommentWrap>
+            ))}
+        </div>
+      </Stbackground>
+    </>
   );
 }
 
@@ -97,19 +95,19 @@ const Stbackground = styled.div`
   padding: 80px;
 `;
 
-const Stdiv = styled.div`
-  text-align: center;
-  margin: 20px auto;
-  background-color: #eee;
-  width: 400px;
-  height: 50px;
-  line-height: 50px;
-`;
+// const Stdiv = styled.div`
+//   text-align: center;
+//   margin: 20px auto;
+//   background-color: #eee;
+//   width: 400px;
+//   height: 50px;
+//   line-height: 50px;
+// `;
 
 const StForm = styled.form`
   width: 600px;
   height: 100px;
-  margin: 0 auto;
+  margin: 2rem auto;
   background-color: #eee;
 `;
 

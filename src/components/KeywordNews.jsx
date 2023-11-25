@@ -1,20 +1,91 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { styled } from 'styled-components';
+
 
 export default function KeywordNews() {
     const location = useLocation();
-    //전달받은 키워드
-    const keyword = location.state;
-    const keywordData = useSelector((state) => state.keywordData.value);
-    const filterNews = keywordData.filter((data) => data.keyword === keyword);
-    const { date, link, source, title } = filterNews[0];
-    console.log(link, title);
+    const keyword = location.state.item;
+    const keywordList = location.state.keywordList.value;
+    const filterNews = keywordList.filter((data) => data.keyword === keyword);
+    let { title, content, link, source, traffic } = filterNews[0];
+    content = content.replace(/&#39;|&nbsp;/g, '');
     return (
-        <div>
-            <h3>{title}</h3>
-            <a href={link}>기사 링크</a>
-        </div>
+        <>
+            <Stdiv>
+                <div>
+                    <span>키워드 : </span>
+                    <span>{keyword}</span>
+                </div>
+                <div>
+                    <span>검색 횟수 : </span>
+                    <span>{traffic}</span>
+                </div>
+            </Stdiv>
+
+            <NewsArticle>
+                <header>
+                    <Source>{source}</Source>
+                    <h1>{title}</h1>
+                </header>
+                <div></div>
+                <p>{content}</p>
+                <Link to={link}>더보기...</Link>
+            </NewsArticle>
+        </>
     );
 }
+
+const Stdiv = styled.div`
+  width: 60%;
+  height: 50px;
+  display:flex;
+  justify-content: space-around;
+  text-align: center;
+  margin: auto;
+  margin-top:1.5rem;
+  background-color: #eee;
+  line-height: 50px;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+`;
+
+
+const NewsArticle = styled.article`
+    width:60%;
+    height:50%;
+    background-color: #eee;
+    display:flex;
+    flex-direction: column;
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    margin:auto;
+    padding:1rem;
+
+    header{
+        display: flex;
+        flex-direction: column;
+        gap:1rem;
+    }
+
+    h1{
+        font-size:2rem;
+        padding:0.5rem;
+        padding:0.5rem 2rem;
+    }
+
+
+    div{
+        border:1px solid var(--color-gray);
+        margin:1rem;
+    }
+
+    p{
+        padding:0.5rem 1rem;
+    }
+`;
+
+const Source = styled.p`
+    text-align:end;
+`
 
