@@ -1,5 +1,6 @@
 const ADD_COMMENT = 'comments/ADD_COMMENT';
 const GET_COMMENT = 'comments/GET_COMMENT';
+const SWITCH_COMMENT = 'comments/SWITCH_COMMENT';
 const DELETE_COMMENT = 'comments/DELETE_COMMENT';
 
 // action creator
@@ -9,8 +10,11 @@ export const addComment = (payload) => {
 export const getComment = (payload) => {
   return { type: GET_COMMENT, payload };
 };
-export const deleteComment = (id) => {
-  return { type: DELETE_COMMENT, id };
+export const switchComment = (payload) => {
+  return { type: SWITCH_COMMENT, payload };
+};
+export const deleteComment = (payload) => {
+  return { type: DELETE_COMMENT, payload };
 };
 
 const initialState = [];
@@ -24,6 +28,10 @@ const comments = (state = initialState, action) => {
     case GET_COMMENT:
       console.log(action.payload);
       return [...action.payload];
+    case SWITCH_COMMENT:
+      return [...action.payload];
+    case DELETE_COMMENT:
+      return [];
     default:
       return state;
   }

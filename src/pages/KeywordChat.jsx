@@ -1,22 +1,23 @@
 import { db } from 'api/firebase';
-import { addDoc, collection, getDocs, query } from 'firebase/firestore';
+import UserComment from 'components/UserComment';
+import { addDoc, collection, doc, getDocs, query, updateDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { addComment, getComment } from 'redux/modules/comments';
+import { addComment, getComment, switchComment, updateComment } from 'redux/modules/comments';
 import styled from 'styled-components';
 
 function KeywordChat() {
   const param = useParams();
-  console.log(param.id);
 
   const [text, setText] = useState('');
 
   const comments = useSelector((state) => state.comments);
-  const filterComments = comments.filter((comment) => comment.keyword === param.id);
-  console.log(comments);
-
   const userData = useSelector((state) => state.userData);
+
+  const filterComments = comments.filter((comment) => comment.keyword === param.id);
+
+  const [updateComments, setUpdateComments] = useState([...comments]);
 
   const dispatch = useDispatch();
 
@@ -45,7 +46,8 @@ function KeywordChat() {
     text,
     keyword: param.id,
     id: Date.now(),
-    userName: userData.displayName
+    userName: userData.displayName,
+    isUpdate: false
   };
 
   const addCommenthandler = (e) => {
@@ -56,6 +58,7 @@ function KeywordChat() {
 
     addDoc(collection(db, 'comments'), newComment);
   };
+  const [isCommentUpdate, setIsCommentUpdate] = useState(false);
 
   return (
     <Stbackground>
@@ -64,24 +67,14 @@ function KeywordChat() {
         <span>{param.id}</span>
       </Stdiv>
       <StForm onSubmit={addCommenthandler}>
-        <StCommentInput value={text} onChange={(e) => setText(e.target.value)} />
+        <StCommentInput required value={text} onChange={(e) => setText(e.target.value)} />
         <StCommentBtn type="submit">입력</StCommentBtn>
       </StForm>
       <div>
         {filterComments &&
           filterComments.map((item) => (
             <StUserCommentWrap>
-              <div>
-                <StProfile src={item.userImage} />
-                <p style={{ float: 'right', lineHeight: '50px' }}>{item.userName}</p>
-              </div>
-              <StCommentBox key={item.id}>
-                <div>
-                  <p>{item.text}</p>
-                  <button>수정</button>
-                  <button>삭제</button>
-                </div>
-              </StCommentBox>
+              <UserComment comments={comments}>{item}</UserComment>
             </StUserCommentWrap>
           ))}
       </div>
@@ -129,18 +122,6 @@ const StUserCommentWrap = styled.div`
   width: 600px;
   height: auto;
   margin: 20px auto;
-`;
-const StProfile = styled.img`
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  margin-bottom: 10px;
-`;
-const StCommentBox = styled.div`
-  padding: 20px;
-  border-radius: 20px 20px 20px 0;
-  border: 1px solid #000;
-  word-break: break-all;
 `;
 
 export default KeywordChat;
