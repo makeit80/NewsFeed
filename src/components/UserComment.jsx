@@ -2,7 +2,7 @@ import { db } from 'api/firebase';
 import { collection, doc, getDocs, query, updateDoc, where } from 'firebase/firestore';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { switchComment } from 'redux/modules/comments';
+import { deleteComment, switchComment } from 'redux/modules/comments';
 import styled from 'styled-components';
 
 function UserComment({ comments, children: { userImage, text, keyword, id, userName, isUpdate } }) {
@@ -44,7 +44,7 @@ function UserComment({ comments, children: { userImage, text, keyword, id, userN
     dispatch(switchComment(newUpdateComment));
   };
   const deleteBtn = (id) => {
-    console.log(id);
+    dispatch(deleteComment());
   };
 
   return (
