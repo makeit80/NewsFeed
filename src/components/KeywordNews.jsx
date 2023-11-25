@@ -3,12 +3,13 @@ import { Link, useLocation } from 'react-router-dom';
 import { styled } from 'styled-components';
 
 
+
 export default function KeywordNews() {
     const location = useLocation();
     const keyword = location.state.item;
     const keywordList = location.state.keywordList.value;
-    const filterNews = keywordList.filter((data) => data.keyword === keyword);
-    let { title, content, link, source, traffic } = filterNews[0];
+    const keywordRank = keywordList.findIndex((data) => data.keyword === keyword);
+    let { title, content, link, source, traffic } = keywordList[keywordRank];
     content = content.replace(/&#39;|&nbsp;/g, '');
     return (
         <>
@@ -21,6 +22,10 @@ export default function KeywordNews() {
                     <span>검색 횟수 : </span>
                     <span>{traffic}</span>
                 </div>
+                <div>
+                    <span>검색 순위 : </span>
+                    <span>{keywordRank + 1}위</span>
+                </div>
             </Stdiv>
 
             <NewsArticle>
@@ -30,7 +35,7 @@ export default function KeywordNews() {
                 </header>
                 <div></div>
                 <p>{content}</p>
-                <Link to={link}>더보기...</Link>
+                <Link to={link}><Url>더보기...</Url></Link>
             </NewsArticle>
         </>
     );
@@ -41,6 +46,7 @@ const Stdiv = styled.div`
   height: 50px;
   display:flex;
   justify-content: space-around;
+  font-size:1.2rem;
   text-align: center;
   margin: auto;
   margin-top:1.5rem;
@@ -74,7 +80,6 @@ const NewsArticle = styled.article`
         padding:0.5rem 2rem;
     }
 
-
     div{
         border:1px solid var(--color-gray);
         margin:1rem;
@@ -83,9 +88,13 @@ const NewsArticle = styled.article`
     p{
         padding:0.5rem 1rem;
     }
+
 `;
 
 const Source = styled.p`
     text-align:end;
 `
 
+const Url = styled.p`
+    margin-left:0.5rem;
+`

@@ -59,7 +59,7 @@ function Home() {
   return (
     <Stbody>
       <StMain>
-        <StUl height={'500px'} $marginTop={'50px'}>
+        <StUl $height={'500px'} $marginTop={'50px'}>
           {keywordList.value.map((item, i) => {
             return (
               <Stli key={item.keyword}
@@ -89,7 +89,7 @@ function Home() {
   );
 }
 
-const Stbody = styled.body`
+const Stbody = styled.div`
   min-width: 1000px;
   background-color: black;
 `;

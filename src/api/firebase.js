@@ -40,12 +40,10 @@ export async function googleLogin() {
 }
 
 export async function emailLogin(email, password) {
-  console.log('이메일 로그인 시도중');
   return await signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
-      console.log(user);
-      return user;
+      //return user;
     })
     .catch((error) => console.error(error));
 }
@@ -54,7 +52,7 @@ export async function signUp(email, password) {
   return await createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
-      return user;
+      //return user;
     })
     .catch((error) => console.error(error));
 }

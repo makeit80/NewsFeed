@@ -96,3 +96,5 @@ const customModalStyles = {
     }
 }
 
+Modal.setAppElement('#root');
+
