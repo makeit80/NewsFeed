@@ -69,7 +69,8 @@ function Home() {
           // TODO : date 기준으로 순위 매기기
           keywordList.value.map((item, i) => {
             return (
-              <Stli key={item.keyword}
+              <Stli
+                key={item.keyword}
                 onClick={() => {
                   handleClickKeyword(item.keyword);
                 }}
@@ -163,8 +164,7 @@ const StLabel = styled.label`
 
   text-align: left;
 `;
-const StTime = styled.time`
-`;
+const StTime = styled.time``;
 const StSpan = styled.span`
   width: 50px;
 
