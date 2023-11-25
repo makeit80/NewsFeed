@@ -1,11 +1,10 @@
 import React from 'react'
 import styled from "styled-components"
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 
 function Mypage() {
     const userData = useSelector((state) => state.userData);
-    console.log('userData', userData)
 
     return (
         <Stbody>
