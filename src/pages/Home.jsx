@@ -17,6 +17,7 @@ function Home() {
   });
   const dispatch = useDispatch();
 
+
   useEffect(() => {
     const cheerio = require('cheerio');
     const getRss = async () => {
@@ -31,16 +32,20 @@ function Home() {
 
     getRss().then((html) => {
       const $ = cheerio.load(html.data);
+      let keywordItem = [];
 
       $('item').each((i, el) => {
         const Data = {
           keyword: $(el).find('title').text(),
+          date: $(el).find('pubDate').text(),
           // date: $(el).find('pubDate').text(), -> 작성한 기사 날짜와 달라서 주석처리함. 검색어가 나온 날짜같기도..?
           traffic: $(el).children('ht\\:approx_traffic').text(),
           title: $(el)
             .find(':nth-child(8) > ht\\:news_item_title')
             .text()
             .replace(/(&#39;|&quot;)/g, ''),
+          source: $(el).find(':nth-child(8) > ht\\:news_item_source').text(),
+          // link : $(el).find(':nth-child(8) > ht:\\news_item_url').text()
           content: $(el).find(':nth-child(8) > ht\\:news_item_snippet').text(),
           source: $(el).find(':nth-child(8) > ht\\:news_item_source').text(),
           link: $(el).find(':nth-child(8) > ht\\:news_item_url').text()
@@ -51,6 +56,7 @@ function Home() {
     });
   }, []);
 
+
   const handleClickKeyword = (item) => {
     navigate(`keywordchat/${item}`, { state: { item, keywordList } });
   };
@@ -59,7 +65,9 @@ function Home() {
     <Stbody>
       <StMain>
         <StUl $height={'500px'} $marginTop={'50px'}>
-          {keywordList.value.map((item, i) => {
+          {
+          // TODO : date 기준으로 순위 매기기
+          keywordList.value.map((item, i) => {
             return (
               <Stli key={item.keyword}
                 onClick={() => {
@@ -80,7 +88,8 @@ function Home() {
                 {/* <StTime>{item.date}</StTime> */}
               </Stli>
             );
-          })}
+          })
+          }
         </StUl>
         <StUl $height={'400px'} $marginTop={'100px'}></StUl>
       </StMain>
