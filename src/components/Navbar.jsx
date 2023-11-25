@@ -22,16 +22,17 @@ export default function Navbar() {
   }, []);
 
   const handleOpenModal = () => {
-    //로그인 모달창 열기
     dispatch(showLoginModal());
   };
 
   const handleLogout = () => {
-    console.log('로그아웃 클릭');
+    console.log(userData.uid)
     logout().then((user) => {
-      console.log(user);
-      dispatch(logoutUSer(user));
-    });
+      console.log(user)
+      dispatch(logoutUSer(user))
+    }).catch((error) => {
+      console.log(error)
+    });;
   };
 
   const gotoSignUpPage = () => {
