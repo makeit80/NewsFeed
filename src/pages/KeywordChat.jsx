@@ -17,8 +17,7 @@ function KeywordChat() {
 
   const userData = useSelector((state) => state.userData);
 
-  const filterComments = comments.filter((comment) => comment.keyword === param.id);
-
+  const filterComments = comments.filter((comment) => comment.keyword === param.id).sort((a, b) => b.id - a.id);
   const [updateComments, setUpdateComments] = useState([...comments]);
 
   const dispatch = useDispatch();

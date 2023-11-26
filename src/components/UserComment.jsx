@@ -49,17 +49,16 @@ function UserComment({ comments, children: { userImage, text, keyword, id, userN
         return id !== comment.id;
       });
       dispatch(deleteComment(filteredComment));
+      const q = query(collection(db, 'comments'), where('id', '==', id));
+      const querySnapshot = await getDocs(q);
+      let ref = '';
+      querySnapshot.forEach((doc) => {
+        ref = doc.ref;
+      });
+      await deleteDoc(ref);
     } else {
       return alert('취소되었습니다');
     }
-
-    const q = query(collection(db, 'comments'), where('id', '==', id));
-    const querySnapshot = await getDocs(q);
-    let ref = '';
-    querySnapshot.forEach((doc) => {
-      ref = doc.ref;
-    });
-    await deleteDoc(ref);
   };
 
   return (
