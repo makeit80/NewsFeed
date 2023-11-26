@@ -86,38 +86,38 @@ function Home() {
               .map((el) => {
                 return (
                   <>
-                  <Stdiv>
-                  <StTime>{`${year} / ${month} / ${el}`}</StTime>
-                    {
-                      keywordList.value
-                        .filter((item) => {
-                          return item.date[2] === el
-                        })
-                        .map((item, i) => {
-                          return (
-                            <Stli
-                              key={item.keyword}
-                              onClick={() => {
-                                handleClickKeyword(item.keyword);
-                              }}
-                            >
-                              <StSpan>{i + 1}위 </StSpan>
-                              <StLabel>{item.keyword}</StLabel>
-                              <StP width={'100px'} $right={'11.5%'} $top={'30%'} fontSize={'20px'} color={'#cecece'}>
-                                {item.traffic}
-                              </StP>
-                              <StP width={'50px'} $right={'21.5%'} $top={'38%'} fontSize={'10px'} color={'gray'}>
-                                검색횟수
-                              </StP>
-                              <StP width={'50px'} $right={'6.5%'} $top={'38%'} fontSize={'10px'} color={'gray'}>
-                                댓글
-                              </StP>
-                              {/* <StTime>{item.date}</StTime> */}
-                            </Stli>
-                          );
-                        })
-                    }
-                  </Stdiv>
+                    <Stdiv>
+                      <StTime>{`${year} / ${month} / ${el}`}</StTime>
+                      {
+                        keywordList.value
+                          .filter((item) => {
+                            return item.date[2] === el
+                          })
+                          .map((item, i) => {
+                            return (
+                              <Stli
+                                key={item.keyword}
+                                onClick={() => {
+                                  handleClickKeyword(item.keyword);
+                                }}
+                              >
+                                <StSpan>{i + 1}위 </StSpan>
+                                <StLabel>{item.keyword}</StLabel>
+                                <StP width={'100px'} $right={'11.5%'} $top={'30%'} fontSize={'20px'} color={'#cecece'}>
+                                  {item.traffic}
+                                </StP>
+                                <StP width={'50px'} $right={'21.5%'} $top={'38%'} fontSize={'10px'} color={'gray'}>
+                                  검색횟수
+                                </StP>
+                                <StP width={'50px'} $right={'6.5%'} $top={'38%'} fontSize={'10px'} color={'gray'}>
+                                  댓글
+                                </StP>
+                                {/* <StTime>{item.date}</StTime> */}
+                              </Stli>
+                            );
+                          })
+                      }
+                    </Stdiv>
                   </>
                 )
               })
