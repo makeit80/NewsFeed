@@ -69,24 +69,26 @@ function UserComment({ comments, children: { docId, userImage, text, keyword, id
         <p style={{ float: 'right', lineHeight: '50px' }}>{userName}</p>
       </div>
       <StCommentBox key={id}>
-        <div>
+        <StCommentFlex>
           {!isUpdate ? (
             <>
               <p>{text}</p>
-              <button
-                onClick={() => {
-                  updateCommentHandler(id);
-                }}
-              >
-                수정
-              </button>
-              <button
-                onClick={() => {
-                  deleteBtn(id);
-                }}
-              >
-                삭제
-              </button>
+              <div>
+                <StCommentBoxBtn
+                  onClick={() => {
+                    updateCommentHandler(id);
+                  }}
+                >
+                  수정
+                </StCommentBoxBtn>
+                <StCommentBoxBtn
+                  onClick={() => {
+                    deleteBtn(id);
+                  }}
+                >
+                  삭제
+                </StCommentBoxBtn>
+              </div>
             </>
           ) : (
             <>
@@ -96,23 +98,25 @@ function UserComment({ comments, children: { docId, userImage, text, keyword, id
                   setUpdateText(e.target.value);
                 }}
               />
-              <button
-                onClick={() => {
-                  completeCommentHandler(id);
-                }}
-              >
-                완료
-              </button>
-              <button
-                onClick={() => {
-                  deleteBtn(id);
-                }}
-              >
-                삭제
-              </button>
+              <div>
+                <StCommentBoxBtn
+                  onClick={() => {
+                    completeCommentHandler(id);
+                  }}
+                >
+                  완료
+                </StCommentBoxBtn>
+                <StCommentBoxBtn
+                  onClick={() => {
+                    deleteBtn(id);
+                  }}
+                >
+                  삭제
+                </StCommentBoxBtn>
+              </div>
             </>
           )}
-        </div>
+        </StCommentFlex>
       </StCommentBox>
     </>
   );
@@ -127,9 +131,20 @@ const StProfile = styled.img`
 const StCommentBox = styled.div`
   padding: 20px;
   border-radius: 20px 20px 20px 0;
-  border: 1px solid #000;
+  color: #fff;
+  border: 1px solid #fff;
   word-break: break-all;
-  background-color: #e4e4e4;
+  background-color: #353535;
+`;
+const StCommentFlex = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+const StCommentBoxBtn = styled.button`
+  margin-right: 10px;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 export default UserComment;

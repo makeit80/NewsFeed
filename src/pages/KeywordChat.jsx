@@ -123,17 +123,17 @@ const Stdiv = styled.div`
 const StForm = styled.form`
   width: 600px;
   height: 100px;
-
-  background-color: #515151;
+  display: flex;
+  justify-content: space-around;
+  background-color: #353535;
   margin-top: 80px;
   color: white;
 `;
 
 const StCommentInput = styled.input`
-  width: 400px;
+  width: 430px;
   height: 40px;
 
-  margin-left: 50px;
   margin-top: 25px;
 
   border: none;
@@ -144,11 +144,14 @@ const StCommentInput = styled.input`
 `;
 
 const StCommentBtn = styled.button`
-  margin-left: 20px;
-  width: 60px;
+  margin-top: 25px;
+  width: 70px;
   height: 40px;
-  background-color: #333;
+  background-color: #c78159;
   color: #fff;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 const StUserCommentWrap = styled.div`
   width: 600px;
