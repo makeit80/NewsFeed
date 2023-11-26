@@ -49,36 +49,12 @@ function Mypage() {
             Comments
           </StLabel>
           <StUl>
-            <StLi>
               <UserCommentList />
-
-              {/* <StSpan>키워드</StSpan>
-              <StP>내용</StP>
-              <StTime>시간</StTime>
-            </StLi> *
-          
-            {/* <StLi>
-              <StSpan>키워드</StSpan>
-              <StP>내용</StP>
-              <StTime>시간</StTime>
-            </StLi>
-            <StLi>
-              <StSpan>키워드</StSpan>
-              <StP>내용</StP>
-              <StTime>시간</StTime>
-            </StLi>
-            <StLi>
-              <StSpan>키워드</StSpan>
-              <StP>내용</StP>
-              <StTime>시간</StTime>*/}
-            </StLi>
           </StUl>
         </StSection>
-
       </StMain>
       <MyPageModal id={userData.id}></MyPageModal>
     </Stbody>
-
   );
 }
 
@@ -162,11 +138,20 @@ const StUl = styled.ul`
   grid-template-columns: 1fr;
   grid-auto-rows: 100px;
 
-  height: 500px;
-
+  height: 690px;
   margin: 20px;
+
   overflow: auto;
   overflow-x: hidden;
+
+  scroll-behavior: smooth;
+  &::-webkit-scrollbar {
+    background-color: #232323;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #84898c3a;
+    border-radius: 30px;
+  }
 `;
 
 const StLi = styled.li`
