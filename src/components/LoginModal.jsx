@@ -1,14 +1,13 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import Modal from 'react-modal';
 import { useNavigate } from 'react-router';
 
 import { googleLogin, emailLogin } from 'api/firebase';
-import { collection, doc, getDocs, query, setDoc } from "firebase/firestore"; 
+import { doc, setDoc } from "firebase/firestore"; 
 import { db } from 'api/firebase';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { userList } from 'redux/modules/userList';
 import { loginUser } from 'redux/modules/userData';
 import { showLoginForm, closeLoginForm, closeLoginModal } from '../redux/modules/showModal';
 
@@ -23,31 +22,6 @@ export default function LoginModal() {
     const dispatch = useDispatch();
 
     const [form, setform] = useState({email: '', password: ''});
-
-    // TODO : useEffect로 기존 계정값 Store에서 불러오기 V
-    // TODO : redux userList로 데이터 전송 V
-
-    // firebase data check
-    useEffect(() => {
-        const fetchData = async () => {
-            const q = query(collection(db, "users"));
-            const querySnapshot = await getDocs(q);
-
-            const initialData = [];
-            querySnapshot.forEach((doc) => {
-                const data = {
-                    id : doc.id,
-                    ...doc.data(),
-                } 
-                console.log(data)
-                initialData.push(data)
-            })
-            return initialData;
-        }
-        fetchData().then((user) => {
-            dispatch(userList(user))
-        })
-    }, [])
 
     // firebase add data
     const addData = async (uid, photoURL, displayName) => {
@@ -66,7 +40,6 @@ export default function LoginModal() {
                 const { uid, photoURL, displayName } = user;                
                 const target = userAccountList.value.find((item) => item.id === uid)
                 if (!target) {
-                    // TODO : uid, photoURL, displayName 을 Store로 전송 V
                     addData(uid, photoURL, displayName)
                 }
                 dispatch(loginUser({ uid, photoURL, displayName }));
@@ -137,6 +110,26 @@ export default function LoginModal() {
     );
 }
 
+const customModalStyles = {
+overlay: {
+backgroundColor: 'rgba(189, 189, 189, 0.6)',
+width: '100%',
+height: '100%'
+
+},
+content: {
+width: '500px',
+height: '350px',
+zIndex: '100',
+position: 'fixed',
+top: '50%',
+left: '50%',
+transform: 'translate(-50%,-50%)',
+borderRadius: '10px',
+backgroundColor: '#353535e3'
+}
+}
+
 const ModalDiv = styled.div`
 display:flex;
 flex-direction: column;
@@ -177,27 +170,6 @@ background-color: #292929;
 transition: 1s;
 }
 `
-
-const customModalStyles = {
-overlay: {
-backgroundColor: 'rgba(189, 189, 189, 0.6)',
-width: '100%',
-height: '100%'
-
-},
-content: {
-width: '500px',
-height: '350px',
-zIndex: '100',
-position: 'fixed',
-top: '50%',
-left: '50%',
-transform: 'translate(-50%,-50%)',
-borderRadius: '10px',
-backgroundColor: '#353535e3'
-}
-}
-
 const StForm = styled.form`
 width: 100%;
 height: 100%;

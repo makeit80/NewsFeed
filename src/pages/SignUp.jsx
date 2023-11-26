@@ -5,11 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 
 import { signUp } from '../api/firebase';
-import { collection, addDoc, doc, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { db } from 'api/firebase';
 
 export default function SignUp() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
 
@@ -83,9 +82,11 @@ export default function SignUp() {
 
 
   // firebase add data
-  const addData = async (uid, photoURL, displayName) => {
-    const newData = { displayName: displayName, photoURL: photoURL, id: uid }
-    await setDoc(doc(db, "users", String(uid)), newData)
+  const addData = (uid) => {
+    const photoURL = 'https://www.lab2050.org/common/img/default_profile.png'
+    const displayName = form.name
+    const newData = { id: uid, photoURL: photoURL, displayName: displayName }
+    setDoc(doc(db, "users", String(uid)), newData)
   };
 
   // 4. Submit
@@ -95,9 +96,7 @@ export default function SignUp() {
     signUp(form.email, form.password)
       .then((user) => {
         const uid = user.uid;
-        const photoURL = 'https://www.lab2050.org/common/img/default_profile.png'
-        const displayName = form.name
-        addData(uid, photoURL, displayName)
+        addData(uid)
       });
     navigate('/');
   }
@@ -141,6 +140,7 @@ export default function SignUp() {
             placeholder='Password'
             onChange={onChangeHandler}
             autocomplete='off' />
+
           {form.password.length > 0 && <StSpan className={`message ${isPassword ? 'success' : 'error'}`}>{passwordMessage}</StSpan>}
         </StDiv>
         <StDiv>
@@ -156,6 +156,7 @@ export default function SignUp() {
               {passwordConfirmMessage}
             </StSpan>}
         </StDiv>
+
         <StyleBtn
           type='submit'
           disabled={!(isName && isEmail && isPassword && isPasswordConfirm)}

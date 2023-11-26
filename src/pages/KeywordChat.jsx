@@ -7,17 +7,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { addComment, getComment, switchComment, updateComment } from 'redux/modules/comments';
 import styled from 'styled-components';
-import { getCommentsOnKeyword } from 'api/comments.api'
 
 function KeywordChat() {
-  const params = useParams();
+  const param = useParams();
 
   const [text, setText] = useState('');
 
   const comments = useSelector((state) => state.comments);
+
   const userData = useSelector((state) => state.userData);
 
-  const filterComments = comments.filter((comment) => comment.keyword === params.id);
+  const filterComments = comments.filter((comment) => comment.keyword === param.id);
 
   const [updateComments, setUpdateComments] = useState([...comments]);
 
@@ -46,8 +46,8 @@ function KeywordChat() {
   const newComment = {
     userImage: userData.photoURL,
     text,
-    keyword: params.id,
-    userId: userData.uid,
+    keyword: param.id,
+    id: Date.now(),
     userName: userData.displayName,
     isUpdate: false,
     date: new Date().toLocaleString()
@@ -70,14 +70,9 @@ function KeywordChat() {
     console.log(id);
   };
 
-  useEffect(() => {
-    getCommentsOnKeyword(params.keyword)
-  }, [])
-
   return (
     <Stbackground>
-      <h1>{params.keyword}</h1>
-      {/* <KeywordNews /> */}
+      <KeywordNews />
       <StForm onSubmit={addCommenthandler}>
         <StCommentInput required value={text} onChange={(e) => setText(e.target.value)} />
         <StCommentBtn type="submit">입력</StCommentBtn>
