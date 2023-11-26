@@ -1,12 +1,11 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import GlobalStyle from 'GlobalStyle';
-import Home from '../pages/Home';
-import Keyword from '../pages/Keyword';
-import KeywordChat from '../pages/KeywordChat';
-import Mypage from '../pages/Mypage';
-import Signup from '../pages/SignUp';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import App from '../App';
+import HomePage from '../pages/HomePage';
+import KeywordPage from '../pages/KeywordPage';
+import Mypage from '../pages/Mypage';
 import ProtectedRoute from '../pages/ProtectedRoute';
+import SignUpPage from '../pages/SignUpPage';
 
 const Router = () => {
   return (
@@ -15,11 +14,24 @@ const Router = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<App />}>
-            <Route path="" element={<Home />} />
-            <Route path="keyword/:id" element={<Keyword />} />
-            <Route path="keywordchat/:id" element={<KeywordChat />} />
-            <Route path="mypage/:id" element={<ProtectedRoute requireUser><Mypage /> </ProtectedRoute>} />
-            <Route path="signup/" element={<ProtectedRoute requireUser={false}><Signup /></ProtectedRoute>} />
+            <Route path="" element={<HomePage />} />
+            <Route path="keywords/:keyword" element={<KeywordPage />} />
+            <Route
+              path="mypage/:id"
+              element={
+                <ProtectedRoute requireUser>
+                  <Mypage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="signup/"
+              element={
+                <ProtectedRoute requireUser={false}>
+                  <SignUpPage />
+                </ProtectedRoute>
+              }
+            />
           </Route>
         </Routes>
       </BrowserRouter>

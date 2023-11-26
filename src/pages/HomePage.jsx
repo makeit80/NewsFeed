@@ -1,9 +1,9 @@
 import axios from 'axios';
-import styled from 'styled-components';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import { insertData } from 'redux/modules/keywordData';
-import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
 // 코드 받
 // https://cors-anywhere.herokuapp.com/corsdemo
@@ -61,23 +61,20 @@ function Home() {
         <StUl $height={'500px'} $marginTop={'50px'}>
           {keywordList.value.map((item, i) => {
             return (
-              <Stli key={item.keyword}
-                onClick={() => {
-                  handleClickKeyword(item.keyword);
-                }}
-              >
-                <StSpan>{i + 1}위 </StSpan>
-                <StLabel>{item.keyword}</StLabel>
-                <StP width={'100px'} $right={'11.5%'} $top={'30%'} fontSize={'20px'} color={'#cecece'}>
-                  {item.traffic}
-                </StP>
-                <StP width={'50px'} $right={'21.5%'} $top={'38%'} fontSize={'10px'} color={'gray'}>
-                  검색횟수
-                </StP>
-                <StP width={'50px'} $right={'6.5%'} $top={'38%'} fontSize={'10px'} color={'gray'}>
-                  댓글
-                </StP>
-                {/* <StTime>{item.date}</StTime> */}
+              <Stli key={item.keyword}>
+                <Link to={`/keywords/${item.keyword}`}>
+                  <StSpan>{i + 1}위 </StSpan>
+                  <StLabel>{item.keyword}</StLabel>
+                  <StP width={'100px'} $right={'11.5%'} $top={'30%'} fontSize={'20px'} color={'#cecece'}>
+                    {item.traffic}
+                  </StP>
+                  <StP width={'50px'} $right={'21.5%'} $top={'38%'} fontSize={'10px'} color={'gray'}>
+                    검색횟수
+                  </StP>
+                  <StP width={'50px'} $right={'6.5%'} $top={'38%'} fontSize={'10px'} color={'gray'}>
+                    댓글
+                  </StP>
+                </Link>
               </Stli>
             );
           })}
@@ -154,8 +151,7 @@ const StLabel = styled.label`
 
   text-align: left;
 `;
-const StTime = styled.time`
-`;
+const StTime = styled.time``;
 const StSpan = styled.span`
   width: 50px;
 

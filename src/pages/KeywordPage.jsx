@@ -1,48 +1,24 @@
+import { getCommentsOnKeyword } from 'api/comments.api';
 import { db } from 'api/firebase';
-import KeywordNews from '../components/KeywordNews';
-import { addDoc, collection, getDocs, query } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react';
+import { addDoc, collection } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { addComment, getComment } from 'redux/modules/comments';
+import { addComment } from 'redux/modules/comments';
 import styled from 'styled-components';
 
 function KeywordChat() {
-  const param = useParams();
-
+  const params = useParams();
+  const keyword = params.keyword;
+  const [commentsOnKeyword, setCommentsOnKeyword] = useState([]);
   const [text, setText] = useState('');
-
-  const comments = useSelector((state) => state.comments);
-  const filterComments = comments.filter((comment) => comment.keyword === param.id);
-  console.log(comments);
   const userData = useSelector((state) => state.userData);
-
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const q = query(collection(db, 'comments'));
-      const querySnapshot = await getDocs(q);
-
-      const initialComments = [];
-
-      querySnapshot.forEach((doc) => {
-        const data = {
-          id: doc.id,
-          ...doc.data()
-        };
-        console.log('data', data);
-        initialComments.push(data);
-      });
-      dispatch(getComment(initialComments));
-    };
-    fetchData();
-  }, []);
 
   const newComment = {
     userImage: userData.photoURL,
     text,
-    keyword: param.id,
+    keyword: params.id,
     id: Date.now(),
     userName: userData.displayName
   };
@@ -59,17 +35,22 @@ function KeywordChat() {
     addDoc(collection(db, 'comments'), newComment);
   };
 
+  useEffect(() => {
+    getCommentsOnKeyword(keyword).then((data) => setCommentsOnKeyword(data));
+  }, [keyword]);
+
   return (
     <>
       <Stbackground>
-        <KeywordNews />
+        {/* <KeywordNews /> */}
+        <h1 style={{ fontSize: 32 }}>{keyword}</h1>
         <StForm onSubmit={addCommenthandler}>
           <StCommentInput value={text} onChange={(e) => setText(e.target.value)} />
           <StCommentBtn type="submit">입력</StCommentBtn>
         </StForm>
         <div>
-          {filterComments &&
-            filterComments.map((item) => (
+          {commentsOnKeyword &&
+            commentsOnKeyword.map((item) => (
               <StUserCommentWrap>
                 <div>
                   <StProfile src={item.userImage} />
