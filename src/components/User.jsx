@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 
-export default function User({target}) {
+export default function User({ target }) {
     const navigate = useNavigate()
     return (
         <UserInfo onClick={() => navigate(`/mypage/${target.uid}`)}>

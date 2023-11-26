@@ -1,14 +1,19 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { styled } from 'styled-components';
+import { useParams } from 'react-router-dom'
 
 
 
 export default function KeywordNews() {
     const location = useLocation();
-    const keyword = location.state.item;
+    const params = useParams();
+    const keyword = params.id;
     const keywordList = location.state.keywordList.value;
+
     const keywordRank = keywordList.findIndex((data) => data.keyword === keyword);
+    console.log('keywordList', keywordList);
+    console.log('keywordRank', keywordRank);
     let { title, content, link, source, traffic } = keywordList[keywordRank];
     content = content.replace(/&#39;|&nbsp;/g, '');
     return (
