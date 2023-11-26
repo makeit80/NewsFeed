@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { deleteComment, switchComment } from 'redux/modules/comments';
 import styled from 'styled-components';
 
-function UserComment({ comments, children: { userImage, text, keyword, id, userName, isUpdate } }) {
+function UserComment({ comments, children: { docId, userImage, text, keyword, id, userName, isUpdate } }) {
   // 여기는 하나하나의 comment 영역
   // 그르니까 여기에서 수정은 이놈에 대한 수정이다.
   // 여기서 dispatch를 이용해서 업데이트 치면된다.
@@ -44,9 +44,15 @@ function UserComment({ comments, children: { userImage, text, keyword, id, userN
   };
 
   const deleteBtn = async (id) => {
+    // 진호 체고,,,
     if (window.confirm('삭제하시겠습니까?')) {
-      const Ref = doc(db, 'comments', id+'');
-      await deleteDoc(Ref);
+      const Ref = doc(db, 'comments', docId + '');
+      try {
+        await deleteDoc(Ref);
+      } catch (err) {
+        console.error('error occurred while delete post');
+        console.error(err);
+      }
       const filteredComment = comments.filter((comment) => {
         return id !== comment.id;
       });
@@ -55,8 +61,6 @@ function UserComment({ comments, children: { userImage, text, keyword, id, userN
       return alert('취소되었습니다');
     }
   };
-
-
 
   return (
     <>
@@ -99,7 +103,13 @@ function UserComment({ comments, children: { userImage, text, keyword, id, userN
               >
                 완료
               </button>
-              <button>삭제</button>
+              <button
+                onClick={() => {
+                  deleteBtn(id);
+                }}
+              >
+                삭제
+              </button>
             </>
           )}
         </div>

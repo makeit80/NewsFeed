@@ -17,8 +17,7 @@ function KeywordChat() {
 
   const userData = useSelector((state) => state.userData);
 
-  const filterComments = comments.filter((comment) => comment.keyword === param.id);
-
+  const filterComments = comments.filter((comment) => comment.keyword === param.id).sort((a, b) => b.id - a.id);
   const [updateComments, setUpdateComments] = useState([...comments]);
 
   const dispatch = useDispatch();
@@ -29,10 +28,9 @@ function KeywordChat() {
       const querySnapshot = await getDocs(q);
 
       const initialComments = [];
-
       querySnapshot.forEach((doc) => {
         const data = {
-          id: doc.id,
+          docId: doc.id,
           ...doc.data()
         };
         console.log('data', data);
@@ -65,6 +63,7 @@ function KeywordChat() {
     dispatch(addComment(newComment));
     addDoc(collection(db, 'comments'), newComment);
   };
+
   const [isCommentUpdate, setIsCommentUpdate] = useState(false);
 
   const deleteBtn = (id) => {
@@ -75,7 +74,12 @@ function KeywordChat() {
     <Stbackground>
       <KeywordNews />
       <StForm onSubmit={addCommenthandler}>
-        <StCommentInput required value={text} onChange={(e) => setText(e.target.value)} placeholder='댓글을 남겨주세요' />
+        <StCommentInput
+          required
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          placeholder="댓글을 남겨주세요"
+        />
         <StCommentBtn type="submit">입력</StCommentBtn>
       </StForm>
       <div>
