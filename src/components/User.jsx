@@ -6,7 +6,7 @@ import { styled } from 'styled-components';
 export default function User() {
     const userData = useSelector((state) => state.userData);
     const { photoURL, uid } = userData;
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     return (
         <UserInfo onClick={() => navigate(`/mypage/${uid}`)}>

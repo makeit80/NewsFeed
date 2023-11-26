@@ -43,16 +43,16 @@ export async function emailLogin(email, password) {
   return await signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
-      //return user;
+      return user;
     })
-    .catch((error) => console.error('error',error));
+    .catch((error) => console.error('error', error));
 }
 
 export async function signUp(email, password) {
   return await createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
-      //return user;
+      return user;
     })
     .catch((error) => console.error(error));
 }

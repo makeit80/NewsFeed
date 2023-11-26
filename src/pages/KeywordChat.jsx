@@ -47,9 +47,10 @@ function KeywordChat() {
     userImage: userData.photoURL,
     text,
     keyword: param.id,
-    id: Date.now(),
+    userId: userData.uid,
     userName: userData.displayName,
-    isUpdate: false
+    isUpdate: false,
+    date: new Date().toLocaleString()
   };
 
   const addCommenthandler = (e) => {
