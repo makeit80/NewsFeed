@@ -73,7 +73,12 @@ function KeywordChat() {
     <Stbackground>
       <KeywordNews />
       <StForm onSubmit={addCommenthandler}>
-        <StCommentInput required value={text} onChange={(e) => setText(e.target.value)} placeholder='댓글을 남겨주세요' />
+        <StCommentInput
+          required
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          placeholder="댓글을 남겨주세요"
+        />
         <StCommentBtn type="submit">입력</StCommentBtn>
       </StForm>
       <div>
