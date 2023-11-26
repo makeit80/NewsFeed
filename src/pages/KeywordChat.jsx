@@ -47,7 +47,7 @@ function KeywordChat() {
     userImage: userData.photoURL,
     text,
     keyword: param.id,
-    id: Date.now(),
+    id: userData.uid,
     userName: userData.displayName,
     isUpdate: false,
     date: new Date().toLocaleString()
@@ -74,7 +74,7 @@ function KeywordChat() {
     <Stbackground>
       <KeywordNews />
       <StForm onSubmit={addCommenthandler}>
-        <StCommentInput required value={text} onChange={(e) => setText(e.target.value)} />
+        <StCommentInput required value={text} onChange={(e) => setText(e.target.value)} placeholder='댓글을 남겨주세요' />
         <StCommentBtn type="submit">입력</StCommentBtn>
       </StForm>
       <div>
@@ -97,9 +97,13 @@ function KeywordChat() {
 }
 
 const Stbackground = styled.div`
-  height: 100%;
-  background-color: #fff;
+  background-color: #000000;
   padding: 80px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 `;
 
 const Stdiv = styled.div`
@@ -114,15 +118,24 @@ const Stdiv = styled.div`
 const StForm = styled.form`
   width: 600px;
   height: 100px;
-  margin: 0 auto;
-  background-color: #eee;
+
+  background-color: #515151;
+  margin-top: 80px;
+  color: white;
 `;
 
 const StCommentInput = styled.input`
   width: 400px;
   height: 40px;
+
   margin-left: 50px;
   margin-top: 25px;
+
+  border: none;
+  outline: none;
+  background-color: gray;
+
+  color: white;
 `;
 
 const StCommentBtn = styled.button`
