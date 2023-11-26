@@ -45,6 +45,8 @@ function UserComment({ comments, children: { userImage, text, keyword, id, userN
 
   const deleteBtn = async (id) => {
     if (window.confirm('삭제하시겠습니까?')) {
+      const Ref = doc(db, 'comments', id+'');
+      await deleteDoc(Ref);
       const filteredComment = comments.filter((comment) => {
         return id !== comment.id;
       });
@@ -52,14 +54,6 @@ function UserComment({ comments, children: { userImage, text, keyword, id, userN
     } else {
       return alert('취소되었습니다');
     }
-
-    const q = query(collection(db, 'comments'), where('id', '==', id));
-    const querySnapshot = await getDocs(q);
-    let ref = '';
-    querySnapshot.forEach((doc) => {
-      ref = doc.ref;
-    });
-    await deleteDoc(ref);
   };
 
   return (
