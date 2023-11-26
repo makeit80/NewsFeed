@@ -8,73 +8,78 @@ import { userList } from 'redux/modules/userList';
 import MyPageModal from 'components/myPageModal';
 import { showMyPageModal } from 'redux/modules/showMyPageModal';
 import { deleteImg } from 'redux/modules/userList';
+import UserCommentList from 'components/UserCommentList';
 
 function Mypage() {
   const dispatch = useDispatch();
-    const userData = useSelector((state) => state.userData);
-    const userList = useSelector((state) => state.userList);
+  const userData = useSelector((state) => state.userData);
+  const userList = useSelector((state) => state.userList);
 
-    const target = userList.value.find((item) => item.id === userData.uid);
-    const updateName = async () => {
-      const dataRef = doc(db, "users", target.id)
-      await updateDoc(dataRef, { ...target, photoURL: 'https://www.lab2050.org/common/img/default_profile.png' })
-    }
-    function deleteImage () {
-      updateName()
-      dispatch(deleteImg({id : target.id}))
-    }
+  const target = userList.value.find((item) => item.id === userData.uid);
+  console.log('target', target);
+  const updateName = async () => {
+    const dataRef = doc(db, "users", target.id)
+    await updateDoc(dataRef, { ...target, photoURL: 'https://www.lab2050.org/common/img/default_profile.png' })
+  }
+  function deleteImage() {
+    updateName()
+    dispatch(deleteImg({ id: target.id }))
+  }
 
-    return (
-        <Stbody>
-            <StMain>
-                <StSection height={'500px'}>
-                    <StLabel top={'3%'} left={'2.5%'} fontSize={'35px'} color={'#c78159;'}>
-                        Profile
-                    </StLabel>
-                    <StFigure>
-                        <img src={target.photoURL}></img>
-                    </StFigure>
-                    <StLabel top={'45%'} left={'41%'} fontSize={'50px'} color={'white'}>
-                        {target.displayName}
-                    </StLabel>
-                    <StButton right={'2.5%'} onClick={() => {dispatch(showMyPageModal('Image'))}}>이미지 업로드</StButton>
-                    <StButton right={'17%'} onClick={deleteImage}>이미지 삭제</StButton>
-                    <StButton right={'30%'} onClick={() => {dispatch(showMyPageModal('Name'))}}>닉네임 변경</StButton>
-                </StSection>
-                <StSection height={'800px'}>
-                    <div style={{ height: '80px' }}></div>
-                    <StLabel top={'3%'} left={'2.5%'} fontSize={'35px'} color={'#c78159;'}>
-                        Comments
-                    </StLabel>
-                    <StUl>
-                        <StLi>
-                            <StSpan>키워드</StSpan>
-                            <StP>내용</StP>
-                            <StTime>시간</StTime>
-                        </StLi>
-                        <StLi>
-                            <StSpan>키워드</StSpan>
-                            <StP>내용</StP>
-                            <StTime>시간</StTime>
-                        </StLi>
-                        <StLi>
-                            <StSpan>키워드</StSpan>
-                            <StP>내용</StP>
-                            <StTime>시간</StTime>
-                        </StLi>
-                        <StLi>
-                            <StSpan>키워드</StSpan>
-                            <StP>내용</StP>
-                            <StTime>시간</StTime>
-                        </StLi>
-                    </StUl>
-                </StSection>
+  return (
+    <Stbody>
+      <StMain>
+        <StSection height={'500px'}>
+          <StLabel top={'3%'} left={'2.5%'} fontSize={'35px'} color={'#c78159;'}>
+            Profile
+          </StLabel>
+          <StFigure>
+            <img src={userData.photoURL}></img>
+          </StFigure>
+          <StLabel top={'45%'} left={'41%'} fontSize={'50px'} color={'white'}>
+            {userData.displayName}
+          </StLabel>
+          <StButton right={'2.5%'} onClick={() => { dispatch(showMyPageModal('Image')) }}>이미지 업로드</StButton>
+          <StButton right={'17%'} onClick={deleteImage}>이미지 삭제</StButton>
+          <StButton right={'30%'} onClick={() => { dispatch(showMyPageModal('Name')) }}>닉네임 변경</StButton>
+        </StSection>
+        <StSection height={'800px'}>
+          <div style={{ height: '80px' }}></div>
+          <StLabel top={'3%'} left={'2.5%'} fontSize={'35px'} color={'#c78159;'}>
+            Comments
+          </StLabel>
+          <StUl>
+            <StLi>
+              <UserCommentList />
 
-            </StMain>
-            <MyPageModal id={target.id}></MyPageModal>
-        </Stbody>
+              {/* <StSpan>키워드</StSpan>
+              <StP>내용</StP>
+              <StTime>시간</StTime>
+            </StLi> *
+          
+            {/* <StLi>
+              <StSpan>키워드</StSpan>
+              <StP>내용</StP>
+              <StTime>시간</StTime>
+            </StLi>
+            <StLi>
+              <StSpan>키워드</StSpan>
+              <StP>내용</StP>
+              <StTime>시간</StTime>
+            </StLi>
+            <StLi>
+              <StSpan>키워드</StSpan>
+              <StP>내용</StP>
+              <StTime>시간</StTime>*/}
+            </StLi>
+          </StUl>
+        </StSection>
 
-    );
+      </StMain>
+      <MyPageModal id={userData.id}></MyPageModal>
+    </Stbody>
+
+  );
 }
 
 
@@ -208,4 +213,4 @@ const StP = styled.p`
   left: 30%;
 `;
 
-export default Mypage;
+export default React.memo(Mypage);

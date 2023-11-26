@@ -45,7 +45,7 @@ export async function emailLogin(email, password) {
       const user = userCredential.user;
       return user;
     })
-    .catch((error) => console.error('error',error));
+    .catch((error) => console.error('error', error));
 }
 
 export async function signUp(email, password) {
