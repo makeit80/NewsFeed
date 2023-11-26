@@ -13,7 +13,7 @@ function MyPageModal(target) {
     const isUpdateOpen = useSelector((state) => state.myPageModal.isUpdateOpen);
     const updateType = useSelector((state) => state.myPageModal.updateType);
     const userList = useSelector((state) => state.userList.value) 
-
+    
     const dispatch = useDispatch();
 
     const [form, setForm] = useState({displayName: '', photoURL: ''});
