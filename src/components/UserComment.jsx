@@ -129,6 +129,7 @@ const StCommentBox = styled.div`
   border-radius: 20px 20px 20px 0;
   border: 1px solid #000;
   word-break: break-all;
+  background-color: #e4e4e4;
 `;
 
 export default UserComment;

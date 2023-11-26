@@ -35,43 +35,54 @@ export default function KeywordNews() {
 
             <NewsArticle>
                 <header>
-                    <Source>{source}</Source>
                     <h1>{title}</h1>
                 </header>
                 <div></div>
                 <p>{content}</p>
-                <Link to={link}><Url>더보기...</Url></Link>
+                <LinkItem to={link}><Url>더보기...</Url></LinkItem>
+                <Source>{source}</Source>
+
             </NewsArticle>
         </>
     );
 }
 
 const Stdiv = styled.div`
-  width: 60%;
+  width: 800px;
   height: 50px;
+  background-color: #353535;
+
   display:flex;
   justify-content: space-around;
-  font-size:1.2rem;
-  text-align: center;
-  margin: auto;
-  margin-top:1.5rem;
-  background-color: #eee;
-  line-height: 50px;
+
   border-top-left-radius: 1rem;
   border-top-right-radius: 1rem;
+
+  font-size:1.2rem;
+  text-align: center;
+  line-height: 50px;
+  color: white;
+
+  margin: auto;
+  margin-top: 70px;
 `;
 
+const LinkItem = styled(Link)`
+color: white;
+border: none;
+`
 
 const NewsArticle = styled.article`
-    width:60%;
-    height:50%;
-    background-color: #eee;
+    width: 800px;
+    height: 400px;
+    background-color: #353535;
     display:flex;
     flex-direction: column;
     border-bottom-left-radius: 1rem;
     border-bottom-right-radius: 1rem;
     margin:auto;
     padding:1rem;
+    color: white;
 
     header{
         display: flex;
@@ -92,6 +103,9 @@ const NewsArticle = styled.article`
 
     p{
         padding:0.5rem 1rem;
+        letter-spacing: 1.5px;
+        line-height: 50px;
+
     }
 
 `;
