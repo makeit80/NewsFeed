@@ -3,14 +3,11 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 
-export default function User() {
-    const userData = useSelector((state) => state.userData);
-    const { photoURL, uid } = userData;
+export default function User({target}) {
     const navigate = useNavigate()
-
     return (
-        <UserInfo onClick={() => navigate(`/mypage/${uid}`)}>
-            <img src={photoURL} alt='avatar' />
+        <UserInfo onClick={() => navigate(`/mypage/${target.uid}`)}>
+            <img src={target?.photoURL} alt='avatar' />
         </UserInfo>
     );
 }

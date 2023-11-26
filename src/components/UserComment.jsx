@@ -11,7 +11,6 @@ function UserComment({ comments, children: { userImage, text, keyword, id, userN
   // 여기서 dispatch를 이용해서 업데이트 치면된다.
 
   const [updateText, setUpdateText] = useState(text);
-  console.log(updateText);
 
   const dispatch = useDispatch();
 

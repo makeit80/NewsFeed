@@ -5,113 +5,79 @@ import { useParams } from 'react-router';
 import { collection, doc, getDocs, query, addDoc, updateDoc } from 'firebase/firestore';
 import { db } from 'api/firebase';
 import { userList } from 'redux/modules/userList';
+import MyPageModal from 'components/myPageModal';
+import { showMyPageModal } from 'redux/modules/showMyPageModal';
+import { deleteImg } from 'redux/modules/userList';
 
 function Mypage() {
-  // TODO : 조건문으로 uid가 store에 있으면 기존 데이터 반환, 없으면 userData의 값을 반환
+  const dispatch = useDispatch();
+    const userData = useSelector((state) => state.userData);
+    const userList = useSelector((state) => state.userList);
 
-  const userData = useSelector((state) => state.userData);
-  const userList = useSelector((state) => state.userList);
+    const target = userList.value.find((item) => item.id === userData.uid);
+    const updateName = async () => {
+      const dataRef = doc(db, "users", target.id)
+      await updateDoc(dataRef, { ...target, photoURL: 'https://www.lab2050.org/common/img/default_profile.png' })
+    }
+    function deleteImage () {
+      updateName()
+      dispatch(deleteImg({id : target.id}))
+    }
 
-  const target = userList.value.find((item) => item.id === userData.uid);
-  console.log('userList.value ===> ', userList.value);
-  console.log('userData.uid ===> ', userData.uid);
+    return (
+        <Stbody>
+            <StMain>
+                <StSection height={'500px'}>
+                    <StLabel top={'3%'} left={'2.5%'} fontSize={'35px'} color={'#c78159;'}>
+                        Profile
+                    </StLabel>
+                    <StFigure>
+                        <img src={target.photoURL}></img>
+                    </StFigure>
+                    <StLabel top={'45%'} left={'41%'} fontSize={'50px'} color={'white'}>
+                        {target.displayName}
+                    </StLabel>
+                    <StButton right={'2.5%'} onClick={() => {dispatch(showMyPageModal('Image'))}}>이미지 업로드</StButton>
+                    <StButton right={'17%'} onClick={deleteImage}>이미지 삭제</StButton>
+                    <StButton right={'30%'} onClick={() => {dispatch(showMyPageModal('Name'))}}>닉네임 변경</StButton>
+                </StSection>
+                <StSection height={'800px'}>
+                    <div style={{ height: '80px' }}></div>
+                    <StLabel top={'3%'} left={'2.5%'} fontSize={'35px'} color={'#c78159;'}>
+                        Comments
+                    </StLabel>
+                    <StUl>
+                        <StLi>
+                            <StSpan>키워드</StSpan>
+                            <StP>내용</StP>
+                            <StTime>시간</StTime>
+                        </StLi>
+                        <StLi>
+                            <StSpan>키워드</StSpan>
+                            <StP>내용</StP>
+                            <StTime>시간</StTime>
+                        </StLi>
+                        <StLi>
+                            <StSpan>키워드</StSpan>
+                            <StP>내용</StP>
+                            <StTime>시간</StTime>
+                        </StLi>
+                        <StLi>
+                            <StSpan>키워드</StSpan>
+                            <StP>내용</StP>
+                            <StTime>시간</StTime>
+                        </StLi>
+                    </StUl>
+                </StSection>
 
-  console.log('target ===> ', target);
+            </StMain>
+            <MyPageModal id={target.id}></MyPageModal>
+        </Stbody>
 
-  // firebase Data check
-  // useEffect(() => {
-  //     const fetchData = async () => {
-  //         const q = query(collection(db, "users", target.id));
-  //         const querySnapshot = await getDocs(q);
-
-  //         const initialData = [];
-  //         querySnapshot.forEach((doc) => {
-  //             const data = {
-  //                 id : doc.id,
-  //                 ...doc.data(),
-  //             }
-  //             console.log('data', data)
-  //             initialData.push(data)
-  //         })
-  //     }
-  //     fetchData()
-  // }, [])
-
-  // const addData = async (e) => {
-  //     e.preventDefault();
-  //     const newData = { displayName: 'test', photoURL: 'test2' , id: Date.now()}
-  //     setBaseData((prev) => {
-  //         return[...baseData, newData];
-  //     })
-  //     console.log('add ====>', baseData)
-
-  //     const collectionRef = collection(db, "test")
-  //     await addDoc(collectionRef, newData)
-
-  // }
-
-  // const targetData = baseData.find((item) => item.id === baseData[0].id)
-  // console.log('targetData',targetData)
-  // const updateData = async () => {
-  //     const dataRef = doc(db, "test", baseData[0].id)
-  //     await updateDoc(dataRef, {...baseData[0], text: 'change'})
-  // }
-
-  // TODO : 계정 uid, displayName(기본값), photoURL(기본값) 를 id값을 uid 기준으로 Store에 저장
-  // uid params 로 find id
-  // store에 저장된 displayName, photoURL 가져오기
-
-  return (
-    <Stbody>
-      <StMain>
-        <StSection height={'500px'}>
-          <StLabel top={'3%'} left={'2.5%'} fontSize={'35px'} color={'#c78159;'}>
-            Profile
-          </StLabel>
-          <StFigure>
-            <img src={target.photoURL}></img>
-          </StFigure>
-          <StLabel top={'45%'} left={'41%'} fontSize={'50px'} color={'white'}>
-            {target.displayName}
-          </StLabel>
-          <StButton right={'2.5%'}>이미지 업로드</StButton>
-          <StButton right={'17%'}>이미지 삭제</StButton>
-          <StButton right={'30%'}>닉네임 변경</StButton>
-          {/* <StButton right={'50%'} onClick={addData}>테스트</StButton>
-                    <StButton right={'60%'} onClick={updateData}>업데이트</StButton> */}
-        </StSection>
-        <StSection height={'800px'}>
-          <div style={{ height: '80px' }}></div>
-          <StLabel top={'3%'} left={'2.5%'} fontSize={'35px'} color={'#c78159;'}>
-            Comments
-          </StLabel>
-          <StUl>
-            <StLi>
-              <StSpan>키워드</StSpan>
-              <StP>내용</StP>
-              <StTime>시간</StTime>
-            </StLi>
-            <StLi>
-              <StSpan>키워드</StSpan>
-              <StP>내용</StP>
-              <StTime>시간</StTime>
-            </StLi>
-            <StLi>
-              <StSpan>키워드</StSpan>
-              <StP>내용</StP>
-              <StTime>시간</StTime>
-            </StLi>
-            <StLi>
-              <StSpan>키워드</StSpan>
-              <StP>내용</StP>
-              <StTime>시간</StTime>
-            </StLi>
-          </StUl>
-        </StSection>
-      </StMain>
-    </Stbody>
-  );
+    );
 }
+
+
 
 // Layout
 const Stbody = styled.body`
@@ -199,19 +165,19 @@ const StUl = styled.ul`
 `;
 
 const StLi = styled.li`
-  position: relative;
+position: relative;
 
-  background-color: #989898;
-  border-radius: 20px 20px 0px 20px;
+background-color: #989898;
+border-radius: 20px 20px 0px 20px;
 
-  padding: 15px;
-  margin: 5px;
-  margin-bottom: 25px;
+padding: 15px;
+margin: 5px;
+margin-bottom: 25px;
 
-  &:hover {
-    background-color: #e2e2e2;
-    transition: 0.5s;
-  }
+&:hover {
+background-color: #e2e2e2;
+transition: 0.5s;
+}
 `;
 
 // text (props)

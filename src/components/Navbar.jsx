@@ -1,22 +1,56 @@
-import { onAuthStateChange, logout } from 'api/firebase';
 import React, { useEffect } from 'react';
-import User from './User';
 import styled from 'styled-components';
+
 import { useNavigate, Link } from 'react-router-dom';
-import LoginModal from './LoginModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser, logoutUSer } from '../redux/modules/userData';
 import { showLoginModal } from '../redux/modules/showModal';
+import { userList } from 'redux/modules/userList';
+
+import { onAuthStateChange, logout } from 'api/firebase';
+import { collection, getDocs, query } from "firebase/firestore";
+import { db } from 'api/firebase';
+
+import LoginModal from './LoginModal';
+import User from './User';
+
 
 export default function Navbar() {
+  // Setting
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.userData);
+  const users = useSelector((state) => state.userList);
 
+
+  // Accounts check
+  // TODO : onSnapshot 으로 변경데이터 가져오기
+  const loginRegister = useSelector((state) => state.userData)
+  useEffect(() => {
+    const fetchData = async () => {
+      const q = query(collection(db, "users"));
+      const querySnapshot = await getDocs(q);
+
+      const initialData = [];
+      querySnapshot.forEach((doc) => {
+        const data = {
+          id: doc.id,
+          ...doc.data(),
+        }
+        initialData.push(data)
+      })
+      dispatch(userList(initialData))
+    }
+    fetchData();
+  }, [loginRegister])
+
+  const target = users.value.find((item) => item.id === userData.uid);
+
+
+  // Auth
   useEffect(() => {
     onAuthStateChange((user) => {
       const { uid, photoURL, displayName } = user;
-      console.log(user);
       user && dispatch(loginUser({ uid, photoURL, displayName }));
     });
   }, []);
@@ -26,9 +60,7 @@ export default function Navbar() {
   };
 
   const handleLogout = () => {
-    console.log(userData.uid)
     logout().then((user) => {
-      console.log(user)
       dispatch(logoutUSer(user))
     }).catch((error) => {
       console.log(error)
@@ -38,6 +70,8 @@ export default function Navbar() {
   const gotoSignUpPage = () => {
     navigate('signup/');
   };
+
+
   return (
     <>
       <Nav>
@@ -45,7 +79,7 @@ export default function Navbar() {
           <h1>Wor__d</h1>
         </Link>
         <div>
-          {userData.uid && <User />}
+          {userData.uid && <User target={target} />}
           {userData.uid ? (
             <button onClick={handleLogout}>logout</button>
           ) : (
