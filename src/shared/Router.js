@@ -17,8 +17,7 @@ const Router = () => {
         <Routes>
           <Route path="/" element={<App />}>
             <Route path="" element={<Home />} />
-            <Route path="keyword/:id" element={<Keyword />} />
-            <Route path="keywordchat/:id" element={<KeywordChat />} />
+            <Route path="keyword/:keyword" element={<KeywordChat />} />
             <Route path="mypage/:id" element={<ProtectedRoute requireUser><Mypage /> </ProtectedRoute>} />
             <Route path="signup/" element={<ProtectedRoute requireUser={false}><Signup /></ProtectedRoute>} />
           </Route>

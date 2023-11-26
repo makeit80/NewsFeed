@@ -17,6 +17,8 @@ export const deleteComment = (payload) => {
   return { type: DELETE_COMMENT, payload };
 };
 
+
+
 const initialState = [];
 
 // reducer
@@ -36,5 +38,9 @@ const comments = (state = initialState, action) => {
       return state;
   }
 };
+
+
+
+
 
 export default comments;

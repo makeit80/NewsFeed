@@ -20,20 +20,18 @@ export const logoutUSer = (payload) => {
 
 // 새로고침 시 유저 데이터가 남아있으면 가져오고 그렇지 않으면 초기값 설정
 let userData = getUserData();
-const initialState = { uid: '', displayName: '', photoURL: '', };
 
 
 // TODO : 사진 편집 기능 추가
 const loginData = (state = userData, action) => {
   switch (action.type) {
     case LOGIN_USER:
-      console.log(action.payload);
       let { uid, photoURL, displayName } = action.payload;
       if (!photoURL) photoURL = 'https://www.lab2050.org/common/img/default_profile.png';
       userData = { uid, photoURL, displayName };
-      //if (!photoURL) return { uid, photoURL: 'https://www.lab2050.org/common/img/default_profile.png', displayName };
       saveUserData();
-      return action.payload;
+      return userData;
+    //return action.payload;
 
     case LOGOUT_USER:
       console.log('action ====> ', action.payload)
@@ -41,8 +39,6 @@ const loginData = (state = userData, action) => {
       localStorage.removeItem('userData');
       userData = { uid: '', displayName: '', photoURL: '', };
       return userData;
-    //return { ...userData };
-
     default:
       return state;
   }
