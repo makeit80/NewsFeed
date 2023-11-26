@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { styled } from 'styled-components';
-import { userData } from 'redux/modules/userData';
+
 
 import { collection, getDocs, query } from "firebase/firestore";
 import { db } from 'api/firebase';
@@ -30,9 +30,20 @@ export default function UserCommentList() {
 
   return (
     <>
+      {/* {
+        filterComments.map(comment => {
+          const { keyword, text, date } = comment;
+          return (
+            <StLi key={date} >
+              <StSpan>키워드  {keyword}</StSpan>
+              <StP>내용  {text}</StP>
+              <StTime> {date}</StTime>
+            </StLi>
+          );
+        }) */}
       {
         commentList
-        .filter((item) => {
+          .filter((item) => {
             return item.id === userData.uid
           })
           .map((item) => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
@@ -15,7 +15,8 @@ function Mypage() {
   const userData = useSelector((state) => state.userData);
   const userList = useSelector((state) => state.userList);
 
-  const target = userList.value.find((item) => item.id === userData.uid);
+  let target = userList.value.find((item) => item.id === userData.uid);
+  target = target ? target : userData;
   console.log('target', target);
   const updateName = async () => {
     const dataRef = doc(db, "users", target.id)
@@ -34,10 +35,10 @@ function Mypage() {
             Profile
           </StLabel>
           <StFigure>
-            <img src={userData.photoURL}></img>
+            <img src={target.photoURL}></img>
           </StFigure>
           <StLabel top={'45%'} left={'41%'} fontSize={'50px'} color={'white'}>
-            {userData.displayName}
+            {target.displayName}
           </StLabel>
           <StButton right={'2.5%'} onClick={() => { dispatch(showMyPageModal('Image')) }}>이미지 업로드</StButton>
           <StButton right={'17%'} onClick={deleteImage}>이미지 삭제</StButton>
@@ -49,11 +50,11 @@ function Mypage() {
             Comments
           </StLabel>
           <StUl>
-              <UserCommentList />
+            <UserCommentList />
           </StUl>
         </StSection>
       </StMain>
-      <MyPageModal id={userData.id}></MyPageModal>
+      <MyPageModal id={target.id}></MyPageModal>
     </Stbody>
   );
 }
@@ -143,7 +144,6 @@ const StUl = styled.ul`
 
   overflow: auto;
   overflow-x: hidden;
-
   scroll-behavior: smooth;
   &::-webkit-scrollbar {
     background-color: #232323;
@@ -154,21 +154,7 @@ const StUl = styled.ul`
   }
 `;
 
-const StLi = styled.li`
-position: relative;
 
-background-color: #989898;
-border-radius: 20px 20px 0px 20px;
-
-padding: 15px;
-margin: 5px;
-margin-bottom: 25px;
-
-&:hover {
-background-color: #e2e2e2;
-transition: 0.5s;
-}
-`;
 
 // text (props)
 const StLabel = styled.label`
@@ -182,20 +168,6 @@ const StLabel = styled.label`
   font-weight: bold;
   letter-spacing: 2px;
 `;
-const StSpan = styled.span`
-  position: absolute;
-  top: 39%;
-  left: 3%;
-`;
-const StTime = styled.time`
-  position: absolute;
-  top: 39%;
-  right: 10%;
-`;
-const StP = styled.p`
-  position: absolute;
-  top: 39%;
-  left: 30%;
-`;
+
 
 export default React.memo(Mypage);
