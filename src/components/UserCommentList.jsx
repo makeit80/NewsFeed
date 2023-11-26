@@ -1,23 +1,36 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { styled } from 'styled-components';
 
 
-export default function UserCommentList() {
-  const userData = useSelector((state) => state.userData);
-  let comments = useSelector((state) => state.comments);
-  // console.log(comments);
-  // if (comments.length) localStorage.setItem('comments', JSON.stringify(comments))
-  // else comments = JSON.parse(localStorage.getItem('comments'));
+import { collection, getDocs, query } from "firebase/firestore";
+import { db } from 'api/firebase';
 
-  //리렌더링 시 유저 데이터는 잘 받아와지는데 댓글들 리스트가 제대로 안가져와짐.
-  //댓글을 추가할 때 또 리스트에 잘 나옴.. 뭐가 문제냐,, 추가할 때 마다 값을 리턴하잖슴.. 
-  //근데 새로고침하면 따로 리턴을 안해서 그런것 같슴. s
-  const filterComments = comments.filter(comment => comment.userId === userData.uid);
+export default function UserCommentList() {
+  // TODO : 로그인 하고 바로 마이페이지로 가면 오류뜸
+  // 이유 : KeywordChat에서 데이터를 받아와야 하는데 페이지 로드가 안되었기 때문
+  const userData = useSelector((state) => state.userData);
+  const [commentList, setCommentList] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const q = query(collection(db, "comments"));
+      const querySnapshot = await getDocs(q);
+      const initialData = [];
+      querySnapshot.forEach((doc) => {
+        const data = { ...doc.data() }
+        initialData.push(data)
+      })
+      setCommentList(initialData)
+      console.log('initialData ====> ', initialData)
+      console.log('commentList ====> ', commentList)
+    }
+    fetchData()
+  }, [])
 
   return (
     <>
-      {
+      {/* {
         filterComments.map(comment => {
           const { keyword, text, date } = comment;
           return (
@@ -27,11 +40,23 @@ export default function UserCommentList() {
               <StTime> {date}</StTime>
             </StLi>
           );
-        })
-
+        }) */}
+      {
+        commentList
+          .filter((item) => {
+            return item.id === userData.uid
+          })
+          .map((item) => {
+            return (
+              <StLi>
+                <StSpan>{item.keyword}</StSpan>
+                <StP>{item.text}</StP>
+                <StTime>{item.date}</StTime>
+              </StLi>
+            )
+          })
       }
     </>
-
   );
 }
 

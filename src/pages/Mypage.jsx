@@ -53,11 +53,9 @@ function Mypage() {
             <UserCommentList />
           </StUl>
         </StSection>
-
       </StMain>
       <MyPageModal id={target.id}></MyPageModal>
     </Stbody>
-
   );
 }
 
@@ -141,9 +139,9 @@ const StUl = styled.ul`
   grid-template-columns: 1fr;
   grid-auto-rows: 100px;
 
-  height: 500px;
-
+  height: 690px;
   margin: 20px;
+
   overflow: auto;
   overflow-x: hidden;
   scroll-behavior: smooth;
