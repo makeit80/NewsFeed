@@ -8,15 +8,15 @@ import { collection, doc, getDocs, query, addDoc, updateDoc } from 'firebase/fir
 import { db } from 'api/firebase';
 
 
-function MyPageModal(target) {
+export default function MyPageModal(target) {
     // Setting
     const isUpdateOpen = useSelector((state) => state.myPageModal.isUpdateOpen);
     const updateType = useSelector((state) => state.myPageModal.updateType);
-    const userList = useSelector((state) => state.userList.value) 
+    const userList = useSelector((state) => state.userList.value)
 
     const dispatch = useDispatch();
 
-    const [form, setForm] = useState({displayName: '', photoURL: ''});
+    const [form, setForm] = useState({ displayName: '', photoURL: '' });
 
     // Firebase
     // TODO : 이미지, 닉네임 변경 기능
@@ -32,77 +32,77 @@ function MyPageModal(target) {
         dispatch(closeMyPageModal(false))
     }
     // TODO : 리팩토링 필요
-    function onSubmitHandler (e) {
+    function onSubmitHandler(e) {
         e.preventDefault();
         dispatch(mypageInputValue(e.target[0].value))
-        dispatch(editUser({id: target.id, value: e.target[0].value, key: e.target[0].name}))
+        dispatch(editUser({ id: target.id, value: e.target[0].value, key: e.target[0].name }))
         updateName(e.target[0].name, e.target[0].value)
         dispatch(closeMyPageModal())
-        setForm({displayName: '', photoURL: ''})
+        setForm({ displayName: '', photoURL: '' })
     }
 
-    function onChangeHandler (e) {
+    function onChangeHandler(e) {
         const { name, value } = e.target;
         setForm({ ...form, [name]: value })
     }
 
-  return (
-    <Modal
-    style={customModalStyles}
-    isOpen={isUpdateOpen}
-    onRequestClose={() => {dispatch(closeMyPageModal(false))}}
-    className={"removeModal"}
-    >
-    {
-        updateType === 'Name' &&
-        <StModalForm onSubmit={onSubmitHandler}>
-            <StInput 
-            type='text' 
-            value={form.displayName} 
-            onChange={onChangeHandler} 
-            name='displayName' 
-            placeholder='변경할 이름을 입력해주세요'>
-            </StInput>
-            <StModalButton type='submit'>완료</StModalButton>
-        </StModalForm>
-    }
-    {
-        updateType === 'Image' &&
-        <StModalForm onSubmit={onSubmitHandler}>
-            <StInput 
-            type='text' 
-            value={form.photoURL} 
-            onChange={onChangeHandler} 
-            name='photoURL' 
-            placeholder='이미지 경로를 추가해주세요'>
-            </StInput>
-            <StModalButton type='submit'>완료</StModalButton>
-        </StModalForm>
-    }
-</Modal>
-  )
+    return (
+        <Modal
+            style={customModalStyles}
+            isOpen={isUpdateOpen}
+            onRequestClose={() => { dispatch(closeMyPageModal(false)) }}
+            className={"removeModal"}
+        >
+            {
+                updateType === 'Name' &&
+                <StModalForm onSubmit={onSubmitHandler}>
+                    <StInput
+                        type='text'
+                        value={form.displayName}
+                        onChange={onChangeHandler}
+                        name='displayName'
+                        placeholder='변경할 이름을 입력해주세요'>
+                    </StInput>
+                    <StModalButton type='submit'>완료</StModalButton>
+                </StModalForm>
+            }
+            {
+                updateType === 'Image' &&
+                <StModalForm onSubmit={onSubmitHandler}>
+                    <StInput
+                        type='text'
+                        value={form.photoURL}
+                        onChange={onChangeHandler}
+                        name='photoURL'
+                        placeholder='이미지 경로를 추가해주세요'>
+                    </StInput>
+                    <StModalButton type='submit'>완료</StModalButton>
+                </StModalForm>
+            }
+        </Modal>
+    )
 }
 
 // Modal
 const customModalStyles = {
-overlay: {
-backgroundColor: 'rgba(0, 0, 0, 0.6)',
-width: '100%',
-height: '100%'
-},
-content: {
-width: '500px',
-height: '350px',
-zIndex: '100',
-position: 'fixed',
-top: '50%',
-left: '50%',
-transform: 'translate(-50%,-50%)',
-borderRadius: '10px',
+    overlay: {
+        backgroundColor: 'rgba(0, 0, 0, 0.6)',
+        width: '100%',
+        height: '100%'
+    },
+    content: {
+        width: '500px',
+        height: '350px',
+        zIndex: '100',
+        position: 'fixed',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%,-50%)',
+        borderRadius: '10px',
 
-backgroundColor: '#1c1c1ce0',
+        backgroundColor: '#1c1c1ce0',
 
-}
+    }
 }
 const StModalForm = styled.form`
 width: 100%;
@@ -155,4 +155,4 @@ transition: 0.5s;
 }
 `
 
-export default MyPageModal;
+Modal.setAppElement('#root');

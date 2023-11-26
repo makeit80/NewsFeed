@@ -22,25 +22,14 @@ export default function UserCommentList() {
         initialData.push(data)
       })
       setCommentList(initialData)
-      console.log('initialData ====> ', initialData)
-      console.log('commentList ====> ', commentList)
+      // console.log('initialData ====> ', initialData)
+      // console.log('commentList ====> ', commentList)
     }
     fetchData()
   }, [])
 
   return (
     <>
-      {/* {
-        filterComments.map(comment => {
-          const { keyword, text, date } = comment;
-          return (
-            <StLi key={date} >
-              <StSpan>키워드  {keyword}</StSpan>
-              <StP>내용  {text}</StP>
-              <StTime> {date}</StTime>
-            </StLi>
-          );
-        }) */}
       {
         commentList
           .filter((item) => {

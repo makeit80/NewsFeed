@@ -15,8 +15,6 @@ function Home() {
 
   // Google Trends crawling
   // *** 429 Error (Too Many Request) 시 주석처리 부분 ***
-  let keywordItem = [];
-
   const keywordList = useSelector((state) => {
     return state.keywordData;
   });
@@ -47,7 +45,6 @@ function Home() {
             .text()
             .replace(/(&#39;|&quot;)/g, ''),
           source: $(el).find(':nth-child(8) > ht\\:news_item_source').text(),
-          // link : $(el).find(':nth-child(8) > ht:\\news_item_url').text()
           content: $(el).find(':nth-child(8) > ht\\:news_item_snippet').text(),
           source: $(el).find(':nth-child(8) > ht\\:news_item_source').text(),
           link: $(el).find(':nth-child(8) > ht\\:news_item_url').text()
@@ -86,7 +83,7 @@ function Home() {
               .map((el) => {
                 return (
                   <>
-                    <Stdiv>
+                    <Stdiv key={el}>
                       <StTime>{`${year} / ${month} / ${el}`}</StTime>
                       {
                         keywordList.value
@@ -175,11 +172,8 @@ margin-top: 10px;
 const Stli = styled.li`
   position: relative;
   background-color: #0b0b0b;
-
   border-radius: 5px;
-
   margin: 10px;
-
   cursor: pointer;
 
   &:hover {

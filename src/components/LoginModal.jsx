@@ -4,7 +4,7 @@ import Modal from 'react-modal';
 import { useNavigate } from 'react-router';
 
 import { googleLogin, emailLogin } from 'api/firebase';
-import { doc, setDoc } from "firebase/firestore"; 
+import { doc, setDoc } from "firebase/firestore";
 import { db } from 'api/firebase';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -21,14 +21,14 @@ export default function LoginModal() {
     const userAccountList = useSelector((state) => state.userList)
     const dispatch = useDispatch();
 
-    const [form, setform] = useState({email: '', password: ''});
+    const [form, setform] = useState({ email: '', password: '' });
 
     // firebase add data
     const addData = async (uid, photoURL, displayName) => {
-        const newData = { displayName: displayName, photoURL: photoURL, uid : uid}  
+        const newData = { displayName: displayName, photoURL: photoURL, uid: uid }
         await setDoc(doc(db, "users", String(uid)), newData)
-      };
-      
+    };
+
     const handleClose = () => {
         dispatch(closeLoginForm());
         dispatch(closeLoginModal());
@@ -37,7 +37,7 @@ export default function LoginModal() {
     const handleGoogleLogin = () => {
         googleLogin()
             .then((user) => {
-                const { uid, photoURL, displayName } = user;                
+                const { uid, photoURL, displayName } = user;
                 const target = userAccountList.value.find((item) => item.id === uid)
                 if (!target) {
                     addData(uid, photoURL, displayName)
@@ -55,9 +55,9 @@ export default function LoginModal() {
         dispatch(closeLoginModal())
         navigate('/')
 
-        setform({email: '', password: ''})
+        setform({ email: '', password: '' })
     }
-    
+
     const onChangeHandler = useCallback((e) => {
         const { name, value } = e.target;
         setform({ ...form, [name]: value }
@@ -73,61 +73,59 @@ export default function LoginModal() {
             style={customModalStyles}>
             {!isLoginForm &&
                 <ModalDiv>
-                    <ModalButton onClick={handleGoogleLogin} top={'25%'}><FcGoogle /> 구글 계정으로 로그인</ModalButton>
-                    <ModalButton onClick={() => dispatch(showLoginForm())} top={'55%'}><MdEmail /> 이메일로 로그인</ModalButton>
+                    <ModalButton onClick={handleGoogleLogin} $top={'25%'}><FcGoogle /> 구글 계정으로 로그인</ModalButton>
+                    <ModalButton onClick={() => dispatch(showLoginForm())} $top={'55%'}><MdEmail /> 이메일로 로그인</ModalButton>
                 </ModalDiv>
             }
             {isLoginForm &&
-            <StForm onSubmit={handleEmailLogin}>
-                <StInput        
-                value={form.email}
-                onChange={onChangeHandler}
-                
-                type='email' 
-                name='email' 
-                placeholder='Email'
-                autocomplete='off'
-                
-                top={'10%'}>
-                </StInput>
+                <StForm onSubmit={handleEmailLogin}>
+                    <StInput
+                        value={form.email}
+                        onChange={onChangeHandler}
 
-                <StInput
-                value={form.password}
-                onChange={onChangeHandler}
-                
-                type='password' 
-                name='password' 
-                placeholder='password'
-                autocomplete='off'
-                
-                top={'30%'}>
-                </StInput>
+                        type='email'
+                        name='email'
+                        placeholder='Email'
+                        autocomplete='off'
 
-                <StButton>로그인</StButton>
-            </StForm>
+                        $top={'10%'}>
+                    </StInput>
+
+                    <StInput
+                        value={form.password}
+                        onChange={onChangeHandler}
+                        type='password'
+                        name='password'
+                        placeholder='password'
+                        autocomplete='off'
+                        $top={'30%'}>
+                    </StInput>
+
+                    <StButton>로그인</StButton>
+                </StForm>
             }
         </Modal>
     );
 }
 
 const customModalStyles = {
-overlay: {
-backgroundColor: 'rgba(189, 189, 189, 0.6)',
-width: '100%',
-height: '100%'
+    overlay: {
+        backgroundColor: 'rgba(189, 189, 189, 0.6)',
+        width: '100%',
+        height: '100%'
 
-},
-content: {
-width: '500px',
-height: '350px',
-zIndex: '100',
-position: 'fixed',
-top: '50%',
-left: '50%',
-transform: 'translate(-50%,-50%)',
-borderRadius: '10px',
-backgroundColor: '#353535e3'
-}
+    },
+    content: {
+        width: '500px',
+        height: '350px',
+        zIndex: '100',
+        position: 'fixed',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%,-50%)',
+        borderRadius: '10px',
+        backgroundColor: '#353535e3'
+    }
 }
 
 const ModalDiv = styled.div`
@@ -161,7 +159,7 @@ border-radius: 5px;
 background-color: #484848;
 
 position: absolute;
-top: ${(props) => props.top};
+top: ${(props) => props.$top};
 
 cursor:pointer;
 
@@ -187,7 +185,7 @@ width: 390px;
 height: 40px;
 
 position: absolute;
-top: ${(props) => props.top};
+top: ${(props) => props.$top};
 
 border: none;
 border-bottom: 2px solid #bbb;
@@ -213,4 +211,5 @@ background-color: #5b5b5b;
 transition: 0.5s;
 }
 `
+Modal.setAppElement('#root');
 
