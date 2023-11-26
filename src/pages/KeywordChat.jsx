@@ -37,6 +37,7 @@ function KeywordChat() {
         };
         console.log('data', data);
         initialComments.push(data);
+        console.log(initialComments);
       });
       dispatch(getComment(initialComments));
     };
