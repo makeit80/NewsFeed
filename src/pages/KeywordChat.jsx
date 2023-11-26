@@ -49,7 +49,8 @@ function KeywordChat() {
     keyword: param.id,
     id: Date.now(),
     userName: userData.displayName,
-    isUpdate: false
+    isUpdate: false,
+    date: new Date().toLocaleString()
   };
 
   const addCommenthandler = (e) => {
@@ -63,6 +64,7 @@ function KeywordChat() {
     dispatch(addComment(newComment));
     addDoc(collection(db, 'comments'), newComment);
   };
+
   const [isCommentUpdate, setIsCommentUpdate] = useState(false);
 
   const deleteBtn = (id) => {
