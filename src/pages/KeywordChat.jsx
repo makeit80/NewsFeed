@@ -51,6 +51,7 @@ function KeywordChat() {
     isUpdate: false,
     date: new Date().toLocaleString()
   };
+  console.log('newComment ===> ', newComment)
 
   const addCommenthandler = (e) => {
     e.preventDefault();
@@ -82,9 +83,13 @@ function KeywordChat() {
         />
         <StCommentBtn type="submit">입력</StCommentBtn>
       </StForm>
-      <div>
+      <Stdiv>
         {filterComments &&
-          filterComments.map((item) => (
+          filterComments
+          .sort((a, b) => {
+            return new Date(a.Date).getTime() - new Date(b.date).getTime();
+          }).reverse()
+          .map((item) => (
             <StUserCommentWrap>
               <UserComment
                 comments={comments}
@@ -96,7 +101,7 @@ function KeywordChat() {
               </UserComment>
             </StUserCommentWrap>
           ))}
-      </div>
+      </Stdiv>
     </Stbackground>
   );
 }
@@ -112,12 +117,27 @@ const Stbackground = styled.div`
 `;
 
 const Stdiv = styled.div`
-  text-align: center;
+  /* text-align: center;
   margin: 20px auto;
   background-color: #eee;
   width: 400px;
   height: 50px;
-  line-height: 50px;
+  line-height: 50px; */
+  height: 800px;
+  width: 800px;
+  margin-top: 50px;
+
+  overflow: auto;
+  overflow-x: hidden;
+
+  scroll-behavior: smooth;
+  &::-webkit-scrollbar {
+    background-color: #232323;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #84898c3a;
+    border-radius: 30px;
+  }
 `;
 
 const StForm = styled.form`
@@ -144,7 +164,7 @@ const StCommentInput = styled.input`
   background-color: #232323;
   border-bottom: 2px solid gray;
 
-  color: white;
+  color: #d7d7d7;
 `;
 
 const StCommentBtn = styled.button`
@@ -161,8 +181,9 @@ const StCommentBtn = styled.button`
 `;
 const StUserCommentWrap = styled.div`
   width: 600px;
-  height: auto;
   margin: 20px auto;
+
+  
 `;
 
 export default KeywordChat;

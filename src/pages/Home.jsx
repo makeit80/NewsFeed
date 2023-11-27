@@ -79,7 +79,7 @@ function Home() {
   return (
     <Stbody>
       <StMain>
-        <StUl $height={'500px'} $marginTop={'120px'}>
+        <StUl $height={'1000px'} $marginTop={'140px'}>
           {
             // *** 429 Error (Too Many Request) 시 주석처리 부분 ***
             currentDate(date)
@@ -124,7 +124,7 @@ function Home() {
             // *****
           }
         </StUl>
-        <StUl $height={'500px'} $marginTop={'120px'} $marginBottom={'80px'}></StUl>
+        {/* <StUl $height={'500px'} $marginTop={'120px'} $marginBottom={'80px'}></StUl> */}
       </StMain>
     </Stbody>
   );
@@ -135,7 +135,7 @@ const Stbody = styled.div`
   background-color: black;
 `;
 const StMain = styled.main`
-  min-height: 1200px;
+  min-height: 1300px;
 
   display: flex;
   align-items: center;
@@ -152,6 +152,7 @@ const StUl = styled.ul`
 
   margin-top: ${(props) => props.$marginTop};
   margin-bottom: ${(props) => props.$marginBottom};
+  border-radius: 10px;
 
   background-color: #232323;
 
