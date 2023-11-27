@@ -33,9 +33,7 @@ function KeywordChat() {
           docId: doc.id,
           ...doc.data()
         };
-        console.log('data', data);
         initialComments.push(data);
-        console.log(initialComments);
       });
       dispatch(getComment(initialComments));
     };
@@ -51,7 +49,7 @@ function KeywordChat() {
     isUpdate: false,
     date: new Date().toLocaleString()
   };
-  console.log('newComment ===> ', newComment)
+
 
   const addCommenthandler = (e) => {
     e.preventDefault();
