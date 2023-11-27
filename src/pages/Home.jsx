@@ -15,8 +15,6 @@ function Home() {
 
   // Google Trends crawling
   // *** 429 Error (Too Many Request) 시 주석처리 부분 ***
-  let keywordItem = [];
-
   const keywordList = useSelector((state) => {
     return state.keywordData;
   });
@@ -47,9 +45,7 @@ function Home() {
             .text()
             .replace(/(&#39;|&quot;)/g, ''),
           source: $(el).find(':nth-child(8) > ht\\:news_item_source').text(),
-          // link : $(el).find(':nth-child(8) > ht:\\news_item_url').text()
           content: $(el).find(':nth-child(8) > ht\\:news_item_snippet').text(),
-          source: $(el).find(':nth-child(8) > ht\\:news_item_source').text(),
           link: $(el).find(':nth-child(8) > ht\\:news_item_url').text()
         };
         keywordItem.push(Data);
@@ -83,10 +79,10 @@ function Home() {
           {
             // *** 429 Error (Too Many Request) 시 주석처리 부분 ***
             currentDate(date)
-              .map((el) => {
+              .map((el, i) => {
                 return (
                   <>
-                    <Stdiv>
+                    <StDiv>
                       <StTime>{`${year} / ${month} / ${el}`}</StTime>
                       {
                         keywordList.value
@@ -117,7 +113,7 @@ function Home() {
                             );
                           })
                       }
-                    </Stdiv>
+                    </StDiv>
                   </>
                 )
               })
@@ -165,7 +161,7 @@ const StUl = styled.ul`
     border-radius: 30px;
   }
 `;
-const Stdiv = styled.div`
+const StDiv = styled.div`
 display: grid;
 grid-template-columns: 1fr;
 grid-auto-rows: 70px;
@@ -176,11 +172,8 @@ margin-top: 10px;
 const Stli = styled.li`
   position: relative;
   background-color: #0b0b0b;
-
   border-radius: 5px;
-
   margin: 10px;
-
   cursor: pointer;
 
   &:hover {

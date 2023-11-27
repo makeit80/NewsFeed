@@ -1,10 +1,8 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router';
-import { collection, doc, getDocs, query, addDoc, updateDoc } from 'firebase/firestore';
+import { doc, updateDoc } from 'firebase/firestore';
 import { db } from 'api/firebase';
-import { userList } from 'redux/modules/userList';
 import MyPageModal from 'components/myPageModal';
 import { showMyPageModal } from 'redux/modules/showMyPageModal';
 import { deleteImg } from 'redux/modules/userList';
@@ -35,7 +33,7 @@ function Mypage() {
             Profile
           </StLabel>
           <StFigure>
-            <img src={target.photoURL}></img>
+            <img src={target.photoURL} alt='avatar'></img>
           </StFigure>
           <StLabel top={'45%'} left={'41%'} fontSize={'50px'} color={'white'}>
             {target.displayName}
@@ -130,10 +128,6 @@ const StButton = styled.button`
   }
 `;
 
-// Comment
-const StDiv = styled.div`
-  margin-top: 80px;
-`;
 const StUl = styled.ul`
   display: grid;
   grid-template-columns: 1fr;

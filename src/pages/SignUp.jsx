@@ -1,6 +1,4 @@
 import React, { useCallback, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { userList } from '../redux/modules/userList';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 
@@ -168,7 +166,7 @@ export default function SignUp() {
 
 
 
-const Stbody = styled.body`
+const Stbody = styled.div`
   width: 100vw;
   height: 100vh;
   background-color: black;

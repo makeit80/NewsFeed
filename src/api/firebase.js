@@ -65,7 +65,6 @@ export function onAuthStateChange(callback) {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       //로그인 되어 있으면 로그아웃 버튼 존재
-      const uid = user.uid;
       callback(user);
     }
   });
