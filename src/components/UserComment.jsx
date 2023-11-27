@@ -73,13 +73,16 @@ function UserComment({ comments, children: { docId, userImage, text, keyword, id
     <StDiv>
       <StWrapper>
         <StProfile src={userImage} />
-        <StSpan $right={'56%'} $top={'22%'}>
-          {userName}
-        </StSpan>
 
-        <StSpan $right={'2%'} $top={'53%'}>
-          {date}
-        </StSpan>
+        <StSpan
+          $right={'56%'}
+          $top={'22%'}
+        >{userName}</StSpan>
+
+        <StSpan
+          $right={'2%'}
+          $top={'53%'}
+        >{new Date(date).toLocaleString()}</StSpan>
       </StWrapper>
       <StCommentBox key={id}>
         <div>

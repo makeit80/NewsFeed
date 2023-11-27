@@ -47,7 +47,7 @@ function KeywordChat() {
     id: userData.uid,
     userName: userData.displayName,
     isUpdate: false,
-    date: new Date().toLocaleString()
+    date: Date.now()
   };
 
   const addCommenthandler = (e) => {
@@ -84,7 +84,7 @@ function KeywordChat() {
         {filterComments &&
           filterComments
             .sort((a, b) => {
-              return new Date(a.Date).getTime() - new Date(b.date).getTime();
+              return b.date - a.date;
             })
             .map((item) => (
               <StUserCommentWrap>
