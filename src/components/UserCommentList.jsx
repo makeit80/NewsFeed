@@ -34,8 +34,8 @@ export default function UserCommentList() {
             return item.id === userData.uid
           })
           .sort((a, b) => {
-            return new Date(a.Date).getTime() - new Date(b.date).getTime();
-          }).reverse()
+            return a.date - b.date;
+          })
           .map((item) => {
             return (
               <StLi>
@@ -62,7 +62,7 @@ const StLi = styled.li`
   margin-bottom: 25px;
 
   &:hover {
-    background-color: #e2e2e2;
+    background-color: #676767;
     transition: 0.5s;
   }
 `;
