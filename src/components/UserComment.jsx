@@ -44,7 +44,6 @@ function UserComment({ comments, children: { docId, userImage, text, keyword, id
   };
 
   const deleteBtn = async (id) => {
-    // 진호 체고,,,
     if (window.confirm('삭제하시겠습니까?')) {
       const Ref = doc(db, 'comments', docId + '');
       try {
@@ -63,32 +62,36 @@ function UserComment({ comments, children: { docId, userImage, text, keyword, id
   };
 
   return (
-    <>
+    <StDiv>
       <div>
         <StProfile src={userImage} />
         <p style={{ float: 'right', lineHeight: '50px' }}>{userName}</p>
       </div>
       <StCommentBox key={id}>
-        <StCommentFlex>
+        <div>
           {!isUpdate ? (
             <>
               <p>{text}</p>
-              <div>
-                <StCommentBoxBtn
-                  onClick={() => {
-                    updateCommentHandler(id);
-                  }}
-                >
-                  수정
-                </StCommentBoxBtn>
-                <StCommentBoxBtn
-                  onClick={() => {
-                    deleteBtn(id);
-                  }}
-                >
-                  삭제
-                </StCommentBoxBtn>
-              </div>
+              <StButton
+                onClick={() => {
+                  updateCommentHandler(id);
+                }}
+                $right={'8%'}
+                $top={'31%'}
+                $backgroundColor={'#232323'}
+              >
+                수정
+              </StButton>
+              <StButton
+                onClick={() => {
+                  deleteBtn(id);
+                }}
+                $right={'3%'}
+                $top={'35%'}
+                $backgroundColor={'transparent'}
+              >
+                X
+              </StButton>
             </>
           ) : (
             <>
@@ -98,30 +101,36 @@ function UserComment({ comments, children: { docId, userImage, text, keyword, id
                   setUpdateText(e.target.value);
                 }}
               />
-              <div>
-                <StCommentBoxBtn
-                  onClick={() => {
-                    completeCommentHandler(id);
-                  }}
-                >
-                  완료
-                </StCommentBoxBtn>
-                <StCommentBoxBtn
-                  onClick={() => {
-                    deleteBtn(id);
-                  }}
-                >
-                  삭제
-                </StCommentBoxBtn>
-              </div>
+              <StButton
+                onClick={() => {
+                  completeCommentHandler(id);
+                }}
+                $right={'10%'}
+                $top={'31%'}
+                $backgroundColor={'#232323'}
+              >
+                완료
+              </StButton>
+              <StButton
+                onClick={() => {
+                  deleteBtn(id);
+                }}
+                $right={'5%'}
+                $top={'35%'}
+                $backgroundColor={'transparent'}
+              >
+                X
+              </StButton>
             </>
           )}
-        </StCommentFlex>
+        </div>
       </StCommentBox>
-    </>
+    </StDiv>
   );
 }
-
+const StDiv = styled.div`
+  margin-top: 50px;
+`;
 const StProfile = styled.img`
   width: 50px;
   height: 50px;
@@ -129,21 +138,29 @@ const StProfile = styled.img`
   margin-bottom: 10px;
 `;
 const StCommentBox = styled.div`
+  position: relative;
   padding: 20px;
   border-radius: 20px 20px 20px 0;
   color: #fff;
   border: 1px solid #fff;
   word-break: break-all;
-  background-color: #353535;
+  background-color: #232323;
+  color: white;
 `;
-const StCommentFlex = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-const StCommentBoxBtn = styled.button`
-  margin-right: 10px;
+const StButton = styled.button`
+  border: none;
+  background-color: ${(props) => props.$backgroundColor};
+
+  position: absolute;
+  top: ${(props) => props.$top};
+  right: ${(props) => props.$right};
+
+  color: white;
+  font-weight: bold;
+
   &:hover {
-    cursor: pointer;
+    color: gray;
+    transition: 0.5s;
   }
 `;
 

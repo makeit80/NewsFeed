@@ -121,36 +121,42 @@ const Stdiv = styled.div`
 `;
 
 const StForm = styled.form`
-  width: 600px;
+  width: 800px;
   height: 100px;
-  display: flex;
-  justify-content: space-around;
-  background-color: #353535;
+
+  background-color: #232323;
   margin-top: 80px;
   color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
 `;
 
 const StCommentInput = styled.input`
   width: 430px;
   height: 40px;
 
-  margin-top: 25px;
-
   border: none;
   outline: none;
-  background-color: gray;
+  background-color: #232323;
+  border-bottom: 2px solid gray;
 
   color: white;
 `;
 
 const StCommentBtn = styled.button`
-  margin-top: 25px;
-  width: 70px;
+  margin-left: 20px;
+  width: 80px;
   height: 40px;
-  background-color: #c78159;
-  color: #fff;
+  background-color: #333;
+  color: #cacaca;
+
   &:hover {
-    cursor: pointer;
+    background-color: #161616;
+    transition: 0.5s;
   }
 `;
 const StUserCommentWrap = styled.div`

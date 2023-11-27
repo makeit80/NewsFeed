@@ -50,7 +50,7 @@ export default function KeywordNews() {
 const Stdiv = styled.div`
   width: 800px;
   height: 50px;
-  background-color: #353535;
+  background-color: #232323;
 
   display:flex;
   justify-content: space-around;
@@ -61,28 +61,30 @@ const Stdiv = styled.div`
   font-size:1.2rem;
   text-align: center;
   line-height: 50px;
-  color: white;
+  color: #dddddd;
 
   margin: auto;
   margin-top: 70px;
+  padding-top: 15px;
 `;
 
 const LinkItem = styled(Link)`
-color: white;
+width: 150px;
+color: #c0c0c0;
 border: none;
 `
 
 const NewsArticle = styled.article`
     width: 800px;
     height: 400px;
-    background-color: #353535;
+    background-color: #232323;
     display:flex;
     flex-direction: column;
     border-bottom-left-radius: 1rem;
     border-bottom-right-radius: 1rem;
     margin:auto;
     padding:1rem;
-    color: white;
+    color: #dddddd;
 
     header{
         display: flex;

@@ -7,8 +7,6 @@ import { collection, getDocs, query } from "firebase/firestore";
 import { db } from 'api/firebase';
 
 export default function UserCommentList() {
-  // TODO : 로그인 하고 바로 마이페이지로 가면 오류뜸
-  // 이유 : KeywordChat에서 데이터를 받아와야 하는데 페이지 로드가 안되었기 때문
   const userData = useSelector((state) => state.userData);
   const [commentList, setCommentList] = useState([]);
 
