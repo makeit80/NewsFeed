@@ -24,10 +24,8 @@ const initialState = [];
 const comments = (state = initialState, action) => {
   switch (action.type) {
     case ADD_COMMENT:
-      console.log(action.payload);
       return [...state, action.payload];
     case GET_COMMENT:
-      console.log(action.payload);
       return [...action.payload];
     case SWITCH_COMMENT:
       return [...action.payload];

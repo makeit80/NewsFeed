@@ -50,7 +50,7 @@ function Home() {
         };
         keywordItem.push(Data);
       });
-      console.log('keywordItem =====>', keywordItem[0].date) //.split(' ').slice(0,4).reverse()[2]) //.reduce((a, b) => a + ' / ' + b))
+      //console.log('keywordItem =====>', keywordItem[0].date) //.split(' ').slice(0,4).reverse()[2]) //.reduce((a, b) => a + ' / ' + b))
       dispatch(insertData(keywordItem));
     });
   }, []);
