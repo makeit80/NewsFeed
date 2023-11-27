@@ -16,7 +16,7 @@ function UserComment({ comments, children: { docId, userImage, text, keyword, id
 
   const updateCommentHandler = (id) => {
     const newComment = comments.map((comment) => {
-      if (comment.id === id) {
+      if (comment.docId === docId) {
         return { ...comment, isUpdate: true };
       }
       return { ...comment };
@@ -25,17 +25,25 @@ function UserComment({ comments, children: { docId, userImage, text, keyword, id
   };
 
   const completeCommentHandler = async (id) => {
-    const q = query(collection(db, 'comments'), where('id', '==', id));
-    const querySnapshot = await getDocs(q);
-    let ref = '';
-    querySnapshot.forEach((doc) => {
-      ref = doc.ref;
-    });
+    const Ref = doc(db, 'comments', docId + '');
+    try {
+      await updateDoc(Ref, { text: updateText });
+    } catch (err) {
+      console.error('error occurred while update post');
+      console.error(err);
+    }
+    // const q = query(collection(db, 'comments'), where('id', '==', id));
+    // const querySnapshot = await getDocs(q);
+    // let ref = '';
+    // querySnapshot.forEach((doc) => {
+    //   ref = doc.ref;
+    // });
 
-    await updateDoc(ref, { text: updateText });
+    // await updateDoc(ref, { text: updateText });
 
     const newUpdateComment = comments.map((comment) => {
-      if (comment.id === id) {
+      console.log('comment.docId ====> ', comment.docId)
+      if (comment.docId === docId) {
         return { ...comment, isUpdate: false, text: updateText };
       }
       return { ...comment };
@@ -44,7 +52,6 @@ function UserComment({ comments, children: { docId, userImage, text, keyword, id
   };
 
   const deleteBtn = async (id) => {
-    // 진호 체고,,,
     if (window.confirm('삭제하시겠습니까?')) {
       const Ref = doc(db, 'comments', docId + '');
       try {

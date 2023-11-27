@@ -34,8 +34,8 @@ export default function UserCommentList() {
             return item.id === userData.uid
           })
           .sort((a, b) => {
-            return new Date(a.Date).getTime() - new Date(b.date).getTime();
-          }).reverse()
+            return a.date - b.date;
+          })
           .map((item) => {
             return (
               <StLi>
