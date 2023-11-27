@@ -34,14 +34,18 @@ export default function UserCommentList() {
             return item.id === userData.uid
           })
           .sort((a, b) => {
+<<<<<<< HEAD
             return new Date(a.date) - new Date(b.date);
+=======
+            return b.date - a.date;
+>>>>>>> 819b9607ef79ddbc9f4c6d9876c60015e06be2c5
           })
           .map((item) => {
             return (
               <StLi>
                 <StSpan>{item.keyword}</StSpan>
                 <StP>{item.text}</StP>
-                <StTime>{item.date}</StTime>
+                <StTime>{new Date(item.date).toLocaleString()}</StTime>
               </StLi>
             )
           })
