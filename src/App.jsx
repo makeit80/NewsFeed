@@ -4,7 +4,6 @@ import Footer from 'components/Footer';
 import { Outlet } from 'react-router';
 
 
-
 function App() {
   return (
     <>
@@ -14,5 +13,4 @@ function App() {
     </>
   )
 }
-
 export default App;

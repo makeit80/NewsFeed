@@ -10,10 +10,8 @@ export default function KeywordNews() {
     const params = useParams();
     const keyword = params.id;
     const keywordList = location.state.keywordList.value;
-
     const keywordRank = keywordList.findIndex((data) => data.keyword === keyword);
-    console.log('keywordList', keywordList);
-    console.log('keywordRank', keywordRank);
+
     let { title, content, link, source, traffic } = keywordList[keywordRank];
     content = content.replace(/&#39;|&nbsp;/g, '');
     return (
@@ -26,10 +24,6 @@ export default function KeywordNews() {
                 <div>
                     <span>검색 횟수 : </span>
                     <span>{traffic}</span>
-                </div>
-                <div>
-                    <span>검색 순위 : </span>
-                    <span>{keywordRank + 1}위</span>
                 </div>
             </Stdiv>
 

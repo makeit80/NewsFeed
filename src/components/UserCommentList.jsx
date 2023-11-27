@@ -20,30 +20,22 @@ export default function UserCommentList() {
         initialData.push(data)
       })
       setCommentList(initialData)
-      console.log('initialData ====> ', initialData)
-      console.log('commentList ====> ', commentList)
+      // console.log('initialData ====> ', initialData)
+      // console.log('commentList ====> ', commentList)
     }
     fetchData()
   }, [])
 
   return (
     <>
-      {/* {
-        filterComments.map(comment => {
-          const { keyword, text, date } = comment;
-          return (
-            <StLi key={date} >
-              <StSpan>키워드  {keyword}</StSpan>
-              <StP>내용  {text}</StP>
-              <StTime> {date}</StTime>
-            </StLi>
-          );
-        }) */}
       {
         commentList
           .filter((item) => {
             return item.id === userData.uid
           })
+          .sort((a, b) => {
+            return new Date(a.Date).getTime() - new Date(b.date).getTime();
+          }).reverse()
           .map((item) => {
             return (
               <StLi>
@@ -61,8 +53,9 @@ export default function UserCommentList() {
 const StLi = styled.li`
   position: relative;
 
-  background-color: #989898;
+  background-color: #4b4b4b;
   border-radius: 20px 20px 0px 20px;
+  color: #dfdfdf;
 
   padding: 15px;
   margin: 5px;

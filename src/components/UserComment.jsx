@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { deleteComment, switchComment } from 'redux/modules/comments';
 import styled from 'styled-components';
 
-function UserComment({ comments, children: { docId, userImage, text, keyword, id, userName, isUpdate } }) {
+function UserComment({ comments, children: { docId, userImage, text, keyword, id, userName, date, isUpdate } }) {
   // 여기는 하나하나의 comment 영역
   // 그르니까 여기에서 수정은 이놈에 대한 수정이다.
   // 여기서 dispatch를 이용해서 업데이트 치면된다.
@@ -63,10 +63,16 @@ function UserComment({ comments, children: { docId, userImage, text, keyword, id
 
   return (
     <StDiv>
-      <div>
+      <StWrapper>
         <StProfile src={userImage} />
-        <p style={{ float: 'right', lineHeight: '50px' }}>{userName}</p>
-      </div>
+        <StSpan $right={'82%'} $top={'20%'}>
+          {userName}
+        </StSpan>
+
+        <StSpan $right={'4%'} $top={'53%'}>
+          {date}
+        </StSpan>
+      </StWrapper>
       <StCommentBox key={id}>
         <div>
           {!isUpdate ? (
@@ -129,13 +135,22 @@ function UserComment({ comments, children: { docId, userImage, text, keyword, id
   );
 }
 const StDiv = styled.div`
-  margin-top: 50px;
+  margin-bottom: 50px;
+`;
+const StWrapper = styled.div`
+  position: relative;
 `;
 const StProfile = styled.img`
   width: 50px;
   height: 50px;
   border-radius: 50%;
   margin-bottom: 10px;
+`;
+const StSpan = styled.span`
+  color: #d7d7d7;
+  position: absolute;
+  top: ${(props) => props.$top};
+  right: ${(props) => props.$right};
 `;
 const StCommentBox = styled.div`
   position: relative;
@@ -145,7 +160,7 @@ const StCommentBox = styled.div`
   border: 1px solid #fff;
   word-break: break-all;
   background-color: #232323;
-  color: white;
+  color: #d7d7d7;
 `;
 const StButton = styled.button`
   border: none;
@@ -155,7 +170,7 @@ const StButton = styled.button`
   top: ${(props) => props.$top};
   right: ${(props) => props.$right};
 
-  color: white;
+  color: #d7d7d7;
   font-weight: bold;
 
   &:hover {

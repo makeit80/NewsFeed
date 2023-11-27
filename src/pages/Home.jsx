@@ -15,8 +15,6 @@ function Home() {
 
   // Google Trends crawling
   // *** 429 Error (Too Many Request) 시 주석처리 부분 ***
-  let keywordItem = [];
-
   const keywordList = useSelector((state) => {
     return state.keywordData;
   });
@@ -47,14 +45,12 @@ function Home() {
             .text()
             .replace(/(&#39;|&quot;)/g, ''),
           source: $(el).find(':nth-child(8) > ht\\:news_item_source').text(),
-          // link : $(el).find(':nth-child(8) > ht:\\news_item_url').text()
           content: $(el).find(':nth-child(8) > ht\\:news_item_snippet').text(),
-          source: $(el).find(':nth-child(8) > ht\\:news_item_source').text(),
           link: $(el).find(':nth-child(8) > ht\\:news_item_url').text()
         };
         keywordItem.push(Data);
       });
-      console.log('keywordItem =====>', keywordItem[0].date) //.split(' ').slice(0,4).reverse()[2]) //.reduce((a, b) => a + ' / ' + b))
+      //console.log('keywordItem =====>', keywordItem[0].date) //.split(' ').slice(0,4).reverse()[2]) //.reduce((a, b) => a + ' / ' + b))
       dispatch(insertData(keywordItem));
     });
   }, []);
@@ -79,14 +75,14 @@ function Home() {
   return (
     <Stbody>
       <StMain>
-        <StUl $height={'500px'} $marginTop={'120px'}>
+        <StUl $height={'1000px'} $marginTop={'140px'}>
           {
             // *** 429 Error (Too Many Request) 시 주석처리 부분 ***
             currentDate(date)
-              .map((el) => {
+              .map((el, i) => {
                 return (
                   <>
-                    <Stdiv>
+                    <StDiv>
                       <StTime>{`${year} / ${month} / ${el}`}</StTime>
                       {
                         keywordList.value
@@ -117,14 +113,14 @@ function Home() {
                             );
                           })
                       }
-                    </Stdiv>
+                    </StDiv>
                   </>
                 )
               })
             // *****
           }
         </StUl>
-        <StUl $height={'500px'} $marginTop={'120px'} $marginBottom={'80px'}></StUl>
+        {/* <StUl $height={'500px'} $marginTop={'120px'} $marginBottom={'80px'}></StUl> */}
       </StMain>
     </Stbody>
   );
@@ -135,7 +131,7 @@ const Stbody = styled.div`
   background-color: black;
 `;
 const StMain = styled.main`
-  min-height: 1200px;
+  min-height: 1300px;
 
   display: flex;
   align-items: center;
@@ -152,6 +148,7 @@ const StUl = styled.ul`
 
   margin-top: ${(props) => props.$marginTop};
   margin-bottom: ${(props) => props.$marginBottom};
+  border-radius: 10px;
 
   background-color: #232323;
 
@@ -164,7 +161,7 @@ const StUl = styled.ul`
     border-radius: 30px;
   }
 `;
-const Stdiv = styled.div`
+const StDiv = styled.div`
 display: grid;
 grid-template-columns: 1fr;
 grid-auto-rows: 70px;
@@ -175,11 +172,8 @@ margin-top: 10px;
 const Stli = styled.li`
   position: relative;
   background-color: #0b0b0b;
-
   border-radius: 5px;
-
   margin: 10px;
-
   cursor: pointer;
 
   &:hover {
