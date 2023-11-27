@@ -33,6 +33,9 @@ export default function UserCommentList() {
           .filter((item) => {
             return item.id === userData.uid
           })
+          .sort((a, b) => {
+            return new Date(a.Date).getTime() - new Date(b.date).getTime();
+          }).reverse()
           .map((item) => {
             return (
               <StLi>
@@ -50,8 +53,9 @@ export default function UserCommentList() {
 const StLi = styled.li`
   position: relative;
 
-  background-color: #989898;
+  background-color: #4b4b4b;
   border-radius: 20px 20px 0px 20px;
+  color: #dfdfdf;
 
   padding: 15px;
   margin: 5px;
