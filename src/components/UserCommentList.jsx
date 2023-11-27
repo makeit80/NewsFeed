@@ -34,7 +34,7 @@ export default function UserCommentList() {
             return item.id === userData.uid
           })
           .sort((a, b) => {
-            return a.date - b.date;
+            return new Date(a.date) - new Date(b.date);
           })
           .map((item) => {
             return (
