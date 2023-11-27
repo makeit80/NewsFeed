@@ -17,7 +17,7 @@ export default function KeywordNews() {
     //날짜에 해당하는 키워드 순위
     const keywordRank = findKeywordNews - findDate + 1;
 
-    let { title, content, link, source, traffic } = keywordList[keywordRank];
+    let { title, content, link, source, traffic } = keywordList[findKeywordNews];
     content = content.replace(/&#39;|&nbsp;/g, '');
     return (
         <>
