@@ -42,7 +42,7 @@ function UserComment({ comments, children: { docId, userImage, text, keyword, id
     // await updateDoc(ref, { text: updateText });
 
     const newUpdateComment = comments.map((comment) => {
-      console.log('comment.docId ====> ', comment.docId)
+      console.log('comment.docId ====> ', comment.docId);
       if (comment.docId === docId) {
         return { ...comment, isUpdate: false, text: updateText };
       }
@@ -51,7 +51,7 @@ function UserComment({ comments, children: { docId, userImage, text, keyword, id
     dispatch(switchComment(newUpdateComment));
   };
 
-  const deleteBtn = async (id) => {
+  const deleteBtn = async () => {
     if (window.confirm('삭제하시겠습니까?')) {
       const Ref = doc(db, 'comments', docId + '');
       try {
@@ -61,7 +61,7 @@ function UserComment({ comments, children: { docId, userImage, text, keyword, id
         console.error(err);
       }
       const filteredComment = comments.filter((comment) => {
-        return id !== comment.id;
+        return docId !== comment.docId;
       });
       dispatch(deleteComment(filteredComment));
     } else {
@@ -73,6 +73,7 @@ function UserComment({ comments, children: { docId, userImage, text, keyword, id
     <StDiv>
       <StWrapper>
         <StProfile src={userImage} />
+
         <StSpan
           $right={'56%'}
           $top={'22%'}
@@ -95,7 +96,6 @@ function UserComment({ comments, children: { docId, userImage, text, keyword, id
                 $right={'8%'}
                 $top={'31%'}
                 $backgroundColor={'#232323'}
-
               >
                 수정
               </StButton>
@@ -125,7 +125,6 @@ function UserComment({ comments, children: { docId, userImage, text, keyword, id
                 $right={'10%'}
                 $top={'31%'}
                 $backgroundColor={'#232323'}
-
               >
                 완료
               </StButton>
@@ -136,7 +135,6 @@ function UserComment({ comments, children: { docId, userImage, text, keyword, id
                 $right={'5%'}
                 $top={'35%'}
                 $backgroundColor={'transparent'}
-
               >
                 X
               </StButton>
@@ -149,10 +147,10 @@ function UserComment({ comments, children: { docId, userImage, text, keyword, id
 }
 const StDiv = styled.div`
   margin-bottom: 50px;
-`
+`;
 const StWrapper = styled.div`
-position: relative;
-`
+  position: relative;
+`;
 const StProfile = styled.img`
   width: 50px;
   height: 50px;
@@ -166,31 +164,32 @@ const StSpan = styled.span`
   right: ${(props) => props.$right};
   text-align: left;
   width: 200px;
-`
+`;
 const StCommentBox = styled.div`
-position: relative;
+  position: relative;
   padding: 20px;
   border-radius: 20px 20px 20px 0;
-  border: 1px solid #000;
+  color: #fff;
+  border: 1px solid #fff;
   word-break: break-all;
   background-color: #232323;
   color: #d7d7d7;
 `;
 const StButton = styled.button`
-border: none;
-background-color:  ${(props) => props.$backgroundColor};
+  border: none;
+  background-color: ${(props) => props.$backgroundColor};
 
-position: absolute;
-top: ${(props) => props.$top};
-right: ${(props) => props.$right};
+  position: absolute;
+  top: ${(props) => props.$top};
+  right: ${(props) => props.$right};
 
-color: #d7d7d7;
-font-weight: bold;
+  color: #d7d7d7;
+  font-weight: bold;
 
-&:hover {
-color: gray;
-transition: 0.5s;
-}
-`
+  &:hover {
+    color: gray;
+    transition: 0.5s;
+  }
+`;
 
 export default UserComment;
