@@ -4,7 +4,7 @@ import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeMyPageModal, mypageInputValue } from 'redux/modules/showMyPageModal';
 import { editUser } from 'redux/modules/userList';
-import { collection, doc, getDocs, query, addDoc, updateDoc } from 'firebase/firestore';
+import { doc, updateDoc } from 'firebase/firestore';
 import { db } from 'api/firebase';
 
 
@@ -12,7 +12,6 @@ export default function MyPageModal(target) {
     // Setting
     const isUpdateOpen = useSelector((state) => state.myPageModal.isUpdateOpen);
     const updateType = useSelector((state) => state.myPageModal.updateType);
-    const userList = useSelector((state) => state.userList.value)
 
     const dispatch = useDispatch();
 
@@ -28,9 +27,9 @@ export default function MyPageModal(target) {
     }
 
     // Handler
-    function closeHandler() {
-        dispatch(closeMyPageModal(false))
-    }
+    // function closeHandler() {
+    //     dispatch(closeMyPageModal(false))
+    // }
     // TODO : 리팩토링 필요
     function onSubmitHandler(e) {
         e.preventDefault();

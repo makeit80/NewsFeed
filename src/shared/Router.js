@@ -6,7 +6,7 @@ import Mypage from '../pages/Mypage';
 import Signup from '../pages/SignUp';
 import App from '../App';
 import ProtectedRoute from '../pages/ProtectedRoute';
-import { useSelector } from 'react-redux';
+
 
 const Router = () => {
   return (

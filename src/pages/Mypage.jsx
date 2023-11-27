@@ -1,10 +1,8 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router';
-import { collection, doc, getDocs, query, addDoc, updateDoc } from 'firebase/firestore';
+import { doc, updateDoc } from 'firebase/firestore';
 import { db } from 'api/firebase';
-import { userList } from 'redux/modules/userList';
 import MyPageModal from 'components/myPageModal';
 import { showMyPageModal } from 'redux/modules/showMyPageModal';
 import { deleteImg } from 'redux/modules/userList';
@@ -17,7 +15,7 @@ function Mypage() {
 
   let target = userList.value.find((item) => item.id === userData.uid);
   target = target ? target : userData;
-
+  console.log('target', target);
   const updateName = async () => {
     const dataRef = doc(db, "users", target.id)
     await updateDoc(dataRef, { ...target, photoURL: 'https://www.lab2050.org/common/img/default_profile.png' })
@@ -31,22 +29,22 @@ function Mypage() {
     <Stbody>
       <StMain>
         <StSection height={'500px'}>
-          <StLabel $top={'3%'} $left={'2.5%'} fontSize={'35px'} color={'#c78159;'}>
+          <StLabel top={'3%'} left={'2.5%'} fontSize={'35px'} color={'#c78159;'}>
             Profile
           </StLabel>
           <StFigure>
-            <img src={target.photoURL}></img>
+            <img src={target.photoURL} alt='avatar'></img>
           </StFigure>
-          <StLabel $top={'45%'} $left={'41%'} fontSize={'50px'} color={'white'}>
+          <StLabel top={'45%'} left={'41%'} fontSize={'50px'} color={'white'}>
             {target.displayName}
           </StLabel>
-          <StButton $right={'2.5%'} onClick={() => { dispatch(showMyPageModal('Image')) }}>이미지 업로드</StButton>
-          <StButton $right={'17%'} onClick={deleteImage}>이미지 삭제</StButton>
-          <StButton $right={'30%'} onClick={() => { dispatch(showMyPageModal('Name')) }}>닉네임 변경</StButton>
+          <StButton right={'2.5%'} onClick={() => { dispatch(showMyPageModal('Image')) }}>이미지 업로드</StButton>
+          <StButton right={'17%'} onClick={deleteImage}>이미지 삭제</StButton>
+          <StButton right={'30%'} onClick={() => { dispatch(showMyPageModal('Name')) }}>닉네임 변경</StButton>
         </StSection>
         <StSection height={'800px'}>
           <div style={{ height: '80px' }}></div>
-          <StLabel $top={'3%'} $left={'2.5%'} fontSize={'35px'} color={'#c78159;'}>
+          <StLabel top={'3%'} left={'2.5%'} fontSize={'35px'} color={'#c78159;'}>
             Comments
           </StLabel>
           <StUl>
@@ -62,7 +60,7 @@ function Mypage() {
 
 
 // Layout
-const Stbody = styled.div`
+const Stbody = styled.body`
   width: 100vw;
   height: 100vh;
   background-color: black;
@@ -109,7 +107,7 @@ const StFigure = styled.figure`
 const StButton = styled.button`
   position: absolute;
   top: 4.5%;
-  right: ${(props) => props.$right};
+  right: ${(props) => props.right};
 
   border: 1px solid #c2c2c2;
   border-radius: 19px;
@@ -130,10 +128,6 @@ const StButton = styled.button`
   }
 `;
 
-// Comment
-const StDiv = styled.div`
-  margin-top: 80px;
-`;
 const StUl = styled.ul`
   display: grid;
   grid-template-columns: 1fr;
@@ -159,8 +153,8 @@ const StUl = styled.ul`
 // text (props)
 const StLabel = styled.label`
   position: absolute;
-  top: ${(props) => props.$top};
-  left: ${(props) => props.$left};
+  top: ${(props) => props.top};
+  left: ${(props) => props.left};
 
   color: ${(props) => props.color};
   font-size: ${(props) => props.fontSize};

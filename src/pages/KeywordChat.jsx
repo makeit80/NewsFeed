@@ -1,11 +1,11 @@
 import { db } from 'api/firebase';
 import KeywordNews from 'components/KeywordNews';
 import UserComment from 'components/UserComment';
-import { addDoc, collection, doc, getDocs, query, updateDoc } from 'firebase/firestore';
+import { addDoc, collection, getDocs, query } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { addComment, getComment, switchComment, updateComment } from 'redux/modules/comments';
+import { addComment, getComment } from 'redux/modules/comments';
 import styled from 'styled-components';
 
 function KeywordChat() {
@@ -18,7 +18,7 @@ function KeywordChat() {
   const userData = useSelector((state) => state.userData);
 
   const filterComments = comments.filter((comment) => comment.keyword === param.id).sort((a, b) => b.id - a.id);
-  const [updateComments, setUpdateComments] = useState([...comments]);
+  //const [updateComments, setUpdateComments] = useState([...comments]);
 
   const dispatch = useDispatch();
 
@@ -64,7 +64,7 @@ function KeywordChat() {
     addDoc(collection(db, 'comments'), newComment);
   };
 
-  const [isCommentUpdate, setIsCommentUpdate] = useState(false);
+  //const [isCommentUpdate, setIsCommentUpdate] = useState(false);
 
   const deleteBtn = (id) => {
     console.log(id);
@@ -86,7 +86,7 @@ function KeywordChat() {
         {filterComments &&
           filterComments.map((item) => (
             <StUserCommentWrap>
-              <UserComment
+              <UserComment key={item.keyword}
                 comments={comments}
                 handler={{
                   deleteBtn
@@ -111,44 +111,46 @@ const Stbackground = styled.div`
   flex-direction: column;
 `;
 
-const Stdiv = styled.div`
-  text-align: center;
-  margin: 20px auto;
-  background-color: #eee;
-  width: 400px;
-  height: 50px;
-  line-height: 50px;
-`;
+
 
 const StForm = styled.form`
-  width: 600px;
+  width: 800px;
   height: 100px;
 
-  background-color: #515151;
+  background-color: #232323;
   margin-top: 80px;
   color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
 `;
 
 const StCommentInput = styled.input`
   width: 400px;
   height: 40px;
 
-  margin-left: 50px;
-  margin-top: 25px;
-
   border: none;
   outline: none;
-  background-color: gray;
+  background-color: #232323;
+  border-bottom: 2px solid gray;
 
   color: white;
 `;
 
 const StCommentBtn = styled.button`
   margin-left: 20px;
-  width: 60px;
+  width: 80px;
   height: 40px;
   background-color: #333;
-  color: #fff;
+  color: #cacaca;
+
+  &:hover {
+    background-color: #161616;
+    transition: 0.5s;
+  }
 `;
 const StUserCommentWrap = styled.div`
   width: 600px;

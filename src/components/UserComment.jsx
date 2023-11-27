@@ -63,7 +63,7 @@ function UserComment({ comments, children: { docId, userImage, text, keyword, id
   };
 
   return (
-    <>
+    <StDiv>
       <div>
         <StProfile src={userImage} />
         <p style={{ float: 'right', lineHeight: '50px' }}>{userName}</p>
@@ -73,20 +73,27 @@ function UserComment({ comments, children: { docId, userImage, text, keyword, id
           {!isUpdate ? (
             <>
               <p>{text}</p>
-              <button
+              <StButton
                 onClick={() => {
                   updateCommentHandler(id);
                 }}
+                $right={'8%'}
+                $top={'31%'}
+                $backgroundColor={'#232323'}
+
               >
                 수정
-              </button>
-              <button
+              </StButton>
+              <StButton
                 onClick={() => {
                   deleteBtn(id);
                 }}
+                $right={'3%'}
+                $top={'35%'}
+                $backgroundColor={'transparent'}
               >
-                삭제
-              </button>
+                X
+              </StButton>
             </>
           ) : (
             <>
@@ -96,28 +103,38 @@ function UserComment({ comments, children: { docId, userImage, text, keyword, id
                   setUpdateText(e.target.value);
                 }}
               />
-              <button
+              <StButton
                 onClick={() => {
                   completeCommentHandler(id);
                 }}
+                $right={'10%'}
+                $top={'31%'}
+                $backgroundColor={'#232323'}
+
               >
                 완료
-              </button>
-              <button
+              </StButton>
+              <StButton
                 onClick={() => {
                   deleteBtn(id);
                 }}
+                $right={'5%'}
+                $top={'35%'}
+                $backgroundColor={'transparent'}
+
               >
-                삭제
-              </button>
+                X
+              </StButton>
             </>
           )}
         </div>
       </StCommentBox>
-    </>
+    </StDiv>
   );
 }
-
+const StDiv = styled.div`
+  margin-top: 50px;
+`
 const StProfile = styled.img`
   width: 50px;
   height: 50px;
@@ -125,11 +142,29 @@ const StProfile = styled.img`
   margin-bottom: 10px;
 `;
 const StCommentBox = styled.div`
+position: relative;
   padding: 20px;
   border-radius: 20px 20px 20px 0;
   border: 1px solid #000;
   word-break: break-all;
-  background-color: #e4e4e4;
+  background-color: #232323;
+  color: white;
 `;
+const StButton = styled.button`
+border: none;
+background-color:  ${(props) => props.$backgroundColor};
+
+position: absolute;
+top: ${(props) => props.$top};
+right: ${(props) => props.$right};
+
+color: white;
+font-weight: bold;
+
+&:hover {
+color: gray;
+transition: 0.5s;
+}
+`
 
 export default UserComment;
