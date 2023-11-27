@@ -62,7 +62,7 @@ const StLi = styled.li`
   margin-bottom: 25px;
 
   &:hover {
-    background-color: #e2e2e2;
+    background-color: #676767;
     transition: 0.5s;
   }
 `;
