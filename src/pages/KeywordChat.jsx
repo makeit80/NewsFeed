@@ -87,7 +87,7 @@ function KeywordChat() {
         {filterComments &&
           filterComments
             .sort((a, b) => {
-              return new Date(a.Date).getTime() - new Date(b.date).getTime();
+              return a.date - b.date;
             })
             .map((item) => (
               <StUserCommentWrap>
