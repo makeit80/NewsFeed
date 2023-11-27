@@ -67,12 +67,12 @@ function UserComment({ comments, children: { docId, userImage, text, keyword, id
       <StWrapper>
         <StProfile src={userImage} />
         <StSpan
-        $right={'82%'}
-        $top={'20%'}
+        $right={'56%'}
+        $top={'22%'}
         >{userName}</StSpan>
 
         <StSpan
-        $right={'4%'}
+        $right={'2%'}
         $top={'53%'}
         >{date}</StSpan>
       </StWrapper>
@@ -157,6 +157,8 @@ const StSpan = styled.span`
   position: absolute;
   top: ${(props) => props.$top};
   right: ${(props) => props.$right};
+  text-align: left;
+  width: 200px;
 `
 const StCommentBox = styled.div`
 position: relative;
