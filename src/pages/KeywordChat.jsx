@@ -17,7 +17,7 @@ function KeywordChat() {
 
   const userData = useSelector((state) => state.userData);
 
-  const filterComments = comments.filter((comment) => comment.keyword === param.id).sort((a, b) => b.id - a.id);
+  const filterComments = comments.filter((comment) => comment.keyword === param.id);
   //const [updateComments, setUpdateComments] = useState([...comments]);
 
   const dispatch = useDispatch();
@@ -49,7 +49,6 @@ function KeywordChat() {
     isUpdate: false,
     date: new Date().toLocaleString()
   };
-
 
   const addCommenthandler = (e) => {
     e.preventDefault();
@@ -89,7 +88,8 @@ function KeywordChat() {
             })
             .map((item) => (
               <StUserCommentWrap>
-                <UserComment key={item.keyword}
+                <UserComment
+                  key={item.keyword}
                   comments={comments}
                   handler={{
                     deleteBtn
@@ -180,8 +180,6 @@ const StCommentBtn = styled.button`
 const StUserCommentWrap = styled.div`
   width: 600px;
   margin: 20px auto;
-
-  
 `;
 
 export default KeywordChat;

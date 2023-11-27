@@ -51,7 +51,7 @@ function UserComment({ comments, children: { docId, userImage, text, keyword, id
     dispatch(switchComment(newUpdateComment));
   };
 
-  const deleteBtn = async (id) => {
+  const deleteBtn = async () => {
     if (window.confirm('삭제하시겠습니까?')) {
       const Ref = doc(db, 'comments', docId + '');
       try {
@@ -61,7 +61,7 @@ function UserComment({ comments, children: { docId, userImage, text, keyword, id
         console.error(err);
       }
       const filteredComment = comments.filter((comment) => {
-        return id !== comment.id;
+        return docId !== comment.docId;
       });
       dispatch(deleteComment(filteredComment));
     } else {
