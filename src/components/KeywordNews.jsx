@@ -10,7 +10,12 @@ export default function KeywordNews() {
     const params = useParams();
     const keyword = params.id;
     const keywordList = location.state.keywordList.value;
-    const keywordRank = keywordList.findIndex((data) => data.keyword === keyword);
+    //전체 키워드 뉴스 중에 해당하는 기사 위치 찾기
+    let findKeywordNews = keywordList.findIndex((data) => data.keyword === keyword);
+    //해당 키워드 기사의 날짜와 일치한 기사 위치 찾기
+    const findDate = keywordList.findIndex(data => JSON.stringify(data.date) === JSON.stringify(keywordList[findKeywordNews].date));
+    //날짜에 해당하는 키워드 순위
+    const keywordRank = findKeywordNews - findDate + 1;
 
     let { title, content, link, source, traffic } = keywordList[keywordRank];
     content = content.replace(/&#39;|&nbsp;/g, '');
@@ -24,6 +29,10 @@ export default function KeywordNews() {
                 <div>
                     <span>검색 횟수 : </span>
                     <span>{traffic}</span>
+                </div>
+                <div>
+                    <span>검색 순위 : </span>
+                    <span>{keywordRank}위</span>
                 </div>
             </Stdiv>
 
