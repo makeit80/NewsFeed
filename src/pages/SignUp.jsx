@@ -177,7 +177,8 @@ const StyleForm = styled.form`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  margin-Top: 200px;
+  margin-Top: 80px;
+  padding-top: 80px;
 
 `;
 const StDiv = styled.div`
